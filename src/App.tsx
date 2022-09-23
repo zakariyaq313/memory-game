@@ -1,8 +1,11 @@
+import StartupScreen from "./pages/StartupScreen";
+import "./sass/base/base.scss";
+
 function App(): JSX.Element {
 	return (
-		<div className="App">
-			
-		</div>
+		<main className="App">
+			<StartupScreen />
+		</main>
 	);
 }
 

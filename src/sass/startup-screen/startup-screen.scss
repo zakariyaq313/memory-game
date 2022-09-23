@@ -1,0 +1,23 @@
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 1rem;
+    min-height: 100vh;
+}
+
+button {
+    font-size: 2rem;
+    margin: 0 1rem;
+    width: 9rem;
+}
+
+.start-game-btn {
+    width: 14rem;
+    margin-top: 4rem;
+}
+
+input:checked + label button {
+    background-color: coral;
+}

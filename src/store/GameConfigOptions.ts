@@ -1,6 +1,6 @@
-import { gameConfigType } from './../types/types';
+import { RadioInputType } from './../types/types';
 
-export const gameConfigOptions: Array<gameConfigType[]> = [
+export const gameConfigOptions: Array<RadioInputType[]> = [
 	[
 		{
 			id: "numbers",

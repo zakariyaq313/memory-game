@@ -1,7 +1,8 @@
 import RadioInput from "../components/RadioInput";
 import { gameConfigOptions } from "../store/GameConfigOptions";
 import "../sass/startup-screen/startup-screen.scss";
-import { useReducer } from "react";
+import React, { useReducer } from "react";
+import { StartupScreenProps } from "../types/types";
 
 type State = {
 	theme: string,
@@ -32,7 +33,7 @@ function gameConfigReducer(state: State, action: Action): State {
 	return updatedState;
 }
 
-function StartupScreen(): JSX.Element {
+function StartupScreen(props: StartupScreenProps): JSX.Element {
 	const [currentGameConfig, setCurrentGameConfig] = useReducer(gameConfigReducer, {
 		theme: "numbers",
 		players: "one",
@@ -49,24 +50,31 @@ function StartupScreen(): JSX.Element {
 	const valueIsSelected = (group: string, id: string) => {
 		return currentGameConfig[group as keyof State] === id;
 	}
-	return (
-		<form>
-			{gameConfigOptions.map((gameConfigGroup, index) => (
-				<div key={index}>
-					{gameConfigGroup.map((gameConfig) => (
-						<RadioInput key={gameConfig.id}
-							id={gameConfig.id}
-							label={gameConfig.label}
-							group={gameConfig.group}
-							checked={valueIsSelected(gameConfig.group, gameConfig.id)}
-							onUpdateGameConfig={updateGameConfig}
-						/>
-					))}
-				</div>
-			))}
 
-			<button className="start-game-btn">Start Game</button>
-		</form>
+	const startGame = (e: React.FormEvent) => {
+		e.preventDefault();
+		props.onSaveGameConfig(currentGameConfig, "in-game");
+	}
+	return (
+		<main>
+			<form>
+				{gameConfigOptions.map((gameConfigGroup, index) => (
+					<div key={index}>
+						{gameConfigGroup.map((gameConfig) => (
+							<RadioInput key={gameConfig.id}
+								id={gameConfig.id}
+								label={gameConfig.label}
+								group={gameConfig.group}
+								checked={valueIsSelected(gameConfig.group, gameConfig.id)}
+								onUpdateGameConfig={updateGameConfig}
+							/>
+						))}
+					</div>
+				))}
+
+				<button onClick={startGame} className="start-game-btn">Start Game</button>
+			</form>
+		</main>
 	);
 }
 

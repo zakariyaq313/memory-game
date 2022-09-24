@@ -1,0 +1,22 @@
+🌟 Memory Game Task Planner
+
+-> Screens:
+1) Start screen ✅
+2) Game screen
+
+-> Start screen:
+1) Has a card ✅
+2) Card has a "select theme" option ✅
+3) Card has a "number of players" option ✅
+4) Card has a "grid size" option ✅
+5) Card has a "start game" button ✅
+
+-> Game screen:
+1) Has a heading on left
+2) Has a pair of buttons on right ("Restart" and "New Game")
+3) Has the main grid of circles
+4) Has a timer + moves or number of players count
+5) Has a dialog with end results (different for single and multi player modes)
+
+- Icons chosen:
+Cat, Dragon, Flask, Fork, Ghost, Infinite, Masks, Shark

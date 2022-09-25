@@ -1,0 +1,29 @@
+.game-grid {
+    display: grid;
+    height: 50rem;
+    width: 50rem;
+    gap: 2rem;
+
+    button {
+        background-color: #BCCED9;
+        border: none;
+        border-radius: 100%;
+        line-height: 0;
+        width: auto;
+        margin: 0;
+        cursor: pointer;
+
+        span {
+            color: #FCFCFC;
+            font-size: 5.6rem;
+            font-weight: 700;
+            vertical-align: middle;
+        }
+
+        svg {
+            fill: #FCFCFC;
+            height: 100%;
+            width: 100%;
+        }
+    }
+}

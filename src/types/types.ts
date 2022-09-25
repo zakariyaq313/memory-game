@@ -24,5 +24,7 @@ export type GameScreenProps = gameConfigType & {
 };
 
 export type GridProps = {
-	
+	theme: string,
+	players: number,
+	gridSize: number
 };

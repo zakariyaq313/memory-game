@@ -1,5 +1,5 @@
 import RadioInput from "../components/RadioInput";
-import { gameConfigOptions } from "../store/GameConfigOptions";
+import { gameConfigOptions } from "../store/store";
 import "../sass/startup-screen/startup-screen.scss";
 import React, { useReducer } from "react";
 import { StartupScreenProps } from "../types/types";
@@ -35,7 +35,7 @@ function gameConfigReducer(state: State, action: Action): State {
 
 function StartupScreen(props: StartupScreenProps): JSX.Element {
 	const [currentGameConfig, setCurrentGameConfig] = useReducer(gameConfigReducer, {
-		theme: "numbers",
+		theme: "icons",
 		players: "one",
 		gridSize: "fourTiles"
 	});

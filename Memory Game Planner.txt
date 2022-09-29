@@ -14,16 +14,21 @@
 -> Game screen:
 1) Has a heading on left ✅
 2) Has a pair of buttons on right ("Restart" and "New Game")
-3) Has the main grid of circles ⏳
+3) Has the main grid of circles ✅
 4) Has a timer + moves or number of players count
 5) Has a dialog with end results (different for single and multi player modes)
 
 -> Icons chosen:
-Cat, Dragon, Flask, Fork, Ghost, Infinite, Masks, Shark
+Cat, Dragon, Flask, Fork, Ghost, Infinite, Masks, Shark (change - plane, duck, shield)
 
 -> Grid of circles:
-1) Can be a 4x4, 5x5 or 6x6 grid
-2) Can be numbers or icons
-3) Consists of elements (numbers or icons) in pairs
-4) All the elements should be randomly ordered 
-5) 
+1) Can be a 4x4 or 6x6 grid ✅
+2) Can be numbers or icons ✅
+3) Consists of elements (numbers or icons) in pairs ✅
+4) All the elements should be randomly ordered ✅
+
+Logic behind the grid circles ->
+1) Should have a "found tiles" collections for tiles successfully found ✅
+2) Temporarily save 2 tiles for comparison ✅
+3) If the two tiles match (not the same tile clicked twice), move them to found tiles ✅
+4) Else clear out the 2 temporarily saved tiles ✅

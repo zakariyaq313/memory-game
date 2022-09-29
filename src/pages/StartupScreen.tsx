@@ -1,5 +1,5 @@
 import RadioInput from "../components/RadioInput";
-import { gameConfigOptions } from "../store/store";
+import { gameConfigOptions } from "../store/game-data";
 import "../sass/startup-screen/startup-screen.scss";
 import React, { useReducer } from "react";
 import { StartupScreenProps } from "../types/types";

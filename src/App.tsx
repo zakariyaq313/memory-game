@@ -2,17 +2,17 @@ import { useState } from "react";
 import GameScreen from "./pages/GameScreen";
 import StartupScreen from "./pages/StartupScreen";
 import "./sass/base/base.scss";
-import { gameConfigType } from "./types/types";
+import { GameConfigType } from "./types/types";
 
 function App(): JSX.Element {
 	const [currentScreen, setCurrentScreen] = useState("start-up");
-	const [gameConfig, setGameConfig] = useState<gameConfigType>({
+	const [gameConfig, setGameConfig] = useState<GameConfigType>({
 		theme: "",
 		players: "",
 		gridSize: ""
 	})
 
-	const saveGameConfig = (savedGameConfig: gameConfigType, screen: string) => {
+	const saveGameConfig = (savedGameConfig: GameConfigType, screen: string) => {
 		setGameConfig({
 			theme: savedGameConfig.theme,
 			players: savedGameConfig.players,

@@ -1,8 +1,18 @@
-export type gameConfigType = {
+export type GameConfigType = {
 	theme: string,
 	players: string,
 	gridSize: string
-}
+};
+
+export type IconType = {
+	id: string,
+	tile: JSX.Element
+};
+
+export type NumberType = {
+	id: string,
+	tile: number
+};
 
 export type RadioInputType = {
 	id: string,
@@ -16,10 +26,10 @@ export type RadioInputProps = RadioInputType & {
 };
 
 export type StartupScreenProps = {
-	onSaveGameConfig: (gameConfig: gameConfigType, screen: string) => void
+	onSaveGameConfig: (gameConfig: GameConfigType, screen: string) => void
 }
 
-export type GameScreenProps = gameConfigType & {
+export type GameScreenProps = GameConfigType & {
 
 };
 

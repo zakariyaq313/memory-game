@@ -19,7 +19,8 @@
 5) Has a dialog with end results (different for single and multi player modes)
 
 -> Icons chosen:
-Cat, Dragon, Flask, Fork, Ghost, Infinite, Masks, Shark (change - plane, duck, shield)
+Boat, Cable-car, Cat, Cake, Cone, Dice, Dragon, Flask, Fork, Fox, Gamepad, Ghost,
+Infinite, Lemon, Masks, Snowflake, TV, Umbrella
 
 -> Grid of circles:
 1) Can be a 4x4 or 6x6 grid ✅

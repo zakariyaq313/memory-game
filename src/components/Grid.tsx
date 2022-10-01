@@ -12,6 +12,8 @@ function Grid(props: GridProps): JSX.Element {
 	const [foundTiles, setFoundTiles] = useState<Set<string>>(new Set(""));
 	const [visibleTileOne, setVisibleTileOne] = useState({tile: "", index: -1});
 	const [visibleTileTwo, setVisibleTileTwo] = useState({tile: "", index: -1});
+	const [numberOfMoves, setNumberOfMoves] = useState(0);
+	const [timer, setTimer] = useState(0);
 
 	useEffect(() => {
 		const iconTiles: IconType[] = [];
@@ -40,6 +42,7 @@ function Grid(props: GridProps): JSX.Element {
 
 	useEffect(() => {
 		if (visibleTileOne.tile && visibleTileTwo.tile) {
+			setNumberOfMoves((moves) => moves + 1);
 			if (visibleTileOne.tile === visibleTileTwo.tile) {
 				setFoundTiles((foundTiles) => foundTiles.add(visibleTileOne.tile));
 				setVisibleTileOne({tile: "", index: -1});
@@ -52,6 +55,12 @@ function Grid(props: GridProps): JSX.Element {
 			}
 		}
 	}, [visibleTileOne.tile, visibleTileTwo.tile]);
+
+	useEffect(() => {
+		setInterval(() => {
+			setTimer((time) => time + 1 - 1);
+		}, 1000);
+	}, []);
 
 	const revealTile = (tile: string, index: number) => {
 		if (!foundTiles.has(tile)) {
@@ -79,6 +88,9 @@ function Grid(props: GridProps): JSX.Element {
 					</button>
 				))}
 			</div>
+
+			<h1>Moves needed - { numberOfMoves }</h1>
+			<h1>Time needed - { timer }</h1>
 		</React.Fragment>
 	);
 }

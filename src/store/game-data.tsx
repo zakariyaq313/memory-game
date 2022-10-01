@@ -1,22 +1,22 @@
 import { IconType, NumberType, RadioInputType } from '../types/types';
+import Boat from '../icons/Boat';
+import CableCar from '../icons/CableCar';
+import Cake from '../icons/Cake';
 import Cat from "../icons/Cat";
+import Cone from '../icons/Cone';
+import Dice from '../icons/Dice';
 import Dragon from "../icons/Dragon";
 import Flask from "../icons/Flask";
 import Fork from "../icons/Fork";
+import Fox from '../icons/Fox';
+import GameController from '../icons/GameController';
 import Ghost from "../icons/Ghost";
 import Infinite from "../icons/Infinite";
-import Masks from "../icons/Masks";
-import Shark from "../icons/Shark";
-import Snowflake from "../icons/Snowflake";
-import GameController from '../icons/GameController';
-import Dice from '../icons/Dice';
-import Shield from '../icons/Shield';
-import Cake from '../icons/Cake';
-import Duck from '../icons/Duck';
 import Lemon from '../icons/Lemon';
-import Plane from '../icons/Plane';
-import Robot from '../icons/Robot';
-import Skull from '../icons/Skull';
+import Masks from "../icons/Masks";
+import Snowflake from "../icons/Snowflake";
+import Television from '../icons/Television';
+import Umbrella from '../icons/Umbrella';
 
 export const gameConfigOptions: Array<RadioInputType[]> = [
 	[
@@ -81,48 +81,64 @@ export const icons: IconType[] = [
 		tile: <Cat />
 	},
 	{
-		id: "dragon",
-		tile: <Dragon />
-	},
-	{
-		id: "flask",
-		tile: <Flask />
-	},
-	{
 		id: "cake",
 		tile: <Cake />
+	},
+	{
+		id: "dragon",
+		tile: <Dragon />
 	},
 	{
 		id: "infinite",
 		tile: <Infinite />
 	},
 	{
+		id: "television",
+		tile: <Television />
+	},
+	{
+		id: "flask",
+		tile: <Flask />
+	},
+	{
 		id: "masks",
 		tile: <Masks />
 	},
 	{
-		id: "lemon",
-		tile: <Lemon />
+		id: "fox",
+		tile: <Fox />
 	},
 	{
-		id: "skull",
-		tile: <Skull />
-	},
-	{
-		id: "plane",
-		tile: <Plane />
-	},
-	{
-		id: "dice",
-		tile: <Dice />
+		id: "cable",
+		tile: <CableCar />
 	},
 	{
 		id: "fork",
 		tile: <Fork />
 	},
 	{
+		id: "lemon",
+		tile: <Lemon />
+	},
+	{
 		id: "snowflake",
 		tile: <Snowflake />
+	},
+	{
+		id: "dice",
+		tile: <Dice />
+	},
+	{
+		id: "cone",
+		tile: <Cone />
+	},
+	{
+		id: "umbrella",
+		tile: <Umbrella />
+	},
+	{
+		id: "boat",
+		tile: <Boat />
 	},
 	{
 		id: "console",
@@ -131,22 +147,6 @@ export const icons: IconType[] = [
 	{
 		id: "ghost",
 		tile: <Ghost />
-	},
-	{
-		id: "shark",
-		tile: <Shark />
-	},
-	{
-		id: "shield",
-		tile: <Shield />
-	},
-	{
-		id: "duck",
-		tile: <Duck />
-	},
-	{
-		id: "robot",
-		tile: <Robot />
 	}
 ];
 

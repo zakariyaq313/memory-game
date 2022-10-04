@@ -14,6 +14,24 @@ export type NumberType = {
 	tile: number
 };
 
+export type TimerType = {
+	minutes: string,
+	seconds: string
+};
+
+export type PlayerDataType = {
+	id: number,
+	name: string,
+	score: number
+};
+
+export type PlayerDataCollectionType = {
+	playerOne?: PlayerDataType,
+	playerTwo?: PlayerDataType,
+	playerThree?: PlayerDataType,
+	playerFour?: PlayerDataType
+}
+
 export type RadioInputType = {
 	id: string,
 	label: string,

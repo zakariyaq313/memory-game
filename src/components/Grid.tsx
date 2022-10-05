@@ -5,20 +5,24 @@ import "../sass/grid/grid.scss";
 import { getCurrentPlayer, initializePlayers, shuffle, updateTimer } from "../helper/helper-functions";
 import { Set } from "typescript";
 
-const updatePlayerStats = (state: PlayerDataCollectionType, action: string) => {
-	const updatedState = {...state};
-	const player = updatedState[action as keyof PlayerDataCollectionType];
+type Action = {
+	type: string,
+	player?: string,
+	numberOfPlayers?: number
+};
 
-	if (player) {
-		updatedState[action as keyof PlayerDataCollectionType]!.score = player.score + 1;
+const updatePlayerStats = (state: PlayerDataCollectionType, action: Action) => {
+	if (action.type === "initialize") {
+		return initializePlayers(action.numberOfPlayers!);
+	} else {
+		console.log(state[action.player as keyof PlayerDataCollectionType]!.score + 1);
+		
+		return {...state, [action.player!]: state[action.player as keyof PlayerDataCollectionType]!.score + 1};
 	}
-
-	return updatedState;
 }
 
 function Grid(props: GridProps): JSX.Element {
 	const {theme, players, gridSize} = props;
-	const playersInitialState = initializePlayers(players);
 	const [gridTiles, setGridTiles] = useState<IconType[] | NumberType[]>([]);
 	const [gridColumns, setGridColumns] = useState(4);
 	const [foundTiles, setFoundTiles] = useState<Set<string>>(new Set(""));
@@ -27,7 +31,7 @@ function Grid(props: GridProps): JSX.Element {
 	const [numberOfMoves, setNumberOfMoves] = useState(0);
 	const [timer, setTimer] = useState<TimerType>({minutes: "00", seconds: "00"});
 	const [gameStarted, setGameStarted] = useState(false);
-	const [playerData, setPlayerData] = useReducer(updatePlayerStats, playersInitialState);
+	const [playerData, setPlayerData] = useReducer(updatePlayerStats, {});
 	const [currentPlayerId, setCurrentPlayerId] = useState(1);
 	const [currentPlayerName, setCurrentPlayerName] = useState("Player 1");
 
@@ -63,7 +67,7 @@ function Grid(props: GridProps): JSX.Element {
 				setFoundTiles((foundTiles) => foundTiles.add(visibleTileOne.tile));
 				setVisibleTileOne({tile: "", index: -1});
 				setVisibleTileTwo({tile: "", index: -1});
-				setPlayerData(getCurrentPlayer(currentPlayerId));
+				setPlayerData({type: "update", player: getCurrentPlayer(currentPlayerId)});
 			} else {
 				setTimeout(() => {
 					setVisibleTileOne({tile: "", index: -1});
@@ -78,11 +82,11 @@ function Grid(props: GridProps): JSX.Element {
 				}, 600);
 			}
 		}
-	}, [visibleTileOne.tile, visibleTileTwo.tile, currentPlayerId, playerData, players]);
+	}, [visibleTileOne.tile, visibleTileTwo.tile, currentPlayerId, players]);
 
 	useEffect(() => {
-		console.log(initializePlayers(players));
-	});
+		setPlayerData({type: "initialize", numberOfPlayers: players});
+	}, [players]);
 
 	// Set current player
 	useEffect(() => {

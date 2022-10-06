@@ -73,10 +73,8 @@ export function initializePlayers(numberOfPlayers: number) {
     return playerDataCollection;
 }
 
-export function getCurrentPlayer(id: number) {
-	switch (id) {
-		case 1:
-			return "playerOne";
+export function getCurrentPlayerId(playerNumber: number) {
+	switch (playerNumber) {
 		case 2:
 			return "playerTwo";
 		case 3:
@@ -84,6 +82,6 @@ export function getCurrentPlayer(id: number) {
 		case 4:
 			return "playerFour";
 		default:
-			return "";
+			return "playerOne";
 	}
 }

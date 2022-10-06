@@ -2,22 +2,23 @@ import React, { useEffect, useReducer, useState } from "react";
 import { icons, numbers } from "../store/game-data";
 import { GridProps, IconType, NumberType, PlayerDataCollectionType, TimerType } from "../types/types";
 import "../sass/grid/grid.scss";
-import { getCurrentPlayer, initializePlayers, shuffle, updateTimer } from "../helper/helper-functions";
+import { getCurrentPlayerId, initializePlayers, shuffle, updateTimer } from "../helper/helper-functions";
 import { Set } from "typescript";
 
 type Action = {
 	type: string,
-	player?: string,
-	numberOfPlayers?: number
+	player: keyof PlayerDataCollectionType,
+	numberOfPlayers: number
 };
 
 const updatePlayerStats = (state: PlayerDataCollectionType, action: Action) => {
 	if (action.type === "initialize") {
-		return initializePlayers(action.numberOfPlayers!);
+		return initializePlayers(action.numberOfPlayers);
 	} else {
-		console.log(state[action.player as keyof PlayerDataCollectionType]!.score + 1);
-		
-		return {...state, [action.player!]: state[action.player as keyof PlayerDataCollectionType]!.score + 1};
+		return {...state, [action.player]: {
+			...state[action.player],
+			score: state[action.player]!.score + 1 
+		}};
 	}
 }
 
@@ -32,8 +33,9 @@ function Grid(props: GridProps): JSX.Element {
 	const [timer, setTimer] = useState<TimerType>({minutes: "00", seconds: "00"});
 	const [gameStarted, setGameStarted] = useState(false);
 	const [playerData, setPlayerData] = useReducer(updatePlayerStats, {});
-	const [currentPlayerId, setCurrentPlayerId] = useState(1);
-	const [currentPlayerName, setCurrentPlayerName] = useState("Player 1");
+	const [currentPlayerNumber, setPlayerNumber] = useState(1);
+	const [currentPlayerName, setPlayerName] = useState("Player 1");
+	const [currentPlayerId, setPlayerId] = useState<keyof PlayerDataCollectionType>("playerOne");
 
 	useEffect(() => {
 		const iconTiles: IconType[] = [];
@@ -67,17 +69,21 @@ function Grid(props: GridProps): JSX.Element {
 				setFoundTiles((foundTiles) => foundTiles.add(visibleTileOne.tile));
 				setVisibleTileOne({tile: "", index: -1});
 				setVisibleTileTwo({tile: "", index: -1});
-				setPlayerData({type: "update", player: getCurrentPlayer(currentPlayerId)});
+				setPlayerData({
+					type: "update",
+					player: currentPlayerId,
+					numberOfPlayers: players
+				});
 			} else {
 				setTimeout(() => {
 					setVisibleTileOne({tile: "", index: -1});
 					setVisibleTileTwo({tile: "", index: -1});
-					setCurrentPlayerId((id) => {
-						let updatedPlayerId = id + 1;
-						if (updatedPlayerId > players) {
-							updatedPlayerId = 1;
+					setPlayerNumber((value) => {
+						let updatedPlayerNumber = value + 1;
+						if (updatedPlayerNumber > players) {
+							updatedPlayerNumber = 1;
 						}
-						return updatedPlayerId;
+						return updatedPlayerNumber;
 					});
 				}, 600);
 			}
@@ -85,16 +91,25 @@ function Grid(props: GridProps): JSX.Element {
 	}, [visibleTileOne.tile, visibleTileTwo.tile, currentPlayerId, players]);
 
 	useEffect(() => {
-		setPlayerData({type: "initialize", numberOfPlayers: players});
+		setPlayerData({
+			type: "initialize",
+			player: currentPlayerId,
+			numberOfPlayers: players
+		});
 	}, [players]);
 
 	// Set current player
 	useEffect(() => {
-		const player = playerData[getCurrentPlayer(currentPlayerId) as keyof PlayerDataCollectionType];
+		const player = playerData[currentPlayerId];
 		if (player?.name) {
-			setCurrentPlayerName(player.name);
+			setPlayerName(player.name);
 		}
 	}, [currentPlayerId, playerData]);
+
+	// Set current player id
+	useEffect(() => {
+		setPlayerId(getCurrentPlayerId(currentPlayerNumber));
+	}, [currentPlayerId, currentPlayerNumber]);
 
 	// Set timer
 	useEffect(() => {
@@ -127,7 +142,7 @@ function Grid(props: GridProps): JSX.Element {
 		}
 	}
 
-	const tileVisibility = (tile: string, index: number) => {
+	const tileIsVisibe = (tile: string, index: number) => {
 		if (foundTiles.has(tile) || visibleTileOne.index === index || visibleTileTwo.index === index) {
 			return true;
 		}
@@ -141,7 +156,7 @@ function Grid(props: GridProps): JSX.Element {
 				onClick={!gameStarted ? startGame : undefined}>
 				{gridTiles.map((tileData, index) => (
 					<button key={index} onClick={() => revealTile(tileData.id, index)}>
-						{tileVisibility(tileData.id, index) && tileData.tile}
+						{tileIsVisibe(tileData.id, index) && tileData.tile}
 					</button>
 				))}
 			</div>

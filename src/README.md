@@ -13,7 +13,7 @@
 
 -> Game screen:
 1) Has a heading on left ✅
-2) Has a pair of buttons on right ("Restart" and "New Game")
+2) Has a pair of buttons on right ("Restart" and "New Game") ✅
 3) Has the main grid of circles ✅
 4) Has a timer + moves or number of players count ✅
 5) Has a dialog with end results (different for single and multi player modes)
@@ -61,6 +61,5 @@ Logic behind game over dialog ->
 
 Extras -
 
-⭐️ Can have an indication for when the game begins
-
-⭐️ Should end the game if the player takes too long (longer than 10 minutes)
+1) Can have an indication for when the game begins
+2) Should end the game if the player takes too long (longer than 10 minutes)

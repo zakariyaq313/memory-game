@@ -1,4 +1,4 @@
-import { IconType, NumberType, RadioInputType } from '../types/types';
+import { IconTileType, NumberTileType, RadioInputType } from '../types/types';
 import Boat from '../icons/Boat';
 import CableCar from '../icons/CableCar';
 import Cake from '../icons/Cake';
@@ -75,7 +75,7 @@ export const gameConfigOptions: Array<RadioInputType[]> = [
 	]
 ];
 
-export const icons: IconType[] = [
+export const icons: IconTileType[] = [
 	{
 		id: "cat",
 		tile: <Cat />
@@ -150,7 +150,7 @@ export const icons: IconType[] = [
 	}
 ];
 
-export const numbers: NumberType[] = [
+export const numbers: NumberTileType[] = [
 	{
 		id: "one",
 		tile: 1

@@ -16,21 +16,16 @@ type Action = {
 }
 
 function gameConfigReducer(state: State, action: Action): State {
-	const updatedState = {...state};
-
 	switch (action.group) {
 		case "theme":
-			updatedState.theme = action.selectedValue;
-			break;
+			return {...state, theme: action.selectedValue};
 		case "players":
-			updatedState.players = action.selectedValue;
-			break;
+			return {...state, players: action.selectedValue};
 		case "gridSize":
-			updatedState.gridSize = action.selectedValue;
-			break;
+			return {...state, gridSize: action.selectedValue};
+		default:
+			throw Error("Unknown action");
 	}
-
-	return updatedState;
 }
 
 function StartupScreen(props: StartupScreenProps): JSX.Element {

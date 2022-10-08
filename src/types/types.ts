@@ -4,12 +4,12 @@ export type GameConfigType = {
 	gridSize: string
 };
 
-export type IconType = {
+export type IconTileType = {
 	id: string,
 	tile: JSX.Element
 };
 
-export type NumberType = {
+export type NumberTileType = {
 	id: string,
 	tile: number
 };
@@ -30,29 +30,40 @@ export type PlayerDataCollectionType = {
 	playerTwo?: PlayerDataType,
 	playerThree?: PlayerDataType,
 	playerFour?: PlayerDataType
-}
+};
+
+export type StartupScreenProps = {
+	onSaveGameConfig: (gameConfig: GameConfigType, screen: string) => void
+};
+
+export type GameScreenProps = GameConfigType & {
+	onStartNewGame: (screen: string) => void,
+};
+
+export type GridProps = {
+	theme: string,
+	players: number,
+	gridSize: number,
+	onGameCompletion: (gameOver: boolean, results: ResultType) => void
+};
 
 export type RadioInputType = {
 	id: string,
 	label: string,
 	group: string,
 	checked: boolean
-}
+};
 
 export type RadioInputProps = RadioInputType & {
 	onUpdateGameConfig: (group: string, id: string) => void
 };
 
-export type StartupScreenProps = {
-	onSaveGameConfig: (gameConfig: GameConfigType, screen: string) => void
-}
-
-export type GameScreenProps = GameConfigType & {
-
+export type ResultType = {
+	movesNeeded: number,
+	timeNeeded: TimerType
+	playerData: PlayerDataCollectionType
 };
 
-export type GridProps = {
-	theme: string,
-	players: number,
-	gridSize: number
+export type ResultProps = ResultType & {
+	numberOfPlayers: number
 };

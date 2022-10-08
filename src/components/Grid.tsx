@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { icons, numbers } from "../store/game-data";
-import { GridProps, IconType, NumberType, PlayerDataCollectionType, TimerType } from "../types/types";
+import { GridProps, IconTileType, NumberTileType, PlayerDataCollectionType, TimerType } from "../types/types";
 import "../sass/grid/grid.scss";
 import { getCurrentPlayerId, initializePlayers, shuffle, updateTimer } from "../helper/helper-functions";
 import { Set } from "typescript";
@@ -17,29 +17,31 @@ const updatePlayerStats = (state: PlayerDataCollectionType, action: Action) => {
 	} else {
 		return {...state, [action.player]: {
 			...state[action.player],
-			score: state[action.player]!.score + 1 
+			score: (state[action.player]?.score ?? Infinity) + 1
 		}};
 	}
 }
 
 function Grid(props: GridProps): JSX.Element {
-	const {theme, players, gridSize} = props;
-	const [gridTiles, setGridTiles] = useState<IconType[] | NumberType[]>([]);
+	const {theme, players, gridSize, onGameCompletion} = props;
+	const [gridTiles, setGridTiles] = useState<IconTileType[] | NumberTileType[]>([]);
 	const [gridColumns, setGridColumns] = useState(4);
 	const [foundTiles, setFoundTiles] = useState<Set<string>>(new Set(""));
 	const [visibleTileOne, setVisibleTileOne] = useState({tile: "", index: -1});
 	const [visibleTileTwo, setVisibleTileTwo] = useState({tile: "", index: -1});
 	const [numberOfMoves, setNumberOfMoves] = useState(0);
 	const [timer, setTimer] = useState<TimerType>({minutes: "00", seconds: "00"});
-	const [gameStarted, setGameStarted] = useState(false);
+	const [timerId, setTimerId] = useState<NodeJS.Timer>();
+	const [gameStarted, setGameStart] = useState(false);
+	const [gameCompleted, setGameCompletion] = useState(false);
 	const [playerData, setPlayerData] = useReducer(updatePlayerStats, {});
 	const [currentPlayerNumber, setPlayerNumber] = useState(1);
 	const [currentPlayerName, setPlayerName] = useState("Player 1");
 	const [currentPlayerId, setPlayerId] = useState<keyof PlayerDataCollectionType>("playerOne");
 
 	useEffect(() => {
-		const iconTiles: IconType[] = [];
-		const numberTiles: NumberType[] = [];
+		const iconTiles: IconTileType[] = [];
+		const numberTiles: NumberTileType[] = [];
 
 		if (theme === "icons") {
 			for (const tile of icons) {
@@ -93,7 +95,7 @@ function Grid(props: GridProps): JSX.Element {
 	useEffect(() => {
 		setPlayerData({
 			type: "initialize",
-			player: currentPlayerId,
+			player: "playerOne",
 			numberOfPlayers: players
 		});
 	}, [players]);
@@ -114,22 +116,52 @@ function Grid(props: GridProps): JSX.Element {
 	// Set timer
 	useEffect(() => {
 		let startTime = Date.now();
-		if (gameStarted) {
-			setInterval(() => {
+
+		if (gameStarted && !gameCompleted) {
+			const timerInterval = setInterval(() => {
 				setTimer((timer) => {
 					const updatedValues = updateTimer(timer, startTime);
 					if (updatedValues.startTime) {
 						startTime = updatedValues.startTime;
 					}
-
-					return {minutes: updatedValues.minutes, seconds: updatedValues.seconds};
+					return {
+						minutes: updatedValues.minutes,
+						seconds: updatedValues.seconds
+					};
 				});
 			}, 1000);
+
+			setTimerId(timerInterval);
 		}
-	}, [gameStarted]);
+	}, [gameStarted, gameCompleted]);
+
+	// Clear timer
+	useEffect(() => {
+		if (gameCompleted && timerId) {
+			clearInterval(timerId);
+		}
+	}, [gameCompleted, timerId]);
+
+	// Check game status
+	useEffect(() => {		
+		if (foundTiles.size === ((gridSize ** 2) / 2)) {
+			setGameCompletion(true);
+		}
+	}, [foundTiles.size, gridSize]);
+
+	useEffect(() => {
+		if (gameCompleted) {
+			onGameCompletion(gameCompleted, {
+					movesNeeded: numberOfMoves,
+					timeNeeded: timer,
+					playerData: playerData
+				}
+			);
+		}
+	}, [onGameCompletion, gameCompleted, numberOfMoves, playerData, timer]);
 
 	const startGame = () => {
-		setGameStarted(true);
+		setGameStart(true);
 	}
 
 	const revealTile = (tile: string, index: number) => {

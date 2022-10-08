@@ -1,6 +1,6 @@
-import { IconType, NumberType, PlayerDataCollectionType, TimerType } from "../types/types";
+import { IconTileType, NumberTileType, PlayerDataCollectionType, TimerType } from "../types/types";
 
-export const shuffle = (array: IconType[] | NumberType[]) => {
+export const shuffle = (array: IconTileType[] | NumberTileType[]) => {
     for (let i = (array.length - 1); i >= 0; i--) {
         let j = Math.floor(Math.random() * i + 1);
         [array[i], array[j]] = [array[j], array[i]];

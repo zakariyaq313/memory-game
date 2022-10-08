@@ -1,19 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import Grid from "../components/Grid";
-import { GameScreenProps } from "../types/types";
+import Results from "../components/Results";
+import { GameScreenProps, ResultType } from "../types/types";
+
+type Action = {
+	type: String,
+	results: ResultType
+};
+
+const gameResultReducer = (state: ResultType, action: Action) => {
+	if (action.type === "singlePlayer") {
+		return {...state,
+			movesNeeded: action.results.movesNeeded,
+			timeNeeded: action.results.timeNeeded
+		}
+	} else {
+		return {...state,
+			playerData: action.results.playerData
+		};
+	}
+};
 
 function GameScreen(props: GameScreenProps): JSX.Element {
-	const [theme, setTheme] = useState("icons");
 	const [players, setPlayers] = useState(1);
 	const [gridSize, setGridSize] = useState(4);
-
-	useEffect(() => {
-		if (props.theme === "numbers") {
-			setTheme("numbers");
-		} else {
-			setTheme("icons");
-		}
-	}, [props.theme]);
+	const [gameOver, setGameOver] = useState(false);
+	const [gridKey, setGridKey] = useState<string>(Date.now().toString());
+	const [gameResult, setGameResult] = useReducer(gameResultReducer, {
+		movesNeeded: 0,
+		timeNeeded: { minutes: "00", seconds: "00" },
+		playerData: {}
+	});
 
 	useEffect(() => {
 		switch (props.players) {
@@ -40,13 +57,45 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 		}
 	}, [props.gridSize]);
 
+	const startNewGame = () => {
+		props.onStartNewGame("start-up");
+	}
+
+	const restartGame = () => {
+		setGridKey(Date.now().toString());
+	}
+
+	const gameIsComplete = (value: boolean, results: ResultType) => {
+		setGameOver(value);
+		setGameResult({
+			type: players === 1 ? "singlePlayer" : "multiPlayer",
+			results: results
+		}); 
+	}
+
 	return (
 		<React.Fragment>
 			<header>
 				<h1>Memory</h1>
+
+				<button onClick={restartGame}>Restart</button>
+				<button onClick={startNewGame}>New Game</button>
 			</header>
 			<main>
-				<Grid theme={theme} players={players} gridSize={gridSize} />
+				<Grid key={gridKey}
+					theme={props.theme}
+					players={players}
+					gridSize={gridSize}
+					onGameCompletion={gameIsComplete}
+				/>
+
+				{gameOver &&
+					<Results numberOfPlayers={players}
+						movesNeeded={gameResult.movesNeeded}
+						timeNeeded={gameResult.timeNeeded}
+						playerData={gameResult.playerData}
+					/>
+				}
 			</main>
 		</React.Fragment>
 	);

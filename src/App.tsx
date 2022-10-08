@@ -21,6 +21,10 @@ function App(): JSX.Element {
 
 		setCurrentScreen(screen);
 	}
+
+	const startNewGame = (screen: string) => {
+		setCurrentScreen(screen);
+	}
 	return (
 		<div className="App">
 			{currentScreen === "start-up" &&
@@ -30,6 +34,7 @@ function App(): JSX.Element {
 				<GameScreen theme={gameConfig.theme} 
 					players={gameConfig.players}
 					gridSize={gameConfig.gridSize}
+					onStartNewGame={startNewGame}
 				/>
 			}
 		</div>

@@ -20,17 +20,19 @@ export type TimerType = {
 };
 
 export type PlayerDataType = {
-	id: number,
-	name: string,
+	key: number,
+	label: string,
 	score: number
 };
 
-export type PlayerDataCollectionType = {
-	playerOne?: PlayerDataType,
-	playerTwo?: PlayerDataType,
-	playerThree?: PlayerDataType,
-	playerFour?: PlayerDataType
-};
+// export type PlayerDataCollectionType = {
+// 	playerOne?: PlayerDataType,
+// 	playerTwo?: PlayerDataType,
+// 	playerThree?: PlayerDataType,
+// 	playerFour?: PlayerDataType
+// };
+
+export type PlayerDataCollectionType = PlayerDataType[];
 
 export type StartupScreenProps = {
 	onSaveGameConfig: (gameConfig: GameConfigType, screen: string) => void
@@ -41,8 +43,8 @@ export type GameScreenProps = GameConfigType & {
 };
 
 export type GridProps = {
-	theme: string,
-	players: number,
+	gameTheme: string,
+	numberOfPlayers: number,
 	gridSize: number,
 	onGameCompletion: (gameOver: boolean, results: ResultType) => void
 };

@@ -2,12 +2,12 @@ import React, { useEffect, useReducer, useState } from "react";
 import { icons, numbers } from "../store/game-data";
 import { GridProps, IconTileType, NumberTileType, PlayerDataCollectionType, TimerType } from "../types/types";
 import "../sass/grid/grid.scss";
-import { getCurrentPlayerId, initializePlayers, shuffle, updateTimer } from "../helper/helper-functions";
+import { initializePlayers, shuffle, updateTimer } from "../helper/helper-functions";
 import { Set } from "typescript";
 
 type Action = {
 	type: string,
-	player: keyof PlayerDataCollectionType,
+	currentPlayer: number,
 	numberOfPlayers: number
 };
 
@@ -15,150 +15,160 @@ const updatePlayerStats = (state: PlayerDataCollectionType, action: Action) => {
 	if (action.type === "initialize") {
 		return initializePlayers(action.numberOfPlayers);
 	} else {
-		return {...state, [action.player]: {
-			...state[action.player],
-			score: (state[action.player]?.score ?? Infinity) + 1
-		}};
+		return state.map((playerData, index) => {
+			if (action.currentPlayer === index) {
+				return {...playerData, score: playerData.score + 1};
+			}
+			return playerData;
+		});
 	}
 }
 
 function Grid(props: GridProps): JSX.Element {
-	const {theme, players, gridSize, onGameCompletion} = props;
+	const {gameTheme, numberOfPlayers, gridSize, onGameCompletion} = props;
+
 	const [gridTiles, setGridTiles] = useState<IconTileType[] | NumberTileType[]>([]);
 	const [gridColumns, setGridColumns] = useState(4);
+
 	const [foundTiles, setFoundTiles] = useState<Set<string>>(new Set(""));
 	const [visibleTileOne, setVisibleTileOne] = useState({tile: "", index: -1});
 	const [visibleTileTwo, setVisibleTileTwo] = useState({tile: "", index: -1});
+
 	const [numberOfMoves, setNumberOfMoves] = useState(0);
 	const [timer, setTimer] = useState<TimerType>({minutes: "00", seconds: "00"});
 	const [timerId, setTimerId] = useState<NodeJS.Timer>();
+
 	const [gameStarted, setGameStart] = useState(false);
 	const [gameCompleted, setGameCompletion] = useState(false);
-	const [playerData, setPlayerData] = useReducer(updatePlayerStats, {});
+	const [resultSubmitted, setResultSubmission] = useState(false);
+
+	const [playerData, setPlayerData] = useReducer(updatePlayerStats, []);
 	const [currentPlayerNumber, setPlayerNumber] = useState(1);
 	const [currentPlayerName, setPlayerName] = useState("Player 1");
-	const [currentPlayerId, setPlayerId] = useState<keyof PlayerDataCollectionType>("playerOne");
 
+	// Create grid tiles
 	useEffect(() => {
 		const iconTiles: IconTileType[] = [];
 		const numberTiles: NumberTileType[] = [];
 
-		if (theme === "icons") {
-			for (const tile of icons) {
-				iconTiles.push(tile, tile);
-			}
-			if (gridSize === 4) {
-				iconTiles.splice(16);
-			}
+		if (gameTheme === "icons") {
+			for (const tile of icons) iconTiles.push(tile, tile);
+			if (gridSize === 4) iconTiles.splice(16);
 			setGridTiles(shuffle(iconTiles));
 		} else {
-			for (const tile of numbers) {
-				numberTiles.push(tile, tile);
-			}
-			if (gridSize === 4) {
-				numberTiles.splice(16);
-			}
+			for (const tile of numbers) numberTiles.push(tile, tile);
+			if (gridSize === 4) numberTiles.splice(16);
 			setGridTiles(shuffle(numberTiles));
 		}
 
 		setGridColumns(gridSize);
-	}, [theme, gridSize]);
+	}, [gameTheme, gridSize]);
 
 	useEffect(() => {
 		if (visibleTileOne.tile && visibleTileTwo.tile) {
-			setNumberOfMoves((moves) => moves + 1);
+			if (numberOfPlayers === 1) {
+				setNumberOfMoves((moves) => moves + 1);				
+			}
+
 			if (visibleTileOne.tile === visibleTileTwo.tile) {
 				setFoundTiles((foundTiles) => foundTiles.add(visibleTileOne.tile));
 				setVisibleTileOne({tile: "", index: -1});
 				setVisibleTileTwo({tile: "", index: -1});
-				setPlayerData({
-					type: "update",
-					player: currentPlayerId,
-					numberOfPlayers: players
-				});
+
+				if (numberOfPlayers > 1) {
+					setPlayerData({
+						type: "update",
+						currentPlayer: currentPlayerNumber - 1,
+						numberOfPlayers: numberOfPlayers
+					});
+				}
 			} else {
 				setTimeout(() => {
 					setVisibleTileOne({tile: "", index: -1});
 					setVisibleTileTwo({tile: "", index: -1});
-					setPlayerNumber((value) => {
-						let updatedPlayerNumber = value + 1;
-						if (updatedPlayerNumber > players) {
-							updatedPlayerNumber = 1;
-						}
-						return updatedPlayerNumber;
-					});
+					
+					if (numberOfPlayers > 1) {
+						setPlayerNumber((value) => {
+							let updatedPlayerNumber = value + 1;
+							if (updatedPlayerNumber > numberOfPlayers) {
+								updatedPlayerNumber = 1;
+							}
+							return updatedPlayerNumber;
+						});
+					}
 				}, 600);
 			}
 		}
-	}, [visibleTileOne.tile, visibleTileTwo.tile, currentPlayerId, players]);
+	}, [visibleTileOne.tile, visibleTileTwo.tile, currentPlayerNumber, numberOfPlayers]);
 
+	// Set initial data for players
 	useEffect(() => {
 		setPlayerData({
 			type: "initialize",
-			player: "playerOne",
-			numberOfPlayers: players
+			currentPlayer: 0,
+			numberOfPlayers: numberOfPlayers
 		});
-	}, [players]);
+	}, [numberOfPlayers]);
 
 	// Set current player
 	useEffect(() => {
-		const player = playerData[currentPlayerId];
-		if (player?.name) {
-			setPlayerName(player.name);
+		if (numberOfPlayers > 1) {
+			const currentPlayer = playerData[currentPlayerNumber - 1];
+			setPlayerName(currentPlayer.label);
 		}
-	}, [currentPlayerId, playerData]);
-
-	// Set current player id
-	useEffect(() => {
-		setPlayerId(getCurrentPlayerId(currentPlayerNumber));
-	}, [currentPlayerId, currentPlayerNumber]);
+	}, [numberOfPlayers, currentPlayerNumber, playerData]);
 
 	// Set timer
 	useEffect(() => {
-		let startTime = Date.now();
+		if (numberOfPlayers === 1) {
+			let startTime = Date.now();
 
-		if (gameStarted && !gameCompleted) {
-			const timerInterval = setInterval(() => {
-				setTimer((timer) => {
-					const updatedValues = updateTimer(timer, startTime);
-					if (updatedValues.startTime) {
-						startTime = updatedValues.startTime;
-					}
-					return {
-						minutes: updatedValues.minutes,
-						seconds: updatedValues.seconds
-					};
-				});
-			}, 1000);
-
-			setTimerId(timerInterval);
+			if (gameStarted && !gameCompleted) {
+				const timerInterval = setInterval(() => {
+					setTimer((timer) => {
+						const updatedValues = updateTimer(timer, startTime);
+						if (updatedValues.startTime) {
+							startTime = updatedValues.startTime;
+						}
+						return {
+							minutes: updatedValues.minutes,
+							seconds: updatedValues.seconds
+						};
+					});
+				}, 1000);
+	
+				setTimerId(timerInterval);
+			}
 		}
-	}, [gameStarted, gameCompleted]);
+	}, [numberOfPlayers, gameStarted, gameCompleted]);
 
-	// Clear timer
+	// Stop timer once game is over
 	useEffect(() => {
 		if (gameCompleted && timerId) {
 			clearInterval(timerId);
+			setTimerId(undefined);
 		}
 	}, [gameCompleted, timerId]);
 
+	// Send results once the game is over
+	useEffect(() => {
+		if (gameCompleted && !resultSubmitted) {
+			onGameCompletion(gameCompleted, {
+				movesNeeded: numberOfMoves,
+				timeNeeded: timer,
+				playerData: playerData
+			});
+
+			setResultSubmission(true);
+		}
+	}, [onGameCompletion, gameCompleted, resultSubmitted, numberOfMoves, timer, playerData]);
+
 	// Check game status
-	useEffect(() => {		
+	useEffect(() => {
 		if (foundTiles.size === ((gridSize ** 2) / 2)) {
 			setGameCompletion(true);
 		}
 	}, [foundTiles.size, gridSize]);
-
-	useEffect(() => {
-		if (gameCompleted) {
-			onGameCompletion(gameCompleted, {
-					movesNeeded: numberOfMoves,
-					timeNeeded: timer,
-					playerData: playerData
-				}
-			);
-		}
-	}, [onGameCompletion, gameCompleted, numberOfMoves, playerData, timer]);
 
 	const startGame = () => {
 		setGameStart(true);
@@ -193,13 +203,21 @@ function Grid(props: GridProps): JSX.Element {
 				))}
 			</div>
 
-			<h1>Moves needed - {numberOfMoves}</h1>
-			<h1>Time needed - {timer.minutes}:{timer.seconds}</h1>
-			{players > 1 && <h1>Current player - {currentPlayerName}</h1>}
-			{players > 1 && <h1>Player 1: {playerData.playerOne?.score}</h1>}
-			{players >= 2 && <h1>Player 2: {playerData.playerTwo?.score}</h1>}
-			{players >= 3 && <h1>Player 3: {playerData.playerThree?.score}</h1>}
-			{players === 4 && <h1>Player 4: {playerData.playerFour?.score}</h1>}
+			{numberOfPlayers === 1 &&
+				<React.Fragment>
+					<h1>Moves needed - {numberOfMoves}</h1>
+					<h1>Time needed - {timer.minutes}:{timer.seconds}</h1>
+				</React.Fragment>
+			}
+
+			{numberOfPlayers > 1 &&
+				<React.Fragment>
+					<h1>Current player - {currentPlayerName}</h1>
+					{playerData.map((player, index) => (
+						<h1 key={index}>{player.label}: {player.score}</h1>
+					))}
+				</React.Fragment>
+			}
 		</React.Fragment>
 	);
 }

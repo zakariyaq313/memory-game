@@ -40,34 +40,43 @@ export function updateTimer(timer: TimerType, startTime: number) {
 }
 
 export function initializePlayers(numberOfPlayers: number) {
-	const playerDataCollection: PlayerDataCollectionType = {};
+	const playerDataCollection: PlayerDataCollectionType = [];
+
+	const playerOne = {
+		key: 1,
+		label: "Player 1",
+		score: 0
+	};
+
+	const playerTwo = {
+		key: 2,
+		label: "Player 2",
+		score: 0
+	};
+
+	const playerThree = {
+		key: 3,
+		label: "Player 3",
+		score: 0
+	};
+
+	const playerFour = {
+		key: 4,
+		label: "Player 4",
+		score: 0
+	};
+
 	if (numberOfPlayers >= 1) {
-		playerDataCollection.playerOne = {
-			id: 1,
-			name: "Player 1",
-			score: 0
-		};
+		playerDataCollection.push(playerOne); 
 	}
 	if (numberOfPlayers >= 2) {
-		playerDataCollection.playerTwo = {
-			id: 2,
-			name: "Player 2",
-			score: 0
-		};
+		playerDataCollection.push(playerTwo);
 	}
 	if (numberOfPlayers >= 3) {
-		playerDataCollection.playerThree = {
-			id: 3,
-			name: "Player 3",
-			score: 0
-		};
+		playerDataCollection.push(playerThree);
 	}
 	if (numberOfPlayers === 4) {
-		playerDataCollection.playerFour = {
-			id: 4,
-			name: "Player 4",
-			score: 0
-		};
+		playerDataCollection.push(playerFour);
 	}
 
     return playerDataCollection;

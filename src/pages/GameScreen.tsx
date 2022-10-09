@@ -29,7 +29,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 	const [gameResult, setGameResult] = useReducer(gameResultReducer, {
 		movesNeeded: 0,
 		timeNeeded: { minutes: "00", seconds: "00" },
-		playerData: {}
+		playerData: []
 	});
 
 	useEffect(() => {
@@ -83,8 +83,8 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 			</header>
 			<main>
 				<Grid key={gridKey}
-					theme={props.theme}
-					players={players}
+					gameTheme={props.theme}
+					numberOfPlayers={players}
 					gridSize={gridSize}
 					onGameCompletion={gameIsComplete}
 				/>

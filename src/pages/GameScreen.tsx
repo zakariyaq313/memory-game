@@ -1,53 +1,72 @@
 import React, { useEffect, useReducer, useState } from "react";
 import Grid from "../components/Grid";
 import Results from "../components/Results";
-import { GameScreenProps, ResultType } from "../types/types";
+import { GameScreenProps, PlayerDataCollectionType, ResultType, TimerType } from "../types/types";
+import "../sass/game-screen/game-screen.scss";
+import Timer from "../components/Timer";
+import PlayerStats from "../components/PlayerStats";
 
 type Action = {
 	type: String,
-	results: ResultType
+	movesNeeded?: number,
+	timeNeeded?: TimerType,
+	playerStats?: PlayerDataCollectionType
 };
 
 const gameResultReducer = (state: ResultType, action: Action) => {
-	if (action.type === "singlePlayer") {
+	if (action.type === "movesNeeded" && action.movesNeeded) {
 		return {...state,
-			movesNeeded: action.results.movesNeeded,
-			timeNeeded: action.results.timeNeeded
-		}
-	} else {
-		return {...state,
-			playerData: action.results.playerData
+			movesNeeded: action.movesNeeded
 		};
+	} else if(action.type === "timeNeeded" && action.timeNeeded) {
+		return {...state,
+			timeNeeded: action.timeNeeded
+		};
+	} else if(action.type === "playerStats" && action.playerStats) {
+		return {...state,
+			playerStats: action.playerStats
+		};
+	} else {
+		return {...state};
 	}
 };
 
 function GameScreen(props: GameScreenProps): JSX.Element {
-	const [players, setPlayers] = useState(1);
+	const {gameTheme, onStartNewGame} = props;
+	const [numberOfPlayers, setNumberOfPlayers] = useState(1);
 	const [gridSize, setGridSize] = useState(4);
-	const [gameOver, setGameOver] = useState(false);
-	const [gridKey, setGridKey] = useState<string>(Date.now().toString());
+
+	const [gridKey, setGridKey] = useState<string>(`grid-key-${Date.now()}`);
+	const [timerKey, setTimerKey] = useState<string>(`timer-key-${Date.now()}`);
+	const [playerStatsKey, setPlayerStatsKey] = useState<string>(`player-stats-key-${Date.now()}`);
+
+	const [gameStarted, setGameStarted] = useState(false);
+	const [gameCompleted, setGameCompleted] = useState(false);
+	const [currentPlayerNumber, setCurrentPlayer] = useState(1);
+	const [successfulPlayerNumber, setSuccessfulPlayer] = useState({player: 0, time: 0});
+	const [movesNeeded, setMovesNeeded] = useState(0);
 	const [gameResult, setGameResult] = useReducer(gameResultReducer, {
 		movesNeeded: 0,
 		timeNeeded: { minutes: "00", seconds: "00" },
-		playerData: []
+		playerStats: []
 	});
 
 	useEffect(() => {
-		switch (props.players) {
+		switch (props.numberOfPlayers) {
 			case "one":
-				setPlayers(1);
+				setNumberOfPlayers(1);
 				break;
 			case "two":
-				setPlayers(2);
+				setNumberOfPlayers(2);
 				break;
 			case "three":
-				setPlayers(3);
+				setNumberOfPlayers(3);
 				break;
 			case "four":
-				setPlayers(4);
+				setNumberOfPlayers(4);
 				break;
 		}
-	}, [props.players]);
+	}, [props.numberOfPlayers]);
 
 	useEffect(() => {
 		if (props.gridSize === "fourTiles") {
@@ -57,47 +76,117 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 		}
 	}, [props.gridSize]);
 
+	useEffect(() => {
+		if (gameCompleted) {
+			setGameResult({
+				type: "movesNeeded",
+				movesNeeded: movesNeeded
+			})
+		}
+	}, [gameCompleted, movesNeeded]);
+
+	const startGame = (value: boolean) => {
+		setGameStarted(value);
+	}
+
 	const startNewGame = () => {
-		props.onStartNewGame("start-up");
+		onStartNewGame("start-up");
 	}
 
 	const restartGame = () => {
-		setGridKey(Date.now().toString());
+		// Change key prop to trigger a re-render of components
+		setGridKey(`grid-key-${Date.now()}`);
+		setTimerKey(`timer-key-${Date.now()}`);
+		setPlayerStatsKey(`player-stats-key-${Date.now()}`);
+		setGameStarted(false);
 	}
 
-	const gameIsComplete = (value: boolean, results: ResultType) => {
-		setGameOver(value);
+	const updateCurrentPlayer = (playerNumber: number) => {
+		setCurrentPlayer(playerNumber);
+	}
+
+	const successfulGuess = (playerNumber: number) => {
+		// Time because useeeffect is not triggered if value doesn't change
+		setSuccessfulPlayer({player: playerNumber, time: Date.now()});
+	}
+
+	const gameIsComplete = (value: boolean) => {
+		setGameCompleted(value);
+	}
+
+	const submitTimeNeeded = (timeNeeded: TimerType) => {
 		setGameResult({
-			type: players === 1 ? "singlePlayer" : "multiPlayer",
-			results: results
-		}); 
+			type: "timeNeeded",
+			timeNeeded: timeNeeded
+		});
+	}
+
+	const submitPlayerStats = (playerStats: PlayerDataCollectionType) => {
+		setGameResult({
+			type: "playerStats",
+			playerStats: playerStats
+		});
+	}
+
+	const updateMovesNeeded = () => {
+		setMovesNeeded((moves) => moves + 1);
 	}
 
 	return (
-		<React.Fragment>
+		<main className="game-screen">
 			<header>
 				<h1>Memory</h1>
 
 				<button onClick={restartGame}>Restart</button>
 				<button onClick={startNewGame}>New Game</button>
 			</header>
-			<main>
-				<Grid key={gridKey}
-					gameTheme={props.theme}
-					numberOfPlayers={players}
+			<section>
+				<Grid
+					key={gridKey}
+					gameTheme={gameTheme}
+					numberOfPlayers={numberOfPlayers}
 					gridSize={gridSize}
+					onGameStarted={startGame}
+					onUpdateMovesNeeded={updateMovesNeeded}
+					onUpdateCurrentPlayer={updateCurrentPlayer}
+					onSuccessfulGuess={successfulGuess}
 					onGameCompletion={gameIsComplete}
 				/>
 
-				{gameOver &&
-					<Results numberOfPlayers={players}
-						movesNeeded={gameResult.movesNeeded}
-						timeNeeded={gameResult.timeNeeded}
-						playerData={gameResult.playerData}
+				{numberOfPlayers === 1 &&
+					<React.Fragment>
+						<h1>Moves needed: {movesNeeded}</h1>
+
+						<Timer
+							key={timerKey}
+							gameStarted={gameStarted}
+							gameCompleted={gameCompleted}
+							onSubmitTimeNeeded={submitTimeNeeded}
+						/>
+					</React.Fragment>
+				}
+
+				{numberOfPlayers > 1 &&
+					<PlayerStats
+						key={playerStatsKey}
+						numberOfPlayers={numberOfPlayers}
+						currentPlayerNumber={currentPlayerNumber}
+						successfulPlayer={successfulPlayerNumber}
+						gameCompleted={gameCompleted}
+						onSubmitPlayerStats={submitPlayerStats}
 					/>
 				}
-			</main>
-		</React.Fragment>
+
+				{gameCompleted &&
+					<Results
+						numberOfPlayers={numberOfPlayers}
+						movesNeeded={gameResult.movesNeeded}
+						timeNeeded={gameResult.timeNeeded}
+						playerStats={gameResult.playerStats}
+					/>
+				}
+			</section>
+		</main>
 	);
 }
 

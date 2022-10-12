@@ -7,15 +7,15 @@ import { GameConfigType } from "./types/types";
 function App(): JSX.Element {
 	const [currentScreen, setCurrentScreen] = useState("start-up");
 	const [gameConfig, setGameConfig] = useState<GameConfigType>({
-		theme: "",
-		players: "",
+		gameTheme: "",
+		numberOfPlayers: "",
 		gridSize: ""
 	})
 
 	const saveGameConfig = (savedGameConfig: GameConfigType, screen: string) => {
 		setGameConfig({
-			theme: savedGameConfig.theme,
-			players: savedGameConfig.players,
+			gameTheme: savedGameConfig.gameTheme,
+			numberOfPlayers: savedGameConfig.numberOfPlayers,
 			gridSize: savedGameConfig.gridSize
 		});
 
@@ -31,8 +31,8 @@ function App(): JSX.Element {
 				<StartupScreen onSaveGameConfig={saveGameConfig} />
 			}
 			{currentScreen === "in-game" &&
-				<GameScreen theme={gameConfig.theme} 
-					players={gameConfig.players}
+				<GameScreen gameTheme={gameConfig.gameTheme} 
+					numberOfPlayers={gameConfig.numberOfPlayers}
 					gridSize={gameConfig.gridSize}
 					onStartNewGame={startNewGame}
 				/>

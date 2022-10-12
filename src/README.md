@@ -47,17 +47,23 @@ Logic behind the timer ->
 7) Return updated minutes and seconds ✅
 
 Logic behind multiplayer ->
-1) For multiplayer, no timer should be set
+1) For multiplayer, no timer should be set ✅
 2) Assign an id and score to the number of players ✅
 3) Chance to play starts from 1 to n and then repeat once nth player had their chance ✅
 4) Player that successfully matches a pair gets an additional chance to play ✅
 5) Player that fails to match a pair gets one chance only ✅
 6) After the player has played their chance, the next player in line gets the chance to play ✅
-7) The player with the most successful matches wins
+7) The player with the most successful matched tiles, wins
 8) Draw is also possible
 
 Logic behind game over dialog ->
-1) 
+1) Get the results, namely - time and moves needed, and players' individual score
+2) Use former for single player, and the latter for multiplayer modes each
+3) For multiplayer, calculate the highest score overall
+4) If only one player has it, then declare that player as the winner
+5) If more than one player has it, then declare the game in a draw
+6) Whether win or draw, highlight the top scorers regardless
+7) Dialog should have restart and new game buttons
 
 Extras -
 

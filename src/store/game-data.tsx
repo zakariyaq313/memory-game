@@ -23,13 +23,13 @@ export const gameConfigOptions: Array<RadioInputType[]> = [
 		{
 			id: "icons",
 			label: "Icons",
-			group: "theme",
+			group: "gameTheme",
 			checked: true
 		},
 		{
 			id: "numbers",
 			label: "Numbers",
-			group: "theme",
+			group: "gameTheme",
 			checked: false
 		}
 	],
@@ -37,25 +37,25 @@ export const gameConfigOptions: Array<RadioInputType[]> = [
 		{
 			id: "one",
 			label: "One",
-			group: "players",
+			group: "numberOfPlayers",
 			checked: true
 		},
 		{
 			id: "two",
 			label: "Two",
-			group: "players",
+			group: "numberOfPlayers",
 			checked: false
 		},
 		{
 			id: "three",
 			label: "Three",
-			group: "players",
+			group: "numberOfPlayers",
 			checked: false
 		},
 		{
 			id: "four",
 			label: "Four",
-			group: "players",
+			group: "numberOfPlayers",
 			checked: false
 		}
 	],

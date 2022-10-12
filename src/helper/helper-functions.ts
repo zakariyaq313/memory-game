@@ -2,7 +2,7 @@ import { IconTileType, NumberTileType, PlayerDataCollectionType, TimerType } fro
 
 export const shuffle = (array: IconTileType[] | NumberTileType[]) => {
     for (let i = (array.length - 1); i >= 0; i--) {
-        let j = Math.floor(Math.random() * i + 1);
+        let j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
 
@@ -43,25 +43,25 @@ export function initializePlayers(numberOfPlayers: number) {
 	const playerDataCollection: PlayerDataCollectionType = [];
 
 	const playerOne = {
-		key: 1,
+		playerNumber: 1,
 		label: "Player 1",
 		score: 0
 	};
 
 	const playerTwo = {
-		key: 2,
+		playerNumber: 2,
 		label: "Player 2",
 		score: 0
 	};
 
 	const playerThree = {
-		key: 3,
+		playerNumber: 3,
 		label: "Player 3",
 		score: 0
 	};
 
 	const playerFour = {
-		key: 4,
+		playerNumber: 4,
 		label: "Player 4",
 		score: 0
 	};

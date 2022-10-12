@@ -5,40 +5,40 @@ import React, { useReducer } from "react";
 import { StartupScreenProps } from "../types/types";
 
 type State = {
-	theme: string,
-	players: string,
+	gameTheme: string,
+	numberOfPlayers: string,
 	gridSize: string
 }
 
 type Action = {
 	group: string,
-	selectedValue: string
+	value: string
 }
 
 function gameConfigReducer(state: State, action: Action): State {
 	switch (action.group) {
-		case "theme":
-			return {...state, theme: action.selectedValue};
-		case "players":
-			return {...state, players: action.selectedValue};
+		case "gameTheme":
+			return {...state, gameTheme: action.value};
+		case "numberOfPlayers":
+			return {...state, numberOfPlayers: action.value};
 		case "gridSize":
-			return {...state, gridSize: action.selectedValue};
+			return {...state, gridSize: action.value};
 		default:
-			throw Error("Unknown action");
+			throw Error("Unknown group name selected in 'gameConfigReducer.'");
 	}
 }
 
 function StartupScreen(props: StartupScreenProps): JSX.Element {
 	const [currentGameConfig, setCurrentGameConfig] = useReducer(gameConfigReducer, {
-		theme: "icons",
-		players: "one",
+		gameTheme: "icons",
+		numberOfPlayers: "one",
 		gridSize: "fourTiles"
 	});
 
 	const updateGameConfig = (group: string, value: string) => {
 		setCurrentGameConfig({
 			group: group,
-			selectedValue: value
+			value: value
 		});
 	}
 

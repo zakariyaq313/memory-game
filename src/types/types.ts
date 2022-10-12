@@ -1,6 +1,6 @@
 export type GameConfigType = {
-	theme: string,
-	players: string,
+	gameTheme: string,
+	numberOfPlayers: string,
 	gridSize: string
 };
 
@@ -20,17 +20,10 @@ export type TimerType = {
 };
 
 export type PlayerDataType = {
-	key: number,
+	playerNumber: number,
 	label: string,
 	score: number
 };
-
-// export type PlayerDataCollectionType = {
-// 	playerOne?: PlayerDataType,
-// 	playerTwo?: PlayerDataType,
-// 	playerThree?: PlayerDataType,
-// 	playerFour?: PlayerDataType
-// };
 
 export type PlayerDataCollectionType = PlayerDataType[];
 
@@ -46,7 +39,25 @@ export type GridProps = {
 	gameTheme: string,
 	numberOfPlayers: number,
 	gridSize: number,
-	onGameCompletion: (gameOver: boolean, results: ResultType) => void
+	onGameStarted: (value: boolean) => void,
+	onUpdateMovesNeeded: () => void,
+	onUpdateCurrentPlayer: (playerNumber: number) => void,
+	onSuccessfulGuess: (playerNumber: number) => void,
+	onGameCompletion: (gameCompleted: boolean) => void
+};
+
+export type TimerProps = {
+	gameStarted: boolean,
+	gameCompleted: boolean,
+	onSubmitTimeNeeded: (timeNeeded: TimerType) => void
+};
+
+export type PlayerStatsProps = {
+	numberOfPlayers: number,
+	currentPlayerNumber: number,
+	successfulPlayer: {player: number, time: number},
+	gameCompleted: boolean,
+	onSubmitPlayerStats: (playerData: PlayerDataCollectionType) => void
 };
 
 export type RadioInputType = {
@@ -62,8 +73,8 @@ export type RadioInputProps = RadioInputType & {
 
 export type ResultType = {
 	movesNeeded: number,
-	timeNeeded: TimerType
-	playerData: PlayerDataCollectionType
+	timeNeeded: TimerType,
+	playerStats: PlayerDataCollectionType
 };
 
 export type ResultProps = ResultType & {

@@ -3,18 +3,18 @@ import { ResultProps } from "../types/types";
 import "../sass/results/results.scss";
 
 function Results(props: ResultProps): JSX.Element {
-	const {numberOfPlayers, movesNeeded, timeNeeded, playerData} = props;
+	const {numberOfPlayers, movesNeeded, timeNeeded, playerStats} = props;
 	const [highScore, setHighScore] = useState(0);
 	
 	useEffect(() => {
 		if (numberOfPlayers > 1) {
-			for (const player of playerData) {
+			for (const player of playerStats) {
 				if (player.score > highScore) {
 					setHighScore(player.score);
 				}
 			}
 		}
-	}, [numberOfPlayers, playerData, highScore]);
+	}, [numberOfPlayers, playerStats, highScore]);
 
 	return (
 		<div className="result">
@@ -25,9 +25,11 @@ function Results(props: ResultProps): JSX.Element {
 				</h1>
 			}
 			{props.numberOfPlayers > 1 &&
-				<h1>
-					High score yet to be decided
-				</h1>
+				playerStats.map((player) => (
+					<h1 key={player.playerNumber}>
+						{player.label}: {player.score} {player.score === highScore && "(winner)"}
+					</h1>
+				))
 			}
 		</div>
 	);

@@ -78,5 +78,7 @@ export type ResultType = {
 };
 
 export type ResultProps = ResultType & {
-	numberOfPlayers: number
+	numberOfPlayers: number,
+	onStartNewGame: () => void,
+	onRestartGame: () => void
 };

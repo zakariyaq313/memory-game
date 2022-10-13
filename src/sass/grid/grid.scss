@@ -1,26 +1,65 @@
+@import "../variables/variables.scss";
+
 .game-grid {
-    display: grid;
-    height: 50rem;
-    width: 50rem;
-    gap: 2rem;
+	display: grid;
+	gap: 2rem;
 
-    button {
-        background-color: #BCCED9;
-        border: none;
-        border-radius: 100%;
-        line-height: 0;
-        width: auto;
-        margin: 0;
-        cursor: pointer;
-        color: #FCFCFC;
-        font-size: 5.6rem;
-        font-weight: 700;
-        vertical-align: middle;
+	.grid-tile {
+		border: none;
+		border-radius: 100%;
+		line-height: 0;
+		width: auto;
+		margin: 0;
+		cursor: pointer;
+		color: #FCFCFC;
+		font-size: 5.6rem;
+		font-weight: 700;
+		vertical-align: middle;
+		transition: background-color 0.4s;
 
-        svg {
-            fill: #FCFCFC;
-            height: 50%;
-            width: 50%;
-        }
-    }
+		svg {
+			fill: #FCFCFC;
+			height: 50%;
+			width: 50%;
+			opacity: 0;
+			transition: opacity 2s;
+		}
+
+		&.blue-tile {
+			background-color: $primary-blue;
+		}
+		
+		&.orange-tile {
+			background-color: $primary-orange;
+		
+			svg {
+				opacity: 1;
+				transition: opacity 2s;
+			}
+		}
+		
+		&.gray-tile {
+			background-color: $primary-gray;
+
+			svg {
+				opacity: 1;
+			}
+		}
+	}
+}
+
+.four-tiles-column {
+	grid-template-columns: repeat(4, 10rem);
+
+	.grid-tile {
+		height: 10rem;
+	}
+}
+
+.six-tiles-column {
+	grid-template-columns: repeat(6, 6rem);
+
+	.grid-tile {
+		height: 6rem;
+	}
 }

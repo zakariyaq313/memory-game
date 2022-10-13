@@ -3,7 +3,14 @@ import { ResultProps } from "../types/types";
 import "../sass/results/results.scss";
 
 function Results(props: ResultProps): JSX.Element {
-	const {numberOfPlayers, movesNeeded, timeNeeded, playerStats} = props;
+	const {
+		numberOfPlayers,
+		movesNeeded,
+		timeNeeded,
+		playerStats,
+		onStartNewGame,
+		onRestartGame
+	} = props;
 	const [highScore, setHighScore] = useState(0);
 	
 	useEffect(() => {
@@ -15,6 +22,14 @@ function Results(props: ResultProps): JSX.Element {
 			}
 		}
 	}, [numberOfPlayers, playerStats, highScore]);
+
+	const restartGame = () => {
+		onRestartGame();
+	}
+
+	const startNewGame = () => {
+		onStartNewGame();
+	}
 
 	return (
 		<div className="result">
@@ -31,6 +46,9 @@ function Results(props: ResultProps): JSX.Element {
 					</h1>
 				))
 			}
+
+			<button onClick={restartGame}>Restart</button>
+			<button onClick={startNewGame}>New Game</button>
 		</div>
 	);
 }

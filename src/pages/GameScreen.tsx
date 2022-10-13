@@ -39,6 +39,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 	const [gridKey, setGridKey] = useState<string>(`grid-key-${Date.now()}`);
 	const [timerKey, setTimerKey] = useState<string>(`timer-key-${Date.now()}`);
 	const [playerStatsKey, setPlayerStatsKey] = useState<string>(`player-stats-key-${Date.now()}`);
+	const [resultsKey, setResultsKey] = useState<string>(`results-key-${Date.now()}`);
 
 	const [gameStarted, setGameStarted] = useState(false);
 	const [gameCompleted, setGameCompleted] = useState(false);
@@ -94,11 +95,17 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 	}
 
 	const restartGame = () => {
+		setGameStarted(false);
+		setGameCompleted(false);
+		setMovesNeeded(0);
+		setCurrentPlayer(1);
+		setSuccessfulPlayer({player: 0, time: 0});
+
 		// Change key prop to trigger a re-render of components
 		setGridKey(`grid-key-${Date.now()}`);
 		setTimerKey(`timer-key-${Date.now()}`);
 		setPlayerStatsKey(`player-stats-key-${Date.now()}`);
-		setGameStarted(false);
+		setResultsKey(`results-key-${Date.now()}`);
 	}
 
 	const updateCurrentPlayer = (playerNumber: number) => {
@@ -141,8 +148,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 				<button onClick={startNewGame}>New Game</button>
 			</header>
 			<section>
-				<Grid
-					key={gridKey}
+				<Grid key={gridKey}
 					gameTheme={gameTheme}
 					numberOfPlayers={numberOfPlayers}
 					gridSize={gridSize}
@@ -157,8 +163,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 					<React.Fragment>
 						<h1>Moves needed: {movesNeeded}</h1>
 
-						<Timer
-							key={timerKey}
+						<Timer key={timerKey}
 							gameStarted={gameStarted}
 							gameCompleted={gameCompleted}
 							onSubmitTimeNeeded={submitTimeNeeded}
@@ -167,8 +172,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 				}
 
 				{numberOfPlayers > 1 &&
-					<PlayerStats
-						key={playerStatsKey}
+					<PlayerStats key={playerStatsKey}
 						numberOfPlayers={numberOfPlayers}
 						currentPlayerNumber={currentPlayerNumber}
 						successfulPlayer={successfulPlayerNumber}
@@ -178,11 +182,13 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 				}
 
 				{gameCompleted &&
-					<Results
+					<Results key={resultsKey}
 						numberOfPlayers={numberOfPlayers}
 						movesNeeded={gameResult.movesNeeded}
 						timeNeeded={gameResult.timeNeeded}
 						playerStats={gameResult.playerStats}
+						onRestartGame={restartGame}
+						onStartNewGame={startNewGame}
 					/>
 				}
 			</section>

@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { initializePlayers } from "../helper/helper-functions";
 import { PlayerDataCollectionType, PlayerStatsProps } from "../types/types";
 
@@ -30,6 +30,7 @@ function PlayerStats(props: PlayerStatsProps): JSX.Element {
 		onSubmitPlayerStats
 	} = props;
 	const [playerData, setPlayerData] = useReducer(updatePlayerStats, []);
+	const [statsSubmitted, setStatsSubmitted] = useState(false);
 
 	// Set initial data for players
 	useEffect(() => {
@@ -52,10 +53,11 @@ function PlayerStats(props: PlayerStatsProps): JSX.Element {
 	}, [successfulPlayer, numberOfPlayers]);
 
 	useEffect(() => {
-		if (gameCompleted) {
+		if (gameCompleted && !statsSubmitted) {
 			onSubmitPlayerStats(playerData);
+			setStatsSubmitted(true);
 		}
-	}, [gameCompleted, playerData, onSubmitPlayerStats]);
+	}, [gameCompleted, statsSubmitted, playerData, onSubmitPlayerStats]);
 
 	return (
 		<React.Fragment>

@@ -18,7 +18,6 @@ function Grid(props: GridProps): JSX.Element {
 	} = props;
 
 	const [gridTiles, setGridTiles] = useState<IconTileType[] | NumberTileType[]>([]);
-	const [gridColumns, setGridColumns] = useState(4);
 
 	const [foundTiles, setFoundTiles] = useState<Set<string>>(new Set(""));
 	const [visibleTileOne, setVisibleTileOne] = useState({tile: "", index: -1});
@@ -42,36 +41,27 @@ function Grid(props: GridProps): JSX.Element {
 			if (gridSize === 4) numberTiles.splice(16);
 			setGridTiles(shuffle(numberTiles));
 		}
-
-		setGridColumns(gridSize);
 	}, [gameTheme, gridSize]);
 
 	useEffect(() => {
 		if (visibleTileOne.tile && visibleTileTwo.tile) {
-			if (visibleTileOne.tile === visibleTileTwo.tile) {
-				setFoundTiles((foundTiles) => foundTiles.add(visibleTileOne.tile));
-				setVisibleTileOne({tile: "", index: -1});
-				setVisibleTileTwo({tile: "", index: -1});
-
-				if (numberOfPlayers > 1) {
-					onSuccessfulGuess(currentPlayerNumber);
-				}
-			} else {
-				setTimeout(() => {
-					setVisibleTileOne({tile: "", index: -1});
-					setVisibleTileTwo({tile: "", index: -1});
-					
+			setTimeout(() => {
+				if (visibleTileOne.tile === visibleTileTwo.tile) {
+					setFoundTiles((foundTiles) => foundTiles.add(visibleTileOne.tile));
+					if (numberOfPlayers > 1) {
+						onSuccessfulGuess(currentPlayerNumber);
+					}
+				} else {
 					if (numberOfPlayers > 1) {
 						setCurrentPlayer((value) => {
-							let updatedPlayerNumber = value + 1;
-							if (updatedPlayerNumber > numberOfPlayers) {
-								updatedPlayerNumber = 1;
-							}
-							return updatedPlayerNumber;
+							return (value + 1) > numberOfPlayers ? 1 : (value + 1);
 						});
 					}
-				}, 600);
-			}
+				}
+
+				setVisibleTileOne({tile: "", index: -1});
+				setVisibleTileTwo({tile: "", index: -1});
+			}, 600);
 		}
 	}, [visibleTileOne.tile,
 		visibleTileTwo.tile,
@@ -112,21 +102,40 @@ function Grid(props: GridProps): JSX.Element {
 		}
 	}
 
-	const tileIsVisibe = (tile: string, index: number) => {
+	const tileIsVisible = (tile: string, index: number) => {
 		if (foundTiles.has(tile) || visibleTileOne.index === index || visibleTileTwo.index === index) {
 			return true;
 		}
 		return false;
 	}
 
+	const setTileBackground = (tile: string, index: number) => {
+		if (foundTiles.has(tile)) {
+			return "gray-tile";
+		} else if (visibleTileOne.index === index || visibleTileTwo.index === index) {
+			return "orange-tile";
+		} else {
+			return "blue-tile";
+		}
+	}
+
+	const setGridColumns = () => {
+		if (gridSize === 4) {
+			return "four-tiles-column";
+		} else {
+			return "six-tiles-column";
+		}
+	}
+
 	return (
 		<React.Fragment>
-			<div className="game-grid"
-				style={{gridTemplateColumns: `repeat(${gridColumns}, auto)`}}
+			<div className={`game-grid ${setGridColumns()}`}
 				onClick={!gameStarted ? startGame : undefined}>
 				{gridTiles.map((tileData, index) => (
-					<button key={index} onClick={() => revealTile(tileData.id, index)}>
-						{tileIsVisibe(tileData.id, index) && tileData.tile}
+					<button key={index}
+						onClick={() => revealTile(tileData.id, index)}
+						className={`grid-tile ${setTileBackground(tileData.id, index)}`}>
+							{tileIsVisible(tileData.id, index) && tileData.tile}
 					</button>
 				))}
 			</div>

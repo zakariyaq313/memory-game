@@ -11,12 +11,12 @@ type State = {
 }
 
 type Action = {
-	group: string,
+	groupName: string,
 	value: string
 }
 
 function gameConfigReducer(state: State, action: Action): State {
-	switch (action.group) {
+	switch (action.groupName) {
 		case "gameTheme":
 			return {...state, gameTheme: action.value};
 		case "numberOfPlayers":
@@ -31,43 +31,53 @@ function gameConfigReducer(state: State, action: Action): State {
 function StartupScreen(props: StartupScreenProps): JSX.Element {
 	const [currentGameConfig, setCurrentGameConfig] = useReducer(gameConfigReducer, {
 		gameTheme: "icons",
-		numberOfPlayers: "one",
-		gridSize: "fourTiles"
+		numberOfPlayers: "1",
+		gridSize: "four"
 	});
 
-	const updateGameConfig = (group: string, value: string) => {
+	const updateGameConfig = (groupName: string, value: string) => {
 		setCurrentGameConfig({
-			group: group,
+			groupName: groupName,
 			value: value
 		});
 	}
 
-	const valueIsSelected = (group: string, id: string) => {
-		return currentGameConfig[group as keyof State] === id;
+	const valueIsSelected = (groupName: string, value: string) => {
+		return currentGameConfig[groupName as keyof State] === value;
 	}
 
-	const startGame = (e: React.FormEvent) => {
+	const startGame = (e: React.MouseEvent) => {
 		e.preventDefault();
 		props.onSaveGameConfig(currentGameConfig, "in-game");
 	}
 	return (
-		<main>
-			<form>
-				{gameConfigOptions.map((gameConfigGroup, index) => (
-					<div key={index}>
-						{gameConfigGroup.map((gameConfig) => (
-							<RadioInput key={gameConfig.id}
-								id={gameConfig.id}
-								label={gameConfig.label}
-								group={gameConfig.group}
-								checked={valueIsSelected(gameConfig.group, gameConfig.id)}
-								onUpdateGameConfig={updateGameConfig}
-							/>
+		<main className="startup-screen">
+			<form className="game-config-tab">
+				{gameConfigOptions.map((gameConfigGroup, i) => (
+					<div key={i} className={`option-group 
+						${(gameConfigGroup.length - 1) === 2 ? "two-options" : "four-options"}`}>
+						{gameConfigGroup.map((gameConfig, j) => (
+							// Ternary operator used to render either the
+							// group title or the radio option component
+
+							(typeof gameConfig === "string" ?
+								<h3 key={j} className="group-title">{gameConfig}</h3> :
+
+								<RadioInput key={gameConfig.value}
+									value={gameConfig.value}
+									label={gameConfig.label}
+									groupName={gameConfig.groupName}
+									isChecked={valueIsSelected(gameConfig.groupName, gameConfig.value)}
+									onUpdateGameConfig={updateGameConfig}
+								/>
+							)
 						))}
 					</div>
 				))}
 
-				<button onClick={startGame} className="start-game-btn">Start Game</button>
+				<button onClick={(e) => startGame(e)} className="start-game-button">
+					Start Game
+				</button>
 			</form>
 		</main>
 	);

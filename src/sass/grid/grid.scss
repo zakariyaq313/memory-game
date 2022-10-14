@@ -2,7 +2,6 @@
 
 .game-grid {
 	display: grid;
-	gap: 2rem;
 
 	.grid-tile {
 		border: none;
@@ -27,6 +26,11 @@
 
 		&.blue-tile {
 			background-color: $primary-blue;
+			transition: none;
+
+			&:hover {
+				background-color: $hover-blue;
+			}
 		}
 		
 		&.orange-tile {
@@ -50,6 +54,7 @@
 
 .four-tiles-column {
 	grid-template-columns: repeat(4, 10rem);
+	gap: 2rem;
 
 	.grid-tile {
 		height: 10rem;
@@ -57,9 +62,10 @@
 }
 
 .six-tiles-column {
-	grid-template-columns: repeat(6, 6rem);
+	grid-template-columns: repeat(6, 8rem);
+	gap: 1rem;
 
 	.grid-tile {
-		height: 6rem;
+		height: 8rem;
 	}
 }

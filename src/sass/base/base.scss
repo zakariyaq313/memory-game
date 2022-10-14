@@ -12,5 +12,15 @@ html {
 }
 
 body {
-	background-color: $primary-blue;
+	font-family: 'Atkinson Hyperlegible', sans-serif;
+	font-weight: bold;
+}
+
+button {
+	border-radius: 10rem;
+	border: none;
+	cursor: pointer;
+	font-size: 2.4rem;
+	font-weight: bold;
+	padding: 1rem;
 }

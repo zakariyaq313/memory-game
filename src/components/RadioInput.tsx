@@ -3,10 +3,11 @@ import { RadioInputProps } from './../types/types';
 import "../sass/radio-input/radio-input.scss";
 
 function RadioInput(props: RadioInputProps): JSX.Element {
+	const {value, label, groupName, isChecked, onUpdateGameConfig} = props;
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const updateGameConfig = () => {
-		props.onUpdateGameConfig(props.group, props.id);
+		onUpdateGameConfig(groupName, value);
 	}
 
 	const buttonHandler = (e: React.MouseEvent) => {
@@ -14,20 +15,19 @@ function RadioInput(props: RadioInputProps): JSX.Element {
 		inputRef.current?.click();
 	}
 	return (
-		<React.Fragment>
+		<div className="option-selector">
 			<input type="radio"
-				id={props.id}
-				name={props.group}
-				value={props.id}
-				checked={props.checked}
+				name={groupName}
+				value={value}
+				checked={isChecked}
 				ref={inputRef}
-				onChange={updateGameConfig} />
-			<label htmlFor={props.id}>
-				<button onClick={(e) => buttonHandler(e)}>
-					{props.label}
-				</button>
-			</label>
-		</React.Fragment>
+				onChange={updateGameConfig}
+			/>
+
+			<button onClick={(e) => buttonHandler(e)} className="option-button">
+				{label}
+			</button>
+		</div>
 	);
 }
 

@@ -48,29 +48,16 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 	const [movesNeeded, setMovesNeeded] = useState(0);
 	const [gameResult, setGameResult] = useReducer(gameResultReducer, {
 		movesNeeded: 0,
-		timeNeeded: { minutes: "00", seconds: "00" },
+		timeNeeded: {minutes: "00", seconds: "00"},
 		playerStats: []
 	});
 
 	useEffect(() => {
-		switch (props.numberOfPlayers) {
-			case "one":
-				setNumberOfPlayers(1);
-				break;
-			case "two":
-				setNumberOfPlayers(2);
-				break;
-			case "three":
-				setNumberOfPlayers(3);
-				break;
-			case "four":
-				setNumberOfPlayers(4);
-				break;
-		}
+		setNumberOfPlayers(Number(props.numberOfPlayers));
 	}, [props.numberOfPlayers]);
 
 	useEffect(() => {
-		if (props.gridSize === "fourTiles") {
+		if (props.gridSize === "four") {
 			setGridSize(4);
 		} else {
 			setGridSize(6);

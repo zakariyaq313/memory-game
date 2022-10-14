@@ -61,10 +61,10 @@ export type PlayerStatsProps = {
 };
 
 export type RadioInputType = {
-	id: string,
+	value: string,
 	label: string,
-	group: string,
-	checked: boolean
+	groupName: string,
+	isChecked: boolean,
 };
 
 export type RadioInputProps = RadioInputType & {

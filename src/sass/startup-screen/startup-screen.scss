@@ -1,23 +1,67 @@
-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    row-gap: 1rem;
-    min-height: 100vh;
+@import "../variables/variables.scss";
+
+.startup-screen {
+	background-color: $primary-blue;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-button {
-    font-size: 2rem;
-    margin: 0 1rem;
-    width: 9rem;
+.game-config-tab {
+	background-color: $primary-white;
+	border-radius: 2rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	row-gap: 3.2rem;
+	padding: 5.6rem;
+	width: 60rem;
 }
 
-.start-game-btn {
-    width: 14rem;
-    margin-top: 4rem;
+.option-group {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+
+	&.two-options {
+		column-gap: 3rem;
+
+		.option-selector {
+			flex-basis: calc(50% - 1.5rem);
+		}
+	}
+
+	&.four-options {
+		column-gap: 2rem;
+
+		.option-selector {
+			flex-basis: calc(25% - 1.5rem);
+		}
+	}
+
+	.group-title {
+		color: $secondary-blue;
+		font-size: 2rem;
+		flex-basis: 100%;
+		margin-bottom: 1.6rem;
+	}
+
+	.option-selector {
+		button {
+			background-color: $primary-gray;
+			color: $primary-white;
+			width: 100%;
+		}
+	}
+
+	input:checked + .option-button {
+		background-color: $primary-blue;
+	}
 }
 
-input:checked + label button {
-    background-color: coral;
+.start-game-button {
+	background-color: $primary-orange;
+	color: $primary-white;
+	padding: 1.6rem;
 }

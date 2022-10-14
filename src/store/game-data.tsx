@@ -18,59 +18,62 @@ import Snowflake from "../icons/Snowflake";
 import Television from '../icons/Television';
 import Umbrella from '../icons/Umbrella';
 
-export const gameConfigOptions: Array<RadioInputType[]> = [
+export const gameConfigOptions: Array<(string | RadioInputType)[]> = [
 	[
+		"Select Theme",
 		{
-			id: "icons",
+			value: "icons",
 			label: "Icons",
-			group: "gameTheme",
-			checked: true
+			groupName: "gameTheme",
+			isChecked: true
 		},
 		{
-			id: "numbers",
+			value: "numbers",
 			label: "Numbers",
-			group: "gameTheme",
-			checked: false
+			groupName: "gameTheme",
+			isChecked: false
 		}
 	],
 	[
+		"Number Of Players",
 		{
-			id: "one",
-			label: "One",
-			group: "numberOfPlayers",
-			checked: true
+			value: "1",
+			label: "1",
+			groupName: "numberOfPlayers",
+			isChecked: true
 		},
 		{
-			id: "two",
-			label: "Two",
-			group: "numberOfPlayers",
-			checked: false
+			value: "2",
+			label: "2",
+			groupName: "numberOfPlayers",
+			isChecked: false
 		},
 		{
-			id: "three",
-			label: "Three",
-			group: "numberOfPlayers",
-			checked: false
+			value: "3",
+			label: "3",
+			groupName: "numberOfPlayers",
+			isChecked: false
 		},
 		{
-			id: "four",
-			label: "Four",
-			group: "numberOfPlayers",
-			checked: false
+			value: "4",
+			label: "4",
+			groupName: "numberOfPlayers",
+			isChecked: false
 		}
 	],
 	[
+		"Grid Size",
 		{
-			id: "fourTiles",
+			value: "four",
 			label: "4 x 4",
-			group: "gridSize",
-			checked: true
+			groupName: "gridSize",
+			isChecked: true
 		},
 		{
-			id: "sixTiles",
+			value: "six",
 			label: "6 x 6",
-			group: "gridSize",
-			checked: false
+			groupName: "gridSize",
+			isChecked: false
 		}
 	]
 ];

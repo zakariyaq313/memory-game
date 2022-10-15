@@ -18,8 +18,8 @@
 
 		svg {
 			fill: #FCFCFC;
-			height: 50%;
-			width: 50%;
+			height: 70%;
+			width: 70%;
 			opacity: 0;
 			transition: opacity 2s;
 		}
@@ -53,11 +53,11 @@
 }
 
 .four-tiles-column {
-	grid-template-columns: repeat(4, 10rem);
+	grid-template-columns: repeat(4, 11.8rem);
 	gap: 2rem;
 
 	.grid-tile {
-		height: 10rem;
+		height: 11.8rem;
 	}
 }
 

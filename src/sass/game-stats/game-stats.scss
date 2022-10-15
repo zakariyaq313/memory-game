@@ -1,0 +1,26 @@
+@import "../variables/variables.scss";
+
+.game-stats {
+	display: flex;
+	column-gap: 3rem;
+}
+
+.stat-box {
+	background-color: $secondary-gray;
+	border-radius: 1rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 2rem;
+	width: 25rem;
+
+	.stat-label {
+		color: $secondary-blue;
+		font-size: 1.8rem;
+	}
+
+	.stat-value {
+		color: $primary-blue;
+		font-size: 3.2rem;
+	}
+}

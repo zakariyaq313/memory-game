@@ -3,6 +3,7 @@ import Grid from "../components/Grid";
 import Results from "../components/Results";
 import { GameScreenProps, PlayerDataCollectionType, ResultType, TimerType } from "../types/types";
 import "../sass/game-screen/game-screen.scss";
+import "../sass/game-stats/game-stats.scss";
 import Timer from "../components/Timer";
 import PlayerStats from "../components/PlayerStats";
 
@@ -147,25 +148,30 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 				/>
 
 				{numberOfPlayers === 1 &&
-					<React.Fragment>
-						<h1>Moves needed: {movesNeeded}</h1>
-
+					<div className="game-stats">
 						<Timer key={timerKey}
 							gameStarted={gameStarted}
 							gameCompleted={gameCompleted}
 							onSubmitTimeNeeded={submitTimeNeeded}
 						/>
-					</React.Fragment>
+
+						<div className="stat-box">
+							<h3 className="stat-label">Moves</h3>
+							<h2 className="stat-value">{movesNeeded}</h2>
+						</div>
+					</div>
 				}
 
 				{numberOfPlayers > 1 &&
-					<PlayerStats key={playerStatsKey}
-						numberOfPlayers={numberOfPlayers}
-						currentPlayerNumber={currentPlayerNumber}
-						successfulPlayer={successfulPlayerNumber}
-						gameCompleted={gameCompleted}
-						onSubmitPlayerStats={submitPlayerStats}
-					/>
+					<div className="game-stats">
+						<PlayerStats key={playerStatsKey}
+							numberOfPlayers={numberOfPlayers}
+							currentPlayerNumber={currentPlayerNumber}
+							successfulPlayer={successfulPlayerNumber}
+							gameCompleted={gameCompleted}
+							onSubmitPlayerStats={submitPlayerStats}
+						/>
+					</div>
 				}
 
 				{gameCompleted &&

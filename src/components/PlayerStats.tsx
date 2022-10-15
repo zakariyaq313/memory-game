@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { initializePlayers } from "../helper/helper-functions";
 import { PlayerDataCollectionType, PlayerStatsProps } from "../types/types";
+import "../sass/game-stats/game-stats.scss";
 
 type Action = {
 	type: string,
@@ -62,10 +63,10 @@ function PlayerStats(props: PlayerStatsProps): JSX.Element {
 	return (
 		<React.Fragment>
 			{playerData.map((player) => (
-				<h1 key={player.playerNumber}>
-					{player.label}: {player.score} 
-					{currentPlayerNumber === player.playerNumber && "(current player)"}
-				</h1>
+				<div key={player.playerNumber} className="stat-box">
+					<h3 className="stat-label">{player.label}</h3>
+					<h2 className="stat-value">{player.score}</h2>
+				</div>
 			))}
 		</React.Fragment>
 	);

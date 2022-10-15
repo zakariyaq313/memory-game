@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { updateTimer } from "../helper/helper-functions";
 import { TimerProps, TimerType } from "../types/types";
+import "../sass/game-stats/game-stats.scss";
 
 function Timer(props: TimerProps): JSX.Element {
 	const {gameStarted, gameCompleted, onSubmitTimeNeeded} = props;
@@ -39,9 +40,10 @@ function Timer(props: TimerProps): JSX.Element {
 	}, [gameCompleted, timerId, timer, onSubmitTimeNeeded]);
 
 	return (
-		<React.Fragment>
-			<h1>Time needed - {timer.minutes}:{timer.seconds}</h1>
-		</React.Fragment>
+		<div className="stat-box">
+			<h3 className="stat-label">Time</h3>
+			<h2 className="stat-value">{timer.minutes}:{timer.seconds}</h2>
+		</div>
 	);
 }
 

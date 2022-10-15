@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { icons, numbers } from "../store/game-data";
 import { GridProps, IconTileType, NumberTileType } from "../types/types";
 import "../sass/grid/grid.scss";
-import { shuffle } from "../helper/helper-functions";
+import { shuffle } from "../helper-functions/helper-functions";
 import { Set } from "typescript";
 
 function Grid(props: GridProps): JSX.Element {
@@ -24,11 +24,10 @@ function Grid(props: GridProps): JSX.Element {
 	const [visibleTileTwo, setVisibleTileTwo] = useState({tile: "", index: -1});
 
 	const [gameStarted, setGameStart] = useState(false);
-	const [gameCompleted, setGameCompletion] = useState(false);
 	const [currentPlayerNumber, setCurrentPlayer] = useState(1);
 
 	// Create grid tiles
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const iconTiles: IconTileType[] = [];
 		const numberTiles: NumberTileType[] = [];
 
@@ -71,18 +70,15 @@ function Grid(props: GridProps): JSX.Element {
 	]);
 
 	useEffect(() => {
-		if (!gameCompleted) {
-			onUpdateCurrentPlayer(currentPlayerNumber);
-		}
-	}, [gameCompleted, currentPlayerNumber, onUpdateCurrentPlayer]);
+		onUpdateCurrentPlayer(currentPlayerNumber);
+	}, [currentPlayerNumber, onUpdateCurrentPlayer]);
 
 	// Check game status
 	useEffect(() => {
-		if (!gameCompleted && foundTiles.size === ((gridSize ** 2) / 2)) {
-			setGameCompletion(true);
+		if (foundTiles.size === ((gridSize ** 2) / 2)) {
 			onGameCompletion(true);
 		}
-	}, [foundTiles.size, gameCompleted, gridSize, onGameCompletion]);
+	}, [foundTiles.size, gridSize, onGameCompletion]);
 
 	const startGame = () => {
 		setGameStart(true);
@@ -128,18 +124,16 @@ function Grid(props: GridProps): JSX.Element {
 	}
 
 	return (
-		<React.Fragment>
-			<div className={`game-grid ${setGridColumns()}`}
-				onClick={!gameStarted ? startGame : undefined}>
-				{gridTiles.map((tileData, index) => (
-					<button key={index}
-						onClick={() => revealTile(tileData.id, index)}
-						className={`grid-tile ${setTileBackground(tileData.id, index)}`}>
-							{tileIsVisible(tileData.id, index) && tileData.tile}
-					</button>
-				))}
-			</div>
-		</React.Fragment>
+		<div className={`game-grid ${setGridColumns()}`}
+			onClick={!gameStarted ? startGame : undefined}>
+			{gridTiles.map((tileData, index) => (
+				<button key={index}
+					onClick={() => revealTile(tileData.id, index)}
+					className={`grid-tile ${setTileBackground(tileData.id, index)}`}>
+						{tileIsVisible(tileData.id, index) && tileData.tile}
+				</button>
+			))}
+		</div>
 	);
 }
 

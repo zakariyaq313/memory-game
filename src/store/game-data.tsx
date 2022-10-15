@@ -1,6 +1,4 @@
 import { IconTileType, NumberTileType, RadioInputType } from '../types/types';
-import Boat from '../icons/Boat';
-import CableCar from '../icons/CableCar';
 import Cake from '../icons/Cake';
 import Cat from "../icons/Cat";
 import Cone from '../icons/Cone';
@@ -12,8 +10,10 @@ import Fox from '../icons/Fox';
 import GameController from '../icons/GameController';
 import Ghost from "../icons/Ghost";
 import Infinite from "../icons/Infinite";
+import Leaf from '../icons/Leaf';
 import Lemon from '../icons/Lemon';
 import Masks from "../icons/Masks";
+import Money from '../icons/Money';
 import Snowflake from "../icons/Snowflake";
 import Television from '../icons/Television';
 import Umbrella from '../icons/Umbrella';
@@ -88,6 +88,14 @@ export const icons: IconTileType[] = [
 		tile: <Cake />
 	},
 	{
+		id: "leaf",
+		tile: <Leaf />
+	},
+	{
+		id: "money",
+		tile: <Money />
+	},
+	{
 		id: "dragon",
 		tile: <Dragon />
 	},
@@ -112,10 +120,6 @@ export const icons: IconTileType[] = [
 		tile: <Fox />
 	},
 	{
-		id: "cable",
-		tile: <CableCar />
-	},
-	{
 		id: "fork",
 		tile: <Fork />
 	},
@@ -138,10 +142,6 @@ export const icons: IconTileType[] = [
 	{
 		id: "umbrella",
 		tile: <Umbrella />
-	},
-	{
-		id: "boat",
-		tile: <Boat />
 	},
 	{
 		id: "console",

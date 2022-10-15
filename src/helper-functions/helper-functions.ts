@@ -1,5 +1,6 @@
 import { IconTileType, NumberTileType, PlayerDataCollectionType, TimerType } from "../types/types";
 
+// Random shuffle via Fisher Yates Algorithm
 export const shuffle = (array: IconTileType[] | NumberTileType[]) => {
     for (let i = (array.length - 1); i >= 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
@@ -9,6 +10,7 @@ export const shuffle = (array: IconTileType[] | NumberTileType[]) => {
     return array;
 }
 
+// Timer update function
 export function updateTimer(timer: TimerType, startTime: number) {
 	let currentMinutes: number = Number(timer.minutes);
 	let currentSeconds: number = Number(timer.seconds);
@@ -36,10 +38,15 @@ export function updateTimer(timer: TimerType, startTime: number) {
 		updatedSeconds = currentSeconds.toString();
 	}
 
-	return { minutes: updatedMinutes, seconds: updatedSeconds, startTime: updatedStartTime };
+	return {
+		minutes: updatedMinutes,
+		seconds: updatedSeconds,
+		startTime: updatedStartTime
+	};
 }
 
-export function initializePlayers(numberOfPlayers: number) {
+// Initial player stats depending on the number of players
+export function initializePlayers(numberOfPlayers: number): PlayerDataCollectionType {
 	const playerDataCollection: PlayerDataCollectionType = [];
 
 	const playerOne = {
@@ -80,17 +87,4 @@ export function initializePlayers(numberOfPlayers: number) {
 	}
 
     return playerDataCollection;
-}
-
-export function getCurrentPlayerId(playerNumber: number) {
-	switch (playerNumber) {
-		case 2:
-			return "playerTwo";
-		case 3:
-			return "playerThree";
-		case 4:
-			return "playerFour";
-		default:
-			return "playerOne";
-	}
 }

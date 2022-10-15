@@ -101,12 +101,14 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 	}
 
 	const successfulGuess = (playerNumber: number) => {
-		// Time because useeeffect is not triggered if value doesn't change
+		// Time because useeffect is not triggered if value doesn't change
 		setSuccessfulPlayer({player: playerNumber, time: Date.now()});
 	}
 
 	const gameIsComplete = (value: boolean) => {
-		setGameCompleted(value);
+		setTimeout(() => {
+			setGameCompleted(value);
+		}, 600);
 	}
 
 	const submitTimeNeeded = (timeNeeded: TimerType) => {
@@ -128,14 +130,17 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 	}
 
 	return (
-		<main className="game-screen">
-			<header>
+		<main className="in-game-screen">
+			<header className="header-section">
 				<h1>Memory</h1>
 
-				<button onClick={restartGame}>Restart</button>
-				<button onClick={startNewGame}>New Game</button>
+				<div className="control-buttons">
+					<button onClick={restartGame} className="orange-button">Restart</button>
+					<button onClick={startNewGame} className="gray-button">New Game</button>
+				</div>
 			</header>
-			<section>
+
+			<section className="game-section">
 				<Grid key={gridKey}
 					gameTheme={gameTheme}
 					numberOfPlayers={numberOfPlayers}
@@ -147,7 +152,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 					onGameCompletion={gameIsComplete}
 				/>
 
-				{numberOfPlayers === 1 &&
+				{numberOfPlayers === 1 && (
 					<div className="game-stats">
 						<Timer key={timerKey}
 							gameStarted={gameStarted}
@@ -160,9 +165,9 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 							<h2 className="stat-value">{movesNeeded}</h2>
 						</div>
 					</div>
-				}
+				)}
 
-				{numberOfPlayers > 1 &&
+				{numberOfPlayers > 1 && (
 					<div className="game-stats">
 						<PlayerStats key={playerStatsKey}
 							numberOfPlayers={numberOfPlayers}
@@ -172,9 +177,9 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 							onSubmitPlayerStats={submitPlayerStats}
 						/>
 					</div>
-				}
+				)}
 
-				{gameCompleted &&
+				{gameCompleted && (
 					<Results key={resultsKey}
 						numberOfPlayers={numberOfPlayers}
 						movesNeeded={gameResult.movesNeeded}
@@ -183,7 +188,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 						onRestartGame={restartGame}
 						onStartNewGame={startNewGame}
 					/>
-				}
+				)}
 			</section>
 		</main>
 	);

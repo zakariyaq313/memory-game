@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { updateTimer } from "../helper/helper-functions";
 import { TimerProps, TimerType } from "../types/types";
 import "../sass/game-stats/game-stats.scss";
+import { updateTimer } from "../helper-functions/helper-functions";
 
 function Timer(props: TimerProps): JSX.Element {
 	const {gameStarted, gameCompleted, onSubmitTimeNeeded} = props;

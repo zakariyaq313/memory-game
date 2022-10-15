@@ -7,47 +7,27 @@
 		border: none;
 		border-radius: 100%;
 		line-height: 0;
-		width: auto;
-		margin: 0;
 		cursor: pointer;
 		color: #FCFCFC;
-		font-size: 5.6rem;
 		font-weight: 700;
-		vertical-align: middle;
-		transition: background-color 0.4s;
+		transition: all 185ms ease-in-out;
 
 		svg {
 			fill: #FCFCFC;
 			height: 70%;
 			width: 70%;
-			opacity: 0;
-			transition: opacity 2s;
 		}
 
 		&.blue-tile {
 			background-color: $primary-blue;
-			transition: none;
-
-			&:hover {
-				background-color: $hover-blue;
-			}
 		}
-		
+
 		&.orange-tile {
 			background-color: $primary-orange;
-		
-			svg {
-				opacity: 1;
-				transition: opacity 2s;
-			}
 		}
-		
+
 		&.gray-tile {
 			background-color: $primary-gray;
-
-			svg {
-				opacity: 1;
-			}
 		}
 	}
 }
@@ -58,6 +38,7 @@
 
 	.grid-tile {
 		height: 11.8rem;
+		font-size: 5.6rem;
 	}
 }
 

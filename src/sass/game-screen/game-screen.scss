@@ -1,5 +1,55 @@
 @import "../variables/variables.scss";
 
-.game-screen {
+.in-game-screen {
 	background-color: $primary-white;
+	padding: 3.5rem;
+}
+
+.header-section {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	h1 {
+		color: $dark-blue;
+		font-size: 3rem;
+	}
+
+	.control-buttons {
+		button {
+			font-size: 2rem;
+			padding: 1.6rem 2.4rem;
+			transition: background-color 0.2s, color 0.2s;
+
+			&:not(:first-of-type) {
+				margin-left: 1.6rem;
+			}
+		}
+	}
+}
+
+.game-section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 8rem;
+}
+
+.orange-button {
+	background-color: $primary-orange;
+	color: $primary-white;
+
+	&:hover {
+		background-color: $hover-orange;
+	}
+}
+
+.gray-button {
+	background-color: $secondary-gray;
+	color: $primary-blue;
+
+	&:hover {
+		background-color: $hover-blue;
+		color: $primary-white;
+	}
 }

@@ -3,6 +3,7 @@
 .game-stats {
 	display: flex;
 	column-gap: 3rem;
+	margin-top: 6rem;
 }
 
 .stat-box {
@@ -22,5 +23,38 @@
 	.stat-value {
 		color: $primary-blue;
 		font-size: 3.2rem;
+	}
+
+	&.current-player {
+		background-color: $primary-orange;
+		position: relative;
+		color: $primary-white;
+
+		.stat-label, .stat-value {
+			color: inherit;
+		}
+
+		&::before {
+			content: "";
+			height: 3rem;
+			width: 3rem;
+			background-color: inherit;
+			position: absolute;
+			top: -1.5rem;
+			left: 50%;
+			transform: translateX(-50%) rotate(45deg);
+		}
+
+		span {
+			color: $dark-blue;
+			position: absolute;
+			left: 50%;
+			top: calc(100% + 2.2rem);
+			transform: translateX(-50%);
+			text-transform: uppercase;
+			text-align: center;
+			letter-spacing: 5px;
+			width: 100%;
+		}
 	}
 }

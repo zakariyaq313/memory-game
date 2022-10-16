@@ -6,31 +6,13 @@
 	margin-top: 6rem;
 }
 
-.stat-box {
-	background-color: $secondary-gray;
-	border-radius: 1rem;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 2rem;
-	width: 25rem;
-
-	.stat-label {
-		color: $secondary-blue;
-		font-size: 1.8rem;
-	}
-
-	.stat-value {
-		color: $primary-blue;
-		font-size: 3.2rem;
-	}
-
+.stat-bar {
 	&.current-player {
 		background-color: $primary-orange;
 		position: relative;
 		color: $primary-white;
 
-		.stat-label, .stat-value {
+		.bar-label, .bar-value {
 			color: inherit;
 		}
 

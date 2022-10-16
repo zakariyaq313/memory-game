@@ -57,7 +57,7 @@ export type PlayerStatsProps = {
 	currentPlayerNumber: number,
 	successfulPlayer: {player: number, time: number},
 	gameCompleted: boolean,
-	onSubmitPlayerStats: (playerData: PlayerDataCollectionType) => void
+	onSubmitPlayerStats: (playerData: PlayerDataCollectionType, highScore: number) => void
 };
 
 export type RadioInputType = {
@@ -74,7 +74,8 @@ export type RadioInputProps = RadioInputType & {
 export type ResultType = {
 	movesNeeded: number,
 	timeNeeded: TimerType,
-	playerStats: PlayerDataCollectionType
+	playerStats: PlayerDataCollectionType,
+	highScore: number
 };
 
 export type ResultProps = ResultType & {

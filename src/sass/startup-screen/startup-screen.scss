@@ -1,7 +1,7 @@
 @import "../variables/variables.scss";
 
 .startup-screen {
-	background-color: $primary-blue;
+	background-color: $dark-blue;
 	min-height: 100vh;
 	display: flex;
 	align-items: center;
@@ -61,7 +61,5 @@
 }
 
 .start-game-button {
-	background-color: $primary-orange;
-	color: $primary-white;
 	padding: 1.6rem;
 }

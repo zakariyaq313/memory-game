@@ -1,6 +1,7 @@
 import RadioInput from "../components/RadioInput";
 import { gameConfigOptions } from "../store/game-data";
 import "../sass/startup-screen/startup-screen.scss";
+import "../sass/components/components.scss";
 import React, { useReducer } from "react";
 import { StartupScreenProps } from "../types/types";
 
@@ -75,7 +76,7 @@ function StartupScreen(props: StartupScreenProps): JSX.Element {
 					</div>
 				))}
 
-				<button onClick={(e) => startGame(e)} className="start-game-button">
+				<button onClick={(e) => startGame(e)} className="start-game-button orange-button">
 					Start Game
 				</button>
 			</form>

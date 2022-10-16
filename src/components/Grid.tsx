@@ -18,6 +18,7 @@ function Grid(props: GridProps): JSX.Element {
 	} = props;
 
 	const [gridTiles, setGridTiles] = useState<IconTileType[] | NumberTileType[]>([]);
+	const [gridClass, setGridClass] = useState("");
 
 	const [foundTiles, setFoundTiles] = useState<Set<string>>(new Set(""));
 	const [visibleTileOne, setVisibleTileOne] = useState({tile: "", index: -1});
@@ -80,6 +81,14 @@ function Grid(props: GridProps): JSX.Element {
 		}
 	}, [foundTiles.size, gridSize, onGameCompletion]);
 
+	useLayoutEffect(() => {
+		if (gridSize === 4) {
+			setGridClass("four-tiles-column");
+		} else {
+			setGridClass("six-tiles-column");
+		}
+	}, [gridSize]);
+
 	const startGame = () => {
 		setGameStart(true);
 		onGameStarted(true);
@@ -115,16 +124,8 @@ function Grid(props: GridProps): JSX.Element {
 		}
 	}
 
-	const setGridColumns = () => {
-		if (gridSize === 4) {
-			return "four-tiles-column";
-		} else {
-			return "six-tiles-column";
-		}
-	}
-
 	return (
-		<div className={`game-grid ${setGridColumns()}`}
+		<div className={`game-grid ${gridClass}`}
 			onClick={!gameStarted ? startGame : undefined}>
 			{gridTiles.map((tileData, index) => (
 				<button key={index}

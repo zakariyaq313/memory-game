@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useLayoutEffect, useReducer, useState } from "react";
 import { PlayerDataCollectionType, PlayerStatsProps } from "../types/types";
 import "../sass/game-stats/game-stats.scss";
 import { initializePlayers } from "../helper-functions/helper-functions";
@@ -31,10 +31,11 @@ function PlayerStats(props: PlayerStatsProps): JSX.Element {
 		onSubmitPlayerStats
 	} = props;
 	const [playerData, setPlayerData] = useReducer(updatePlayerStats, []);
+	const [highScore, setHighScore] = useState(0);
 	const [statsSubmitted, setStatsSubmitted] = useState(false);
 
 	// Set initial data for players
-	useEffect(() => {
+	useLayoutEffect(() => {
 		setPlayerData({
 			type: "initialize",
 			successfulPlayer: 0,
@@ -54,19 +55,25 @@ function PlayerStats(props: PlayerStatsProps): JSX.Element {
 	}, [successfulPlayer, numberOfPlayers]);
 
 	useEffect(() => {
+		for (const player of playerData) {
+			setHighScore((currentHigh) => Math.max(currentHigh, player.score));
+		}
+	}, [playerData]);
+
+	useEffect(() => {
 		if (gameCompleted && !statsSubmitted) {
-			onSubmitPlayerStats(playerData);
+			onSubmitPlayerStats(playerData, highScore);
 			setStatsSubmitted(true);
 		}
-	}, [gameCompleted, statsSubmitted, playerData, onSubmitPlayerStats]);
+	}, [gameCompleted, statsSubmitted, playerData, highScore, onSubmitPlayerStats]);
 
 	return (
 		<React.Fragment>
 			{playerData.map((player) => (
-				<div key={player.playerNumber} className={`stat-box
+				<div key={player.playerNumber} className={`stat-bar info-bar
 					${player.playerNumber === currentPlayerNumber && "current-player"}`}>
-						<h3 className="stat-label">{player.label}</h3>
-						<h2 className="stat-value">{player.score}</h2>
+						<h3 className="bar-label">{player.label}</h3>
+						<h2 className="bar-value">{player.score}</h2>
 						{player.playerNumber === currentPlayerNumber && (
 							<span>Current turn</span>
 						)}

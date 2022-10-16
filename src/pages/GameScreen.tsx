@@ -1,9 +1,10 @@
-import React, { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Grid from "../components/Grid";
 import Results from "../components/Results";
 import { GameScreenProps, PlayerDataCollectionType, ResultType, TimerType } from "../types/types";
 import "../sass/game-screen/game-screen.scss";
 import "../sass/game-stats/game-stats.scss";
+import "../sass/components/components.scss";
 import Timer from "../components/Timer";
 import PlayerStats from "../components/PlayerStats";
 
@@ -11,7 +12,8 @@ type Action = {
 	type: String,
 	movesNeeded?: number,
 	timeNeeded?: TimerType,
-	playerStats?: PlayerDataCollectionType
+	playerStats?: PlayerDataCollectionType,
+	highScore?: number
 };
 
 const gameResultReducer = (state: ResultType, action: Action) => {
@@ -23,9 +25,10 @@ const gameResultReducer = (state: ResultType, action: Action) => {
 		return {...state,
 			timeNeeded: action.timeNeeded
 		};
-	} else if(action.type === "playerStats" && action.playerStats) {
+	} else if(action.type === "playerStats" && action.playerStats && action.highScore) {
 		return {...state,
-			playerStats: action.playerStats
+			playerStats: action.playerStats,
+			highScore: action.highScore
 		};
 	} else {
 		return {...state};
@@ -50,7 +53,8 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 	const [gameResult, setGameResult] = useReducer(gameResultReducer, {
 		movesNeeded: 0,
 		timeNeeded: {minutes: "00", seconds: "00"},
-		playerStats: []
+		playerStats: [],
+		highScore: 0
 	});
 
 	useEffect(() => {
@@ -101,7 +105,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 	}
 
 	const successfulGuess = (playerNumber: number) => {
-		// Time because useeffect is not triggered if value doesn't change
+		// Time because useeffect in child component is not triggered if value (player) doesn't change
 		setSuccessfulPlayer({player: playerNumber, time: Date.now()});
 	}
 
@@ -118,10 +122,11 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 		});
 	}
 
-	const submitPlayerStats = (playerStats: PlayerDataCollectionType) => {
+	const submitPlayerStats = (playerStats: PlayerDataCollectionType, highScore: number) => {
 		setGameResult({
 			type: "playerStats",
-			playerStats: playerStats
+			playerStats: playerStats,
+			highScore: highScore
 		});
 	}
 
@@ -160,9 +165,9 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 							onSubmitTimeNeeded={submitTimeNeeded}
 						/>
 
-						<div className="stat-box">
-							<h3 className="stat-label">Moves</h3>
-							<h2 className="stat-value">{movesNeeded}</h2>
+						<div className="info-bar stat-bar">
+							<h3 className="bar-label">Moves</h3>
+							<h2 className="bar-value">{movesNeeded}</h2>
 						</div>
 					</div>
 				)}
@@ -185,6 +190,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 						movesNeeded={gameResult.movesNeeded}
 						timeNeeded={gameResult.timeNeeded}
 						playerStats={gameResult.playerStats}
+						highScore={gameResult.highScore}
 						onRestartGame={restartGame}
 						onStartNewGame={startNewGame}
 					/>

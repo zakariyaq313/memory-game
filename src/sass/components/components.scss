@@ -1,0 +1,56 @@
+// CSS Components/code blocks for common structures and elements,
+// not to be mistaken for React components
+
+@import "../variables/variables.scss";
+
+.info-bar {
+	background-color: $secondary-gray;
+	border-radius: 1rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	.bar-label {
+		color: $secondary-blue;
+		font-size: 1.8rem;
+	}
+
+	.bar-value {
+		color: $primary-blue;
+		font-size: 3.2rem;
+	}
+}
+
+.overlay {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	height: 100vh;
+	width: 100vw;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	background-color: rgba($color: #000000, $alpha: 0.6);
+}
+
+.orange-button {
+	background-color: $primary-orange;
+	color: $primary-white;
+	transition: background-color 0.2s, color 0.2s;
+
+	&:hover {
+		background-color: $hover-orange;
+	}
+}
+
+.gray-button {
+	background-color: $secondary-gray;
+	color: $primary-blue;
+	transition: background-color 0.2s, color 0.2s;
+
+	&:hover {
+		background-color: $hover-blue;
+		color: $primary-white;
+	}
+}

@@ -7,6 +7,7 @@ import "../sass/game-stats/game-stats.scss";
 import "../sass/components/components.scss";
 import Timer from "../components/Timer";
 import PlayerStats from "../components/PlayerStats";
+import PausedMenu from "../components/PausedMenu";
 
 type Action = {
 	type: String,
@@ -46,13 +47,15 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 	const [resultsKey, setResultsKey] = useState<string>(`results-key-${Date.now()}`);
 
 	const [gameStarted, setGameStarted] = useState(false);
+	const [gamePaused, setGamePaused] = useState(false);
 	const [gameCompleted, setGameCompleted] = useState(false);
+
 	const [currentPlayerNumber, setCurrentPlayer] = useState(1);
 	const [successfulPlayerNumber, setSuccessfulPlayer] = useState({player: 0, time: 0});
 	const [movesNeeded, setMovesNeeded] = useState(0);
 	const [gameResult, setGameResult] = useReducer(gameResultReducer, {
 		movesNeeded: 0,
-		timeNeeded: {minutes: "00", seconds: "00"},
+		timeNeeded: {minutes: "0", seconds: "00"},
 		playerStats: [],
 		highScore: 0
 	});
@@ -88,6 +91,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 
 	const restartGame = () => {
 		setGameStarted(false);
+		setGamePaused(false);
 		setGameCompleted(false);
 		setMovesNeeded(0);
 		setCurrentPlayer(1);
@@ -100,12 +104,21 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 		setResultsKey(`results-key-${Date.now()}`);
 	}
 
+	const pauseGame = () => {
+		setGamePaused(true);
+	}
+
+	const resumeGame = () => {
+		setGamePaused(false);
+	}
+
 	const updateCurrentPlayer = (playerNumber: number) => {
 		setCurrentPlayer(playerNumber);
 	}
 
 	const successfulGuess = (playerNumber: number) => {
-		// Time because useeffect in child component is not triggered if value (player) doesn't change
+		// The "time" property is added merely to trigger a re-render
+		// in child component in case "player" is the same even after update
 		setSuccessfulPlayer({player: playerNumber, time: Date.now()});
 	}
 
@@ -140,7 +153,10 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 				<h1>Memory</h1>
 
 				<div className="control-buttons">
-					<button onClick={restartGame} className="orange-button">Restart</button>
+					<button onClick={pauseGame} disabled={!gameStarted || gameCompleted}
+						className="orange-button">
+							Pause
+					</button>
 					<button onClick={startNewGame} className="gray-button">New Game</button>
 				</div>
 			</header>
@@ -161,6 +177,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 					<div className="game-stats">
 						<Timer key={timerKey}
 							gameStarted={gameStarted}
+							gamePaused={gamePaused}
 							gameCompleted={gameCompleted}
 							onSubmitTimeNeeded={submitTimeNeeded}
 						/>
@@ -182,6 +199,13 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 							onSubmitPlayerStats={submitPlayerStats}
 						/>
 					</div>
+				)}
+
+				{gamePaused && gameStarted && !gameCompleted && (
+					<PausedMenu onResumeGame={resumeGame}
+						onRestartGame={restartGame}
+						onStartNewGame={startNewGame}
+					/>
 				)}
 
 				{gameCompleted && (

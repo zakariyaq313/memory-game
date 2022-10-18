@@ -48,6 +48,7 @@ export type GridProps = {
 
 export type TimerProps = {
 	gameStarted: boolean,
+	gamePaused: boolean,
 	gameCompleted: boolean,
 	onSubmitTimeNeeded: (timeNeeded: TimerType) => void
 };
@@ -82,4 +83,10 @@ export type ResultProps = ResultType & {
 	numberOfPlayers: number,
 	onStartNewGame: () => void,
 	onRestartGame: () => void
+};
+
+export type PausedMenuProps = {
+	onResumeGame: () => void,
+	onRestartGame: () => void,
+	onStartNewGame: () => void
 };

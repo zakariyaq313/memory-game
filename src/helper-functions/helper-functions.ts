@@ -20,16 +20,19 @@ export function updateTimer(timer: TimerType, startTime: number) {
 
 	if (currentSeconds === 59) {
 		updatedStartTime = Date.now();
+		updatedMinutes = (currentMinutes + 1).toString();
 		currentSeconds = 0;
-		currentMinutes = currentMinutes + 1;
-
-		if (currentMinutes < 10) {
-			updatedMinutes = "0" + currentMinutes;
-		} else {
-			updatedMinutes = currentMinutes.toString();
-		}
 	} else {
-		currentSeconds = Math.floor((Date.now() - startTime) / 1000);
+		const calculatedSeconds = Math.floor((Date.now() - startTime) / 1000);
+
+		// When the game is paused, startTime is reset and calculatedSeconds
+		// evaluates to 0 again, but the timer likely has a higher value saved
+		// for seconds, in that case, updated seconds can simply be (current + 1)
+		if (calculatedSeconds < currentSeconds) {
+			currentSeconds = currentSeconds + 1;			
+		} else {
+			currentSeconds = calculatedSeconds;			
+		}
 	}
 
 	if (currentSeconds < 10) {

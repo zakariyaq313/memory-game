@@ -1,0 +1,23 @@
+@import "../variables/variables.scss";
+
+.paused-menu-card {
+	display: flex;
+	flex-direction: column;
+	row-gap: 2rem;
+	background-color: $primary-white;
+	border-radius: 2rem;
+	padding: 5.4rem;
+	text-align: center;
+
+	h1 {
+		color: $dark-blue;
+		font-size: 4.8rem;
+		margin-bottom: 1rem;
+	}
+
+	button {
+		font-size: 2.4rem;
+		padding: 1.6rem;
+		width: 54rem;
+	}
+}

@@ -39,17 +39,18 @@ export type GridProps = {
 	gameTheme: string,
 	numberOfPlayers: number,
 	gridSize: number,
-	onGameStarted: (value: boolean) => void,
+	onGameStarted: () => void,
 	onUpdateMovesNeeded: () => void,
 	onUpdateCurrentPlayer: (playerNumber: number) => void,
-	onSuccessfulGuess: (playerNumber: number) => void,
-	onGameCompletion: (gameCompleted: boolean) => void
+	onSuccessfulGuess: (playerNumber?: number) => void,
+	onGameCompleted: () => void
 };
 
 export type TimerProps = {
 	gameStarted: boolean,
 	gamePaused: boolean,
 	gameCompleted: boolean,
+	onGameTimedOut: () => void,
 	onSubmitTimeNeeded: (timeNeeded: TimerType) => void
 };
 
@@ -80,6 +81,7 @@ export type ResultType = {
 };
 
 export type ResultProps = ResultType & {
+	gameTimedOut: boolean,
 	numberOfPlayers: number,
 	onStartNewGame: () => void,
 	onRestartGame: () => void

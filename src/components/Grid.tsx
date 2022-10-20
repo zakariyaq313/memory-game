@@ -14,7 +14,7 @@ function Grid(props: GridProps): JSX.Element {
 		onUpdateMovesNeeded,
 		onUpdateCurrentPlayer,
 		onSuccessfulGuess,
-		onGameCompletion
+		onGameCompleted
 	} = props;
 
 	const [gridTiles, setGridTiles] = useState<IconTileType[] | NumberTileType[]>([]);
@@ -50,6 +50,8 @@ function Grid(props: GridProps): JSX.Element {
 					setFoundTiles((foundTiles) => foundTiles.add(visibleTileOne.tile));
 					if (numberOfPlayers > 1) {
 						onSuccessfulGuess(currentPlayerNumber);
+					} else {
+						onSuccessfulGuess();
 					}
 				} else {
 					if (numberOfPlayers > 1) {
@@ -77,9 +79,9 @@ function Grid(props: GridProps): JSX.Element {
 	// Check game status
 	useEffect(() => {
 		if (foundTiles.size === ((gridSize ** 2) / 2)) {
-			onGameCompletion(true);
+			onGameCompleted();
 		}
-	}, [foundTiles.size, gridSize, onGameCompletion]);
+	}, [foundTiles.size, gridSize, onGameCompleted]);
 
 	useLayoutEffect(() => {
 		if (gridSize === 4) {
@@ -91,7 +93,7 @@ function Grid(props: GridProps): JSX.Element {
 
 	const startGame = () => {
 		setGameStart(true);
-		onGameStarted(true);
+		onGameStarted();
 	}
 
 	const revealTile = (tile: string, index: number) => {

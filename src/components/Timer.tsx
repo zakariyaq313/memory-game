@@ -7,6 +7,7 @@ function Timer(props: TimerProps): JSX.Element {
 		gameStarted,
 		gamePaused,
 		gameCompleted,
+		onGameTimedOut,
 		onSubmitTimeNeeded
 	} = props;
 
@@ -36,14 +37,14 @@ function Timer(props: TimerProps): JSX.Element {
 		}
 	}, [gameStarted, gamePaused, gameCompleted]);
 
+	// When the game is paused
 	useEffect(() => {
 		if (gamePaused) {
 			clearInterval(timerId);
-			
 		}
 	}, [gamePaused, timerId]);
 
-	// Stop timer once game is over and submit the time needed
+	// When the game is completed
 	useEffect(() => {
 		if (gameCompleted && timerId) {
 			clearInterval(timerId);
@@ -51,6 +52,13 @@ function Timer(props: TimerProps): JSX.Element {
 			onSubmitTimeNeeded(timer);
 		}
 	}, [gameCompleted, timerId, timer, onSubmitTimeNeeded]);
+
+	// When the game has timed out (10 mins)
+	useEffect(() => {
+		if (Number(timer.minutes) === 10) {
+			onGameTimedOut();
+		}
+	}, [timer.minutes, onGameTimedOut]);
 
 	return (
 		<div className="info-bar stat-bar">

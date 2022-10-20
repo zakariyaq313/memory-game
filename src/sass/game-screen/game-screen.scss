@@ -2,18 +2,13 @@
 
 .in-game-screen {
 	background-color: $primary-white;
-	padding: 3.5rem;
+	padding: 6.4rem ;
 }
 
 .header-section {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-
-	h1 {
-		color: $dark-blue;
-		font-size: 3rem;
-	}
 
 	.control-buttons {
 		button {

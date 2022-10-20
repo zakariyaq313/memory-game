@@ -10,12 +10,11 @@
 		cursor: pointer;
 		color: #FCFCFC;
 		font-weight: 700;
-		transition: all 185ms ease-in-out;
+		transition: all 0.3s ease-in-out;
 
 		svg {
 			fill: #FCFCFC;
-			height: 70%;
-			width: 70%;
+			animation: brighten-up 0.3s;
 		}
 
 		&.blue-tile {
@@ -39,6 +38,11 @@
 	.grid-tile {
 		height: 11.8rem;
 		font-size: 5.6rem;
+
+		svg {
+			height: 70%;
+			width: 70%;
+		}
 	}
 }
 
@@ -48,5 +52,21 @@
 
 	.grid-tile {
 		height: 8rem;
+		font-size: 4.4rem;
+
+		svg {
+			height: 80%;
+			width: 80%;
+		}
+	}
+}
+
+@keyframes brighten-up {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 100%;
 	}
 }

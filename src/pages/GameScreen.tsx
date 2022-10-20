@@ -8,6 +8,7 @@ import "../sass/components/components.scss";
 import Timer from "../components/Timer";
 import PlayerStats from "../components/PlayerStats";
 import PausedMenu from "../components/PausedMenu";
+import Logo from "../icons/Logo";
 
 type Action = {
 	type: String,
@@ -49,6 +50,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 	const [gameStarted, setGameStarted] = useState(false);
 	const [gamePaused, setGamePaused] = useState(false);
 	const [gameCompleted, setGameCompleted] = useState(false);
+	const [gameTimedOut, setGameTimedOut] = useState(false);
 
 	const [currentPlayerNumber, setCurrentPlayer] = useState(1);
 	const [successfulPlayerNumber, setSuccessfulPlayer] = useState({player: 0, time: 0});
@@ -81,8 +83,8 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 		}
 	}, [gameCompleted, movesNeeded]);
 
-	const startGame = (value: boolean) => {
-		setGameStarted(value);
+	const startGame = () => {
+		setGameStarted(true);
 	}
 
 	const startNewGame = () => {
@@ -116,15 +118,28 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 		setCurrentPlayer(playerNumber);
 	}
 
-	const successfulGuess = (playerNumber: number) => {
-		// The "time" property is added merely to trigger a re-render
-		// in child component in case "player" is the same even after update
-		setSuccessfulPlayer({player: playerNumber, time: Date.now()});
+	const successfulGuess = (playerNumber?: number) => {
+		if (playerNumber) {
+			// The "time" property is added merely to trigger a re-render
+			// in child component in case "player" is the same even after update
+			setSuccessfulPlayer({player: playerNumber, time: Date.now()});
+		} else {
+			setGameResult({
+				type: "tilesMatched",
+			});
+		}
 	}
 
-	const gameIsComplete = (value: boolean) => {
+	const endGame = () => {
 		setTimeout(() => {
-			setGameCompleted(value);
+			setGameCompleted(true);
+		}, 600);
+	}
+
+	const gameHasTimedOut = () => {
+		setTimeout(() => {
+			setGameTimedOut(true);
+			setGameCompleted(true);
 		}, 600);
 	}
 
@@ -150,14 +165,18 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 	return (
 		<main className="in-game-screen">
 			<header className="header-section">
-				<h1>Memory</h1>
+				<h1 className="app-title">
+					<Logo />
+					<span>Memory</span>
+				</h1>
 
 				<div className="control-buttons">
-					<button onClick={pauseGame} disabled={!gameStarted || gameCompleted}
-						className="orange-button">
-							Pause
+					<button onClick={pauseGame} className="orange-button" disabled={gameCompleted}>
+						Pause
 					</button>
-					<button onClick={startNewGame} className="gray-button">New Game</button>
+					<button onClick={startNewGame} className="gray-button">
+						New Game
+					</button>
 				</div>
 			</header>
 
@@ -170,7 +189,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 					onUpdateMovesNeeded={updateMovesNeeded}
 					onUpdateCurrentPlayer={updateCurrentPlayer}
 					onSuccessfulGuess={successfulGuess}
-					onGameCompletion={gameIsComplete}
+					onGameCompleted={endGame}
 				/>
 
 				{numberOfPlayers === 1 && (
@@ -179,6 +198,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 							gameStarted={gameStarted}
 							gamePaused={gamePaused}
 							gameCompleted={gameCompleted}
+							onGameTimedOut={gameHasTimedOut}
 							onSubmitTimeNeeded={submitTimeNeeded}
 						/>
 
@@ -201,7 +221,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 					</div>
 				)}
 
-				{gamePaused && gameStarted && !gameCompleted && (
+				{gamePaused && !gameCompleted && (
 					<PausedMenu onResumeGame={resumeGame}
 						onRestartGame={restartGame}
 						onStartNewGame={startNewGame}
@@ -211,6 +231,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 				{gameCompleted && (
 					<Results key={resultsKey}
 						numberOfPlayers={numberOfPlayers}
+						gameTimedOut={gameTimedOut}
 						movesNeeded={gameResult.movesNeeded}
 						timeNeeded={gameResult.timeNeeded}
 						playerStats={gameResult.playerStats}

@@ -4,6 +4,7 @@ import "../sass/startup-screen/startup-screen.scss";
 import "../sass/components/components.scss";
 import React, { useReducer } from "react";
 import { StartupScreenProps } from "../types/types";
+import Logo from "../icons/Logo";
 
 type State = {
 	gameTheme: string,
@@ -54,13 +55,16 @@ function StartupScreen(props: StartupScreenProps): JSX.Element {
 	return (
 		<main className="startup-screen">
 			<form className="game-config-tab">
+				<h1 className="app-title">
+					<Logo />
+					<span>Memory</span>
+				</h1>
 				{gameConfigOptions.map((gameConfigGroup, i) => (
 					<div key={i} className={`option-group 
 						${(gameConfigGroup.length - 1) === 2 ? "two-options" : "four-options"}`}>
 						{gameConfigGroup.map((gameConfig, j) => (
 							// Ternary operator used to render either the
 							// group title or the radio option component
-
 							(typeof gameConfig === "string" ?
 								<h3 key={j} className="group-title">{gameConfig}</h3> :
 

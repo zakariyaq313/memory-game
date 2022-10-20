@@ -1,4 +1,5 @@
 @import "../variables/variables.scss";
+@import "../mixins/mixins.scss";
 
 * {
 	padding: 0;
@@ -8,12 +9,18 @@
 
 html {
 	font-size: 62.5%;
+	font-size: 55%;
 	scroll-behavior: smooth;
+
+	@include respond(1600px) {
+		font-size: 62.5%;
+	}
 }
 
 body {
 	font-family: 'Atkinson Hyperlegible', sans-serif;
 	font-weight: bold;
+	-webkit-tap-highlight-color: transparent;
 }
 
 button {

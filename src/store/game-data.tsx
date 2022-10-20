@@ -88,14 +88,6 @@ export const icons: IconTileType[] = [
 		tile: <Cake />
 	},
 	{
-		id: "leaf",
-		tile: <Leaf />
-	},
-	{
-		id: "money",
-		tile: <Money />
-	},
-	{
 		id: "dragon",
 		tile: <Dragon />
 	},
@@ -116,6 +108,10 @@ export const icons: IconTileType[] = [
 		tile: <Masks />
 	},
 	{
+		id: "snowflake",
+		tile: <Snowflake />
+	},
+	{
 		id: "fox",
 		tile: <Fox />
 	},
@@ -128,8 +124,12 @@ export const icons: IconTileType[] = [
 		tile: <Lemon />
 	},
 	{
-		id: "snowflake",
-		tile: <Snowflake />
+		id: "leaf",
+		tile: <Leaf />
+	},
+	{
+		id: "money",
+		tile: <Money />
 	},
 	{
 		id: "dice",

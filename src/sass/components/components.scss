@@ -3,6 +3,23 @@
 
 @import "../variables/variables.scss";
 
+.app-title {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	column-gap: 0.6rem;
+
+	span {
+		color: $dark-blue;
+		font-size: 3rem;
+	}
+
+	svg {
+		fill: $primary-orange;
+		height: 3rem;
+	}
+}
+
 .info-bar {
 	background-color: $secondary-gray;
 	border-radius: 1rem;
@@ -28,9 +45,8 @@
 	position: fixed;
 	height: 100vh;
 	width: 100vw;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
+	left: 0;
+	top: 0;
 	background-color: rgba($color: #000000, $alpha: 0.6);
 }
 

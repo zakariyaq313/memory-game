@@ -1,9 +1,10 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { ResultProps } from "../types/types";
 import "../sass/results/results.scss";
 
 function Results(props: ResultProps): JSX.Element {
 	const {
+		gameTimedOut,
 		numberOfPlayers,
 		movesNeeded,
 		timeNeeded,
@@ -12,24 +13,23 @@ function Results(props: ResultProps): JSX.Element {
 		onStartNewGame,
 		onRestartGame
 	} = props;
-	const [highScoringPlayers, setHighScoringPlayers] = useState<string[]>([]);
 	const [resultHeading, setResultHeading] = useState("Game results");
 
-	useEffect(() => {
+	useLayoutEffect(() => {
+		const highScoringPlayers: string[] = [];
+
 		for (const player of playerStats) {
 			if (player.score === highScore) {
-				setHighScoringPlayers((players) => [...players, player.label]);
+				highScoringPlayers.push(player.label);
 			}
 		}
-	}, [highScore, playerStats]);
 
-	useLayoutEffect(() => {
 		if (highScoringPlayers.length === 1) {
 			setResultHeading(`${highScoringPlayers[0]} won!`);
 		} else {
 			setResultHeading("It's a tie!");
 		}
-	}, [highScoringPlayers]);
+	}, [highScore, playerStats]);
 
 	const restartGame = () => {
 		onRestartGame();
@@ -41,12 +41,23 @@ function Results(props: ResultProps): JSX.Element {
 
 	return (
 		<div className="overlay">
-			<div className="result-card">
+			<div className="popup-card">
 				{/* Single player end results */}
 				{numberOfPlayers === 1 && (
 					<React.Fragment>
-						<h1 className="result-heading">You did it!</h1>
-						<p className="result-description">Game over! Here's how you got on...</p>
+						{gameTimedOut && (
+							<React.Fragment>
+								<h1 className="card-heading">Time is up!</h1>
+								<p className="card-description">Were you really even playing? :)</p>
+							</React.Fragment>
+						)}
+
+						{!gameTimedOut && (
+							<React.Fragment>
+								<h1 className="card-heading">You did it!</h1>
+								<p className="card-description">Game over! Here's how you got on...</p>
+							</React.Fragment>
+						)}
 
 						<div className="result-bars">
 							<div className="result-bar info-bar">
@@ -55,7 +66,7 @@ function Results(props: ResultProps): JSX.Element {
 							</div>
 
 							<div className="result-bar info-bar">
-								<h3 className="bar-label">Moves taken</h3>
+								<h3 className="bar-label">Moves expended</h3>
 								<h2 className="bar-value">{movesNeeded} Moves</h2>
 							</div>
 						</div>
@@ -65,8 +76,8 @@ function Results(props: ResultProps): JSX.Element {
 				{/* Multiplayer end results */}
 				{numberOfPlayers > 1 && (
 					<React.Fragment>
-						<h1 className="result-heading">{resultHeading}</h1>
-						<p className="result-description">Game over! Here are the results...</p>
+						<h1 className="card-heading">{resultHeading}</h1>
+						<p className="card-description">Game over! Here are the results...</p>
 
 						<div className="result-bars">
 							{playerStats.map((player) => (
@@ -88,7 +99,7 @@ function Results(props: ResultProps): JSX.Element {
 
 				<div className="control-buttons">
 					<button onClick={restartGame} className="orange-button">
-						Restart
+						Play Again
 					</button>
 
 					<button onClick={startNewGame} className="gray-button">

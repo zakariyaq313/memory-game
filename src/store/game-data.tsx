@@ -78,7 +78,7 @@ export const gameConfigOptions: Array<(string | RadioInputType)[]> = [
 	]
 ];
 
-export const icons: IconTileType[] = [
+export const iconTilesCollection: IconTileType[] = [
 	{
 		id: "cat",
 		tile: <Cat />
@@ -153,7 +153,7 @@ export const icons: IconTileType[] = [
 	}
 ];
 
-export const numbers: NumberTileType[] = [
+export const numberTilesCollection: NumberTileType[] = [
 	{
 		id: "one",
 		tile: 1

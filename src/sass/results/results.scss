@@ -1,10 +1,20 @@
 @import "../variables/variables.scss";
+@import "../mixins/mixins.scss";
 
 .popup-card {
 	background-color: $primary-white;
 	border-radius: 2rem;
-	padding: 5rem 5.6rem 7rem;
+	padding: 5rem 5.6rem 6rem;
 	text-align: center;
+
+	@include respond(500px) {
+		width: 90vw;
+		padding: 5rem 4rem 6rem;
+	}
+
+	@include respond(400px) {
+		padding: 5rem 3rem;
+	}
 
 	.control-buttons {
 		display: flex;
@@ -36,6 +46,14 @@
 	.result-bar {
 		padding: 1.5rem 3rem;
 		width: 54rem;
+
+		@include respond(1000px) {
+			width: 48rem;
+		}
+
+		@include respond(500px) {
+			width: auto;
+		}
 
 		&:not(:first-of-type) {
 			margin-top: 1.6rem;

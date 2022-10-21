@@ -84,6 +84,12 @@ function StartupScreen(props: StartupScreenProps): JSX.Element {
 					Start Game
 				</button>
 			</form>
+
+			<p className="credit">Created by
+				<a href="https://github.com/zakariyaq313" target="_blank" rel="noreferrer">
+					Muhammad Zakariya
+				</a>
+			</p>
 		</main>
 	);
 }

@@ -27,16 +27,17 @@ function App(): JSX.Element {
 	}
 	return (
 		<div className="App">
-			{currentScreen === "start-up" &&
+			{currentScreen === "start-up" && (
 				<StartupScreen onSaveGameConfig={saveGameConfig} />
-			}
-			{currentScreen === "in-game" &&
+			)}
+
+			{currentScreen === "in-game" && (
 				<GameScreen gameTheme={gameConfig.gameTheme} 
 					numberOfPlayers={gameConfig.numberOfPlayers}
 					gridSize={gameConfig.gridSize}
 					onStartNewGame={startNewGame}
 				/>
-			}
+			)}
 		</div>
 	);
 }

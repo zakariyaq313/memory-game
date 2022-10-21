@@ -1,10 +1,12 @@
 @import "../variables/variables.scss";
+@import "../mixins/mixins.scss";
 
 .game-grid {
 	display: grid;
 
 	.grid-tile {
 		border: none;
+		outline: none;
 		border-radius: 100%;
 		line-height: 0;
 		cursor: pointer;
@@ -14,17 +16,22 @@
 
 		svg {
 			fill: #FCFCFC;
+		}
+
+		svg, span {
 			animation: brighten-up 0.3s;
 		}
 
 		&.blue-tile {
 			background-color: $primary-blue;
-		}
 
+			&:focus-visible {
+				border: 2px solid $primary-orange;
+			}
+		}
 		&.orange-tile {
 			background-color: $primary-orange;
 		}
-
 		&.gray-tile {
 			background-color: $primary-gray;
 		}
@@ -35,9 +42,26 @@
 	grid-template-columns: repeat(4, 11.8rem);
 	gap: 2rem;
 
+	@include respond(500px) {
+		grid-template-columns: repeat(4, calc(25vw - 3.6rem));
+	}
+
+	@include respond(400px) {
+		gap: 1.2rem;
+		grid-template-columns: repeat(4, calc(25vw - 2.3rem));
+	}
+
 	.grid-tile {
 		height: 11.8rem;
 		font-size: 5.6rem;
+
+		@include respond(500px) {
+			height: calc(25vw - 3.6rem);
+		}
+
+		@include respond(400px) {
+			height: calc(25vw - 2.3rem);
+		}
 
 		svg {
 			height: 70%;
@@ -50,13 +74,36 @@
 	grid-template-columns: repeat(6, 8rem);
 	gap: 1rem;
 
+	@include respond(500px) {
+		grid-template-columns: repeat(6, calc(16.5vw - 2rem));
+	}
+
+	@include respond(400px) {
+		gap: 0.8rem;
+		grid-template-columns: repeat(6, calc(16.5vw - 1.5rem));
+	}
+
 	.grid-tile {
 		height: 8rem;
 		font-size: 4.4rem;
 
+		@include respond(500px) {
+			height: calc(16.5vw - 2rem);
+		}
+
+		@include respond(400px) {
+			height: calc(16.5vw - 1.5rem);
+			font-size: 4rem;
+		}
+
 		svg {
 			height: 80%;
 			width: 80%;
+
+			@include respond(400px) {
+				height: 90%;
+				width: 90%;
+			}
 		}
 	}
 }
@@ -65,7 +112,6 @@
 	from {
 		opacity: 0;
 	}
-
 	to {
 		opacity: 100%;
 	}

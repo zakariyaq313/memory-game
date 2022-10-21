@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useReducer, useState } from "react";
 import { PlayerDataCollectionType, PlayerStatsProps } from "../types/types";
 import "../sass/game-stats/game-stats.scss";
-import { initializePlayers } from "../helper-functions/helper-functions";
+import { initializePlayerStats } from "../helper-functions/helper-functions";
 
 type Action = {
 	type: string,
@@ -11,7 +11,7 @@ type Action = {
 
 const updatePlayerStats = (state: PlayerDataCollectionType, action: Action) => {
 	if (action.type === "initialize") {
-		return initializePlayers(action.numberOfPlayers);
+		return initializePlayerStats(action.numberOfPlayers);
 	} else {
 		return state.map((playerData) => {
 			if (action.successfulPlayer === playerData.playerNumber) {
@@ -71,9 +71,10 @@ function PlayerStats(props: PlayerStatsProps): JSX.Element {
 		<React.Fragment>
 			{playerData.map((player) => (
 				<div key={player.playerNumber} className={`stat-bar info-bar
-					${player.playerNumber === currentPlayerNumber && "current-player"}`}>
+					${player.playerNumber === currentPlayerNumber ? "current-player" : ""}`}>
 						<h3 className="bar-label">{player.label}</h3>
 						<h2 className="bar-value">{player.score}</h2>
+
 						{player.playerNumber === currentPlayerNumber && (
 							<span>Current turn</span>
 						)}

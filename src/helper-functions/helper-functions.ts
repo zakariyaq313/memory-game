@@ -24,10 +24,9 @@ export function updateTimer(timer: TimerType, startTime: number) {
 		currentSeconds = 0;
 	} else {
 		const calculatedSeconds = Math.floor((Date.now() - startTime) / 1000);
-
-		// When the game is paused, startTime is reset and calculatedSeconds
-		// evaluates to 0 again, but the timer likely has a higher value saved
-		// for seconds, in that case, updated seconds can simply be (current + 1)
+		// When the game is resumed from pause, startTime is reset to Date.now() and
+		// calculatedSeconds evaluates to 0, but the timer likely has a higher value
+		// saved for seconds, therefore, updated seconds can simply be saved seconds + 1
 		if (calculatedSeconds < currentSeconds) {
 			currentSeconds = currentSeconds + 1;			
 		} else {
@@ -49,7 +48,7 @@ export function updateTimer(timer: TimerType, startTime: number) {
 }
 
 // Initial player stats depending on the number of players
-export function initializePlayers(numberOfPlayers: number): PlayerDataCollectionType {
+export function initializePlayerStats(numberOfPlayers: number): PlayerDataCollectionType {
 	const playerDataCollection: PlayerDataCollectionType = [];
 
 	const playerOne = {

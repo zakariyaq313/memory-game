@@ -8,12 +8,23 @@
 }
 
 html {
-	font-size: 62.5%;
 	font-size: 55%;
 	scroll-behavior: smooth;
 
 	@include respond(1600px) {
 		font-size: 62.5%;
+	}
+
+	@include respond(1000px) {
+		font-size: 50%;
+	}
+
+	@include respond(600px) {
+		font-size: 45%;
+	}
+
+	@include respond(320px) {
+		font-size: 40%;
 	}
 }
 
@@ -21,6 +32,7 @@ body {
 	font-family: 'Atkinson Hyperlegible', sans-serif;
 	font-weight: bold;
 	-webkit-tap-highlight-color: transparent;
+	-webkit-text-size-adjust: 100%;
 }
 
 button {
@@ -30,4 +42,19 @@ button {
 	font-size: 2.4rem;
 	font-weight: bold;
 	padding: 1rem;
+}
+
+.credit {
+	font-size: 1.2rem;
+	position: absolute;
+	bottom: 3rem;
+	right: 3rem;
+
+	@include respond(600px) {
+		font-size: 1.4rem;
+	}
+
+	a:link, a:visited {
+		padding-left: 4px;
+	}
 }

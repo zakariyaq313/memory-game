@@ -9,25 +9,31 @@ import Timer from "../components/Timer";
 import PlayerStats from "../components/PlayerStats";
 import PausedMenu from "../components/PausedMenu";
 import Logo from "../icons/Logo";
+import { initializePlayerStats } from "../helper-functions/helper-functions";
 
 type Action = {
 	type: String,
 	movesNeeded?: number,
 	timeNeeded?: TimerType,
 	playerStats?: PlayerDataCollectionType,
-	highScore?: number
+	highScore?: number,
+	numberOfPlayers?: number
 };
 
-const gameResultReducer = (state: ResultType, action: Action) => {
+function gameResultReducer(state: ResultType, action: Action): ResultType {
 	if (action.type === "movesNeeded" && action.movesNeeded) {
 		return {...state,
 			movesNeeded: action.movesNeeded
 		};
-	} else if(action.type === "timeNeeded" && action.timeNeeded) {
+	} else if (action.type === "timeNeeded" && action.timeNeeded) {
 		return {...state,
 			timeNeeded: action.timeNeeded
 		};
-	} else if(action.type === "playerStats" && action.playerStats && action.highScore) {
+	} else if (action.type === "initializePlayerStats" && action.numberOfPlayers) {
+		return {...state,
+			playerStats: initializePlayerStats(action.numberOfPlayers)
+		};
+	} else if (action.type === "playerStats" && action.playerStats && action.highScore) {
 		return {...state,
 			playerStats: action.playerStats,
 			highScore: action.highScore
@@ -61,6 +67,15 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 		playerStats: [],
 		highScore: 0
 	});
+
+	useEffect(() => {
+		if (numberOfPlayers > 1) {
+			setGameResult({
+				type: "initializePlayerStats",
+				numberOfPlayers: numberOfPlayers
+			})
+		}
+	}, [numberOfPlayers]);
 
 	useEffect(() => {
 		setNumberOfPlayers(Number(props.numberOfPlayers));
@@ -210,7 +225,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 				)}
 
 				{numberOfPlayers > 1 && (
-					<div className="game-stats">
+					<div className={`game-stats multiplayer-stats total-players-${numberOfPlayers}`}>
 						<PlayerStats key={playerStatsKey}
 							numberOfPlayers={numberOfPlayers}
 							currentPlayerNumber={currentPlayerNumber}
@@ -241,6 +256,12 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 					/>
 				)}
 			</section>
+
+			<p className="credit">Created by
+				<a href="https://github.com/zakariyaq313" target="_blank" rel="noreferrer">
+					Muhammad Zakariya
+				</a>
+			</p>
 		</main>
 	);
 }

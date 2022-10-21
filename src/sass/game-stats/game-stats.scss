@@ -1,42 +1,122 @@
 @import "../variables/variables.scss";
+@import "../mixins/mixins.scss";
 
 .game-stats {
 	display: flex;
 	column-gap: 3rem;
-	margin-top: 6rem;
-}
+	margin-top: 8rem;
 
-.stat-bar {
-	&.current-player {
-		background-color: $primary-orange;
-		position: relative;
-		color: $primary-white;
+	&.multiplayer-stats {
+		padding-bottom: 2rem;
+	}
 
-		.bar-label, .bar-value {
-			color: inherit;
+	&:not(.total-players-3),
+	&:not(.total-players-4) {
+		@include respond(500px) {
+			margin-top: 10rem;
+			width: calc(100vw - 8rem);
+		}
+	
+		@include respond(400px) {
+			column-gap: 2rem;
+			width: calc(100vw - 5.6rem);
 		}
 
-		&::before {
-			content: "";
-			height: 3rem;
-			width: 3rem;
-			background-color: inherit;
-			position: absolute;
-			top: -1.5rem;
-			left: 50%;
-			transform: translateX(-50%) rotate(45deg);
+		.stat-bar {
+			@include respond(500px) {
+				flex-basis: 50%;
+				width: auto;
+			}
 		}
+	}
 
-		span {
-			color: $dark-blue;
-			position: absolute;
-			left: 50%;
-			top: calc(100% + 2.2rem);
-			transform: translateX(-50%);
-			text-transform: uppercase;
-			text-align: center;
-			letter-spacing: 5px;
+	&.total-players-3 {
+		@include respond(800px) {
 			width: 100%;
+			justify-content: space-between;
+		}
+
+		@include respond(600px) {
+			column-gap: 1.6rem;
+		}
+
+		.stat-bar {
+			@include respond(800px) {
+				flex-basis: 35%;
+				width: auto;
+			}
+
+			@include respond(500px) {
+				flex-direction: column;
+				row-gap: 0.6rem;
+			}
+		}
+	}
+
+	&.total-players-4 {
+		@include respond(1100px) {
+			width: 100%;
+			justify-content: space-between;
+		}
+
+		@include respond(800px) {
+			column-gap: 1.6rem;
+		}
+
+		@include respond(400px) {
+			column-gap: 1rem;
+		}
+
+		.stat-bar {
+			@include respond(1100px) {
+				flex-basis: 25%;
+				width: auto;
+			}
+
+			@include respond(800px) {
+				flex-direction: column;
+				row-gap: 0.6rem;
+				padding: 2rem 1rem 1rem;
+			}
+		}
+	}
+
+	.stat-bar {
+		&.current-player {
+			background-color: $primary-orange;
+			position: relative;
+			color: $primary-white;
+	
+			.bar-label, .bar-value {
+				color: inherit;
+			}
+	
+			&::before {
+				content: "";
+				height: 3rem;
+				width: 3rem;
+				background-color: inherit;
+				position: absolute;
+				top: -1.5rem;
+				left: 50%;
+				transform: translateX(-50%) rotate(45deg);
+			}
+	
+			span {
+				color: $dark-blue;
+				position: absolute;
+				left: 50%;
+				top: calc(100% + 2.2rem);
+				transform: translateX(-50%);
+				text-transform: uppercase;
+				text-align: center;
+				letter-spacing: 5px;
+				width: 100%;
+	
+				@include respond(1100px) {
+					display: none;
+				}
+			}
 		}
 	}
 }

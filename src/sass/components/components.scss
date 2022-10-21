@@ -5,18 +5,20 @@
 
 .app-title {
 	display: flex;
+	flex-direction: row-reverse;
 	align-items: center;
 	justify-content: center;
 	column-gap: 0.6rem;
 
 	span {
 		color: $dark-blue;
-		font-size: 3rem;
+		font-size: 4rem;
 	}
 
 	svg {
 		fill: $primary-orange;
-		height: 3rem;
+		height: 3.8rem;
+		display: none;
 	}
 }
 
@@ -48,6 +50,7 @@
 	left: 0;
 	top: 0;
 	background-color: rgba($color: #000000, $alpha: 0.6);
+	z-index: 100;
 }
 
 .orange-button {

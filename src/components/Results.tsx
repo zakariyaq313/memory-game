@@ -66,7 +66,7 @@ function Results(props: ResultProps): JSX.Element {
 							</div>
 
 							<div className="result-bar info-bar">
-								<h3 className="bar-label">Moves expended</h3>
+								<h3 className="bar-label">Moves taken</h3>
 								<h2 className="bar-value">{movesNeeded} Moves</h2>
 							</div>
 						</div>
@@ -103,7 +103,7 @@ function Results(props: ResultProps): JSX.Element {
 					</button>
 
 					<button onClick={startNewGame} className="gray-button">
-						Setup New Game
+						New Game
 					</button>
 				</div>
 			</div>

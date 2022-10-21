@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useState } from "react";
-import { icons, numbers } from "../store/game-data";
+import { iconTilesCollection, numberTilesCollection } from "../store/game-data";
 import { GridProps, IconTileType, NumberTileType } from "../types/types";
 import "../sass/grid/grid.scss";
 import { shuffle } from "../helper-functions/helper-functions";
@@ -33,12 +33,18 @@ function Grid(props: GridProps): JSX.Element {
 		const numberTiles: NumberTileType[] = [];
 
 		if (gameTheme === "icons") {
-			for (const tile of icons) iconTiles.push(tile, tile);
-			if (gridSize === 4) iconTiles.splice(16);
+			for (const tile of iconTilesCollection) {
+				iconTiles.push(tile, tile);
+			}
+
+			(gridSize === 4) && (iconTiles.splice(16));
 			setGridTiles(shuffle(iconTiles));
 		} else {
-			for (const tile of numbers) numberTiles.push(tile, tile);
-			if (gridSize === 4) numberTiles.splice(16);
+			for (const tile of numberTilesCollection) {
+				numberTiles.push(tile, tile);
+			}
+
+			(gridSize === 4) && (numberTiles.splice(16));
 			setGridTiles(shuffle(numberTiles));
 		}
 	}, [gameTheme, gridSize]);
@@ -133,7 +139,14 @@ function Grid(props: GridProps): JSX.Element {
 				<button key={index}
 					onClick={() => revealTile(tileData.id, index)}
 					className={`grid-tile ${setTileBackground(tileData.id, index)}`}>
-						{tileIsVisible(tileData.id, index) && tileData.tile}
+						{tileIsVisible(tileData.id, index) && (
+							// Ternary operator used to render elements conditionally
+							typeof tileData.tile === "number" ?
+							// Number tile
+							<span>{tileData.tile}</span> :
+							// Icon tile
+							tileData.tile
+						)}
 				</button>
 			))}
 		</div>

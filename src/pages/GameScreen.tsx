@@ -1,26 +1,16 @@
 import { useEffect, useReducer, useState } from "react";
-import Grid from "../components/Grid";
-import Results from "../components/Results";
-import { GameScreenProps, PlayerDataCollectionType, ResultType, TimerType } from "../types/types";
+import Timer from "../components/Timer";
+import GameResults from "../components/GameResults";
+import TilesGrid from "../components/TilesGrid";
+import PausedMenu from "../components/PausedMenu";
+import MultiPlayerStats from "../components/MultiPlayerStats";
+import { initializePlayerStats } from "../helper-functions/helper-functions";
+import { GameScreenProps, PlayerDataCollectionType, TimerType, GameResultReducerAction, GameResultReducerState } from "../types/types";
 import "../sass/game-screen/game-screen.scss";
 import "../sass/game-stats/game-stats.scss";
 import "../sass/components/components.scss";
-import Timer from "../components/Timer";
-import PlayerStats from "../components/PlayerStats";
-import PausedMenu from "../components/PausedMenu";
-import Logo from "../icons/Logo";
-import { initializePlayerStats } from "../helper-functions/helper-functions";
 
-type Action = {
-	type: String,
-	movesNeeded?: number,
-	timeNeeded?: TimerType,
-	playerStats?: PlayerDataCollectionType,
-	highScore?: number,
-	numberOfPlayers?: number
-};
-
-function gameResultReducer(state: ResultType, action: Action): ResultType {
+function gameResultReducer(state: GameResultReducerState, action: GameResultReducerAction) {
 	if (action.type === "movesNeeded" && action.movesNeeded) {
 		return {...state,
 			movesNeeded: action.movesNeeded
@@ -44,14 +34,12 @@ function gameResultReducer(state: ResultType, action: Action): ResultType {
 };
 
 function GameScreen(props: GameScreenProps): JSX.Element {
-	const {gameTheme, onStartNewGame} = props;
-	const [numberOfPlayers, setNumberOfPlayers] = useState(1);
-	const [gridSize, setGridSize] = useState(4);
+	const {gameTheme, numberOfPlayers, gridSize, onStartNewGame} = props;
 
 	const [gridKey, setGridKey] = useState<string>(`grid-key-${Date.now()}`);
 	const [timerKey, setTimerKey] = useState<string>(`timer-key-${Date.now()}`);
-	const [playerStatsKey, setPlayerStatsKey] = useState<string>(`player-stats-key-${Date.now()}`);
 	const [resultsKey, setResultsKey] = useState<string>(`results-key-${Date.now()}`);
+	const [playerStatsKey, setPlayerStatsKey] = useState<string>(`player-stats-key-${Date.now()}`);
 
 	const [gameStarted, setGameStarted] = useState(false);
 	const [gamePaused, setGamePaused] = useState(false);
@@ -78,18 +66,6 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 	}, [numberOfPlayers]);
 
 	useEffect(() => {
-		setNumberOfPlayers(Number(props.numberOfPlayers));
-	}, [props.numberOfPlayers]);
-
-	useEffect(() => {
-		if (props.gridSize === "four") {
-			setGridSize(4);
-		} else {
-			setGridSize(6);
-		}
-	}, [props.gridSize]);
-
-	useEffect(() => {
 		if (gameCompleted) {
 			setGameResult({
 				type: "movesNeeded",
@@ -103,7 +79,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 	}
 
 	const startNewGame = () => {
-		onStartNewGame("start-up");
+		onStartNewGame();
 	}
 
 	const restartGame = () => {
@@ -133,19 +109,13 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 		setCurrentPlayer(playerNumber);
 	}
 
-	const successfulGuess = (playerNumber?: number) => {
-		if (playerNumber) {
-			// The "time" property is added merely to trigger a re-render
-			// in child component in case "player" is the same even after update
-			setSuccessfulPlayer({player: playerNumber, time: Date.now()});
-		} else {
-			setGameResult({
-				type: "tilesMatched",
-			});
-		}
+	const successfulGuess = (playerNumber: number) => {
+		// The "time" property is added merely to trigger a re-render
+		// in child component in case "player" is the same even after update
+		setSuccessfulPlayer({player: playerNumber, time: Date.now()});
 	}
 
-	const endGame = () => {
+	const finishGame = () => {
 		setTimeout(() => {
 			setGameCompleted(true);
 		}, 600);
@@ -180,23 +150,16 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 	return (
 		<main className="in-game-screen">
 			<header className="header-section">
-				<h1 className="app-title">
-					<Logo />
-					<span>Memory</span>
-				</h1>
+				<h1 className="app-title">Memory</h1>
 
 				<div className="control-buttons">
-					<button onClick={pauseGame} className="orange-button" disabled={gameCompleted}>
-						Pause
-					</button>
-					<button onClick={startNewGame} className="gray-button">
-						New Game
-					</button>
+					<button onClick={pauseGame} className="orange-button" disabled={gameCompleted}>Pause</button>
+					<button onClick={startNewGame} className="gray-button">New Game</button>
 				</div>
 			</header>
 
 			<section className="game-section">
-				<Grid key={gridKey}
+				<TilesGrid key={gridKey}
 					gameTheme={gameTheme}
 					numberOfPlayers={numberOfPlayers}
 					gridSize={gridSize}
@@ -204,7 +167,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 					onUpdateMovesNeeded={updateMovesNeeded}
 					onUpdateCurrentPlayer={updateCurrentPlayer}
 					onSuccessfulGuess={successfulGuess}
-					onGameCompleted={endGame}
+					onGameCompleted={finishGame}
 				/>
 
 				{numberOfPlayers === 1 && (
@@ -226,7 +189,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 
 				{numberOfPlayers > 1 && (
 					<div className={`game-stats multiplayer-stats total-players-${numberOfPlayers}`}>
-						<PlayerStats key={playerStatsKey}
+						<MultiPlayerStats key={playerStatsKey}
 							numberOfPlayers={numberOfPlayers}
 							currentPlayerNumber={currentPlayerNumber}
 							successfulPlayer={successfulPlayerNumber}
@@ -244,7 +207,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 				)}
 
 				{gameCompleted && (
-					<Results key={resultsKey}
+					<GameResults key={resultsKey}
 						numberOfPlayers={numberOfPlayers}
 						gameTimedOut={gameTimedOut}
 						movesNeeded={gameResult.movesNeeded}
@@ -258,7 +221,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 			</section>
 
 			<p className="credit">Created by
-				<a href="https://github.com/zakariyaq313" target="_blank" rel="noreferrer">
+				<a href="https://zakariyaq313.github.io/my-website/" target="_blank" rel="noreferrer">
 					Muhammad Zakariya
 				</a>
 			</p>

@@ -1,40 +1,42 @@
 import { useState } from "react";
 import GameScreen from "./pages/GameScreen";
-import StartupScreen from "./pages/StartupScreen";
+import StartScreen from "./pages/StartScreen";
+import { GameModeType } from "./types/types";
 import "./sass/base/base.scss";
-import { GameConfigType } from "./types/types";
 
 function App(): JSX.Element {
-	const [currentScreen, setCurrentScreen] = useState("start-up");
-	const [gameConfig, setGameConfig] = useState<GameConfigType>({
+	// Can be "start-screen" or "game-screen"
+	const [currentScreen, setCurrentScreen] = useState("start-screen");
+	const [gameMode, setGameMode] = useState<GameModeType>({
 		gameTheme: "",
-		numberOfPlayers: "",
-		gridSize: ""
+		numberOfPlayers: 1,
+		gridSize: 4
 	})
 
-	const saveGameConfig = (savedGameConfig: GameConfigType, screen: string) => {
-		setGameConfig({
-			gameTheme: savedGameConfig.gameTheme,
-			numberOfPlayers: savedGameConfig.numberOfPlayers,
-			gridSize: savedGameConfig.gridSize
+	const enterGameScreen = (savedGameMode: GameModeType) => {
+		setGameMode({
+			gameTheme: savedGameMode.gameTheme,
+			numberOfPlayers: savedGameMode.numberOfPlayers,
+			gridSize: savedGameMode.gridSize
 		});
 
-		setCurrentScreen(screen);
+		setCurrentScreen("game-screen");
 	}
 
-	const startNewGame = (screen: string) => {
-		setCurrentScreen(screen);
+	const startNewGame = () => {
+		setCurrentScreen("start-screen");
 	}
+
 	return (
 		<div className="App">
-			{currentScreen === "start-up" && (
-				<StartupScreen onSaveGameConfig={saveGameConfig} />
+			{currentScreen === "start-screen" && (
+				<StartScreen onEnterGameScreen={enterGameScreen} />
 			)}
 
-			{currentScreen === "in-game" && (
-				<GameScreen gameTheme={gameConfig.gameTheme} 
-					numberOfPlayers={gameConfig.numberOfPlayers}
-					gridSize={gameConfig.gridSize}
+			{currentScreen === "game-screen" && (
+				<GameScreen gameTheme={gameMode.gameTheme} 
+					numberOfPlayers={gameMode.numberOfPlayers}
+					gridSize={gameMode.gridSize}
 					onStartNewGame={startNewGame}
 				/>
 			)}

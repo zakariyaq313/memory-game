@@ -1,7 +1,7 @@
-import { IconTileType, NumberTileType, PlayerDataCollectionType, TimerType } from "../types/types";
+import { PlayerDataCollectionType, TileType, TimerType } from "../types/types";
 
 // Random shuffle via Fisher Yates Algorithm
-export const shuffle = (array: IconTileType[] | NumberTileType[]) => {
+export function shuffle (array: TileType[]) {
     for (let i = (array.length - 1); i >= 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
@@ -78,15 +78,33 @@ export function initializePlayerStats(numberOfPlayers: number): PlayerDataCollec
 	if (numberOfPlayers >= 1) {
 		playerDataCollection.push(playerOne); 
 	}
+
 	if (numberOfPlayers >= 2) {
 		playerDataCollection.push(playerTwo);
 	}
+
 	if (numberOfPlayers >= 3) {
 		playerDataCollection.push(playerThree);
 	}
+
 	if (numberOfPlayers === 4) {
 		playerDataCollection.push(playerFour);
 	}
 
     return playerDataCollection;
+}
+
+// Create number tiles
+export function createNumberTiles (value: number) {
+	const numberTiles: TileType[] = [];
+	for (let i = 0; i < value; i++) {
+		const tileData = {
+			id: "number-tile-" + i,
+			tile: <span>{i}</span>
+		};
+
+		numberTiles.push(tileData);
+	}
+
+	return numberTiles;
 }

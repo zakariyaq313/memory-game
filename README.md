@@ -1,11 +1,11 @@
-# **♾ Memory Game**
+# **Memory Game**
 
 <img src="./src/assets/screen.png">
 
 **Made using -**
-- `React`
-- `Typescript`
-- `Sass`
+- React
+- Typescript
+- Sass
 
 **Notes -**
 
@@ -15,11 +15,8 @@ This project is a challenge from Frontend Mentor ([link](https://www.frontendmen
 
 For the most part, I didn't have much trouble building up the game logic, and there weren't any surprises or unexpected behaviour in the code. Nonetheless, there were quite a few things that I learned during the course of development of this project. Some of these include -
 - Creating a timer using current time (`Date.now`) and why it is more appropriate than simply incrementing a value on each interval cycle
-
 - Using `hash set` instead of `array` to provide a faster access time for values that would be read frequently
-
 - Implementing the popular algorithm for random shuffle i.e. `Fisher-Yates Algorithm`
-
 - A clearer idea on when to use `state`, `reducer` and `context` each
 
 More about logic and problem solving approach [here](src/README.md).

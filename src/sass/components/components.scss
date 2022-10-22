@@ -4,22 +4,9 @@
 @import "../variables/variables.scss";
 
 .app-title {
-	display: flex;
-	flex-direction: row-reverse;
-	align-items: center;
-	justify-content: center;
-	column-gap: 0.6rem;
-
-	span {
-		color: $dark-blue;
-		font-size: 4rem;
-	}
-
-	svg {
-		fill: $primary-orange;
-		height: 3.8rem;
-		display: none;
-	}
+	color: $dark-blue;
+	font-size: 4rem;
+	text-align: center;
 }
 
 .info-bar {

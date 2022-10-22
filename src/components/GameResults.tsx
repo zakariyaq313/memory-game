@@ -1,8 +1,8 @@
 import React, { useLayoutEffect, useState } from "react";
-import { ResultProps } from "../types/types";
-import "../sass/results/results.scss";
+import { GameResultProps } from "../types/types";
+import "../sass/game-results/game-results.scss";
 
-function Results(props: ResultProps): JSX.Element {
+function GameResults(props: GameResultProps): JSX.Element {
 	const {
 		gameTimedOut,
 		numberOfPlayers,
@@ -38,7 +38,6 @@ function Results(props: ResultProps): JSX.Element {
 	const startNewGame = () => {
 		onStartNewGame();
 	}
-
 	return (
 		<div className="overlay">
 			<div className="popup-card">
@@ -98,17 +97,12 @@ function Results(props: ResultProps): JSX.Element {
 				)}
 
 				<div className="control-buttons">
-					<button onClick={restartGame} className="orange-button">
-						Play Again
-					</button>
-
-					<button onClick={startNewGame} className="gray-button">
-						New Game
-					</button>
+					<button onClick={restartGame} className="orange-button">Play Again</button>
+					<button onClick={startNewGame} className="gray-button">New Game</button>
 				</div>
 			</div>
 		</div>
 	);
 }
 
-export default Results;
+export default GameResults;

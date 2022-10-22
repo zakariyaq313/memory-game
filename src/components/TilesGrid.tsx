@@ -1,11 +1,10 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import { iconTilesCollection, numberTilesCollection } from "../store/game-data";
-import { GridProps, IconTileType, NumberTileType } from "../types/types";
-import "../sass/grid/grid.scss";
 import { shuffle } from "../helper-functions/helper-functions";
-import { Set } from "typescript";
+import { GridProps, TileType } from "../types/types";
+import "../sass/tiles-grid/tiles-grid.scss";
 
-function Grid(props: GridProps): JSX.Element {
+function TilesGrid(props: GridProps): JSX.Element {
 	const {
 		gameTheme,
 		numberOfPlayers,
@@ -17,7 +16,7 @@ function Grid(props: GridProps): JSX.Element {
 		onGameCompleted
 	} = props;
 
-	const [gridTiles, setGridTiles] = useState<IconTileType[] | NumberTileType[]>([]);
+	const [gridTiles, setGridTiles] = useState<TileType[]>([]);
 	const [gridClass, setGridClass] = useState("");
 
 	const [foundTiles, setFoundTiles] = useState<Set<string>>(new Set(""));
@@ -29,26 +28,23 @@ function Grid(props: GridProps): JSX.Element {
 
 	// Create grid tiles
 	useLayoutEffect(() => {
-		const iconTiles: IconTileType[] = [];
-		const numberTiles: NumberTileType[] = [];
+		const tiles: TileType[] = [];
 
 		if (gameTheme === "icons") {
 			for (const tile of iconTilesCollection) {
-				iconTiles.push(tile, tile);
+				tiles.push(tile, tile);
 			}
-
-			(gridSize === 4) && (iconTiles.splice(16));
-			setGridTiles(shuffle(iconTiles));
 		} else {
 			for (const tile of numberTilesCollection) {
-				numberTiles.push(tile, tile);
+				tiles.push(tile, tile);
 			}
-
-			(gridSize === 4) && (numberTiles.splice(16));
-			setGridTiles(shuffle(numberTiles));
 		}
+
+		(gridSize === 4) && (tiles.splice(16));
+		setGridTiles(shuffle(tiles));
 	}, [gameTheme, gridSize]);
 
+	// Compare the two temporary tiles
 	useEffect(() => {
 		if (visibleTileOne.tile && visibleTileTwo.tile) {
 			setTimeout(() => {
@@ -56,8 +52,6 @@ function Grid(props: GridProps): JSX.Element {
 					setFoundTiles((foundTiles) => foundTiles.add(visibleTileOne.tile));
 					if (numberOfPlayers > 1) {
 						onSuccessfulGuess(currentPlayerNumber);
-					} else {
-						onSuccessfulGuess();
 					}
 				} else {
 					if (numberOfPlayers > 1) {
@@ -75,14 +69,13 @@ function Grid(props: GridProps): JSX.Element {
 		visibleTileTwo.tile,
 		currentPlayerNumber,
 		numberOfPlayers,
-		onSuccessfulGuess
+		onSuccessfulGuess,
 	]);
 
 	useEffect(() => {
 		onUpdateCurrentPlayer(currentPlayerNumber);
 	}, [currentPlayerNumber, onUpdateCurrentPlayer]);
 
-	// Check game status
 	useEffect(() => {
 		if (foundTiles.size === ((gridSize ** 2) / 2)) {
 			onGameCompleted();
@@ -131,7 +124,6 @@ function Grid(props: GridProps): JSX.Element {
 			return "blue-tile";
 		}
 	}
-
 	return (
 		<div className={`game-grid ${gridClass}`}
 			onClick={!gameStarted ? startGame : undefined}>
@@ -140,11 +132,6 @@ function Grid(props: GridProps): JSX.Element {
 					onClick={() => revealTile(tileData.id, index)}
 					className={`grid-tile ${setTileBackground(tileData.id, index)}`}>
 						{tileIsVisible(tileData.id, index) && (
-							// Ternary operator used to render elements conditionally
-							typeof tileData.tile === "number" ?
-							// Number tile
-							<span>{tileData.tile}</span> :
-							// Icon tile
 							tileData.tile
 						)}
 				</button>
@@ -153,4 +140,4 @@ function Grid(props: GridProps): JSX.Element {
 	);
 }
 
-export default Grid;
+export default TilesGrid;

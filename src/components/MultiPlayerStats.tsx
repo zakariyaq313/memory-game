@@ -1,15 +1,8 @@
 import React, { useEffect, useLayoutEffect, useReducer, useState } from "react";
-import { PlayerDataCollectionType, PlayerStatsProps } from "../types/types";
-import "../sass/game-stats/game-stats.scss";
 import { initializePlayerStats } from "../helper-functions/helper-functions";
+import { MultiPlayerStatsProps, PlayerStatsReducerAction, PlayerStatsReducerState } from "../types/types";
 
-type Action = {
-	type: string,
-	successfulPlayer: number,
-	numberOfPlayers: number
-};
-
-const updatePlayerStats = (state: PlayerDataCollectionType, action: Action) => {
+function playerStatsReducer (state: PlayerStatsReducerState, action: PlayerStatsReducerAction) {
 	if (action.type === "initialize") {
 		return initializePlayerStats(action.numberOfPlayers);
 	} else {
@@ -22,7 +15,7 @@ const updatePlayerStats = (state: PlayerDataCollectionType, action: Action) => {
 	}
 }
 
-function PlayerStats(props: PlayerStatsProps): JSX.Element {
+function MultiPlayerStats(props: MultiPlayerStatsProps): JSX.Element {
 	const {
 		numberOfPlayers,
 		currentPlayerNumber,
@@ -30,7 +23,8 @@ function PlayerStats(props: PlayerStatsProps): JSX.Element {
 		gameCompleted,
 		onSubmitPlayerStats
 	} = props;
-	const [playerData, setPlayerData] = useReducer(updatePlayerStats, []);
+
+	const [playerData, setPlayerData] = useReducer(playerStatsReducer, []);
 	const [highScore, setHighScore] = useState(0);
 	const [statsSubmitted, setStatsSubmitted] = useState(false);
 
@@ -84,4 +78,4 @@ function PlayerStats(props: PlayerStatsProps): JSX.Element {
 	);
 }
 
-export default PlayerStats;
+export default MultiPlayerStats;

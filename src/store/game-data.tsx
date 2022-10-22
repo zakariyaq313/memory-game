@@ -1,4 +1,4 @@
-import { IconTileType, NumberTileType, RadioInputType } from '../types/types';
+import { GameConfigType, TileType } from '../types/types';
 import Cake from '../icons/Cake';
 import Cat from "../icons/Cat";
 import Cone from '../icons/Cone';
@@ -17,68 +17,76 @@ import Money from '../icons/Money';
 import Snowflake from "../icons/Snowflake";
 import Television from '../icons/Television';
 import Umbrella from '../icons/Umbrella';
+import { createNumberTiles } from '../helper-functions/helper-functions';
 
-export const gameConfigOptions: Array<(string | RadioInputType)[]> = [
-	[
-		"Select Theme",
-		{
-			value: "icons",
-			label: "Icons",
-			groupName: "gameTheme",
-			isChecked: true
-		},
-		{
-			value: "numbers",
-			label: "Numbers",
-			groupName: "gameTheme",
-			isChecked: false
-		}
-	],
-	[
-		"Number Of Players",
-		{
-			value: "1",
-			label: "1",
-			groupName: "numberOfPlayers",
-			isChecked: true
-		},
-		{
-			value: "2",
-			label: "2",
-			groupName: "numberOfPlayers",
-			isChecked: false
-		},
-		{
-			value: "3",
-			label: "3",
-			groupName: "numberOfPlayers",
-			isChecked: false
-		},
-		{
-			value: "4",
-			label: "4",
-			groupName: "numberOfPlayers",
-			isChecked: false
-		}
-	],
-	[
-		"Grid Size",
-		{
-			value: "four",
-			label: "4 x 4",
-			groupName: "gridSize",
-			isChecked: true
-		},
-		{
-			value: "six",
-			label: "6 x 6",
-			groupName: "gridSize",
-			isChecked: false
-		}
-	]
+export const gameConfig: GameConfigType[] = [
+	{
+		title: "Select Theme",
+		options: [
+			{
+				value: "icons",
+				label: "Icons",
+				groupName: "gameTheme",
+				isChecked: true
+			},
+			{
+				value: "numbers",
+				label: "Numbers",
+				groupName: "gameTheme",
+				isChecked: false
+			}
+		]
+	},
+	{
+		title: "Number Of Players",
+		options: [
+			{
+				value: "1",
+				label: "1",
+				groupName: "numberOfPlayers",
+				isChecked: true
+			},
+			{
+				value: "2",
+				label: "2",
+				groupName: "numberOfPlayers",
+				isChecked: false
+			},
+			{
+				value: "3",
+				label: "3",
+				groupName: "numberOfPlayers",
+				isChecked: false
+			},
+			{
+				value: "4",
+				label: "4",
+				groupName: "numberOfPlayers",
+				isChecked: false
+			}
+		]
+	},
+	{
+		title: "Grid Size",
+		options: [
+			{
+				value: "four",
+				label: "4 x 4",
+				groupName: "gridSize",
+				isChecked: true
+			},
+			{
+				value: "six",
+				label: "6 x 6",
+				groupName: "gridSize",
+				isChecked: false
+			}
+		]
+	}
 ];
 
-export const iconTilesCollection: IconTileType[] = [
+export const numberTilesCollection = createNumberTiles(18);
+export const iconTilesCollection: TileType[] = [
 	{
 		id: "cat",
 		tile: <Cat />
@@ -150,80 +158,5 @@ export const iconTilesCollection: IconTileType[] = [
 	{
 		id: "ghost",
 		tile: <Ghost />
-	}
-];
-
-export const numberTilesCollection: NumberTileType[] = [
-	{
-		id: "one",
-		tile: 1
-	},
-	{
-		id: "two",
-		tile: 2
-	},
-	{
-		id: "three",
-		tile: 3
-	},
-	{
-		id: "four",
-		tile: 4
-	},
-	{
-		id: "five",
-		tile: 5
-	},
-	{
-		id: "six",
-		tile: 6
-	},
-	{
-		id: "seven",
-		tile: 7
-	},
-	{
-		id: "eight",
-		tile: 8
-	},
-	{
-		id: "nine",
-		tile: 9
-	},
-	{
-		id: "ten",
-		tile: 10
-	},
-	{
-		id: "eleven",
-		tile: 11
-	},
-	{
-		id: "twelve",
-		tile: 12
-	},
-	{
-		id: "thirteen",
-		tile: 13
-	},
-	{
-		id: "fourteen",
-		tile: 14
-	},
-	{
-		id: "fifteen",
-		tile: 15
-	},
-	{
-		id: "sixteen",
-		tile: 16
-	},
-	{
-		id: "seventeen",
-		tile: 17
-	},
-	{
-		id: "eighteen",
-		tile: 18
 	}
 ];

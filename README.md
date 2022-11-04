@@ -13,9 +13,9 @@
 </p>
 
 **Made using -**
-- React
-- Typescript
-- Sass
+- React + Typescript
+- Sass / SCSS
+- Icon components are custom made (by picking individual icons of choice from Font Awesome and Flaticon in the form of SVG and converting them into JSX components using this website - https://svg2jsx.com/)
 - **No additional libraries used**
 
 **Notes -**

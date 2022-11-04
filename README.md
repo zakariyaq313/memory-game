@@ -7,9 +7,9 @@
 **Mobile screenshots -**
 
 <p float="left">
-	<img src="./src/assets/mobile-1.jpg" width="33%" />
-	<img src="./src/assets/mobile-2.jpg" width="33%" /> 
-	<img src="./src/assets/mobile-3.jpg" width="33%" />
+	<img src="./src/assets/mobile-1.jpg" width="32%" />
+	<img src="./src/assets/mobile-2.jpg" width="32%" /> 
+	<img src="./src/assets/mobile-3.jpg" width="32%" />
 </p>
 
 **Made using -**

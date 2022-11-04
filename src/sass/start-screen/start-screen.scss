@@ -1,7 +1,7 @@
 @import "../variables/variables.scss";
 @import "../mixins/mixins.scss";
 
-.startup-screen {
+.start-screen {
 	background-color: $dark-blue;
 	min-height: 100vh;
 	display: flex;
@@ -40,53 +40,8 @@
 	@include respond(400px) {
 		padding: 4rem;
 	}
-}
 
-.option-group {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-
-	&.two-options {
-		.option-selector {
-			flex-basis: calc(50% - 1.5rem);
-
-			@include respond(400px) {
-				flex-basis: calc(50% - 1rem);
-			}
-		}
+	.start-game-button {
+		padding: 1.6rem;
 	}
-
-	&.four-options {
-		.option-selector {
-			flex-basis: calc(25% - 1.5rem);
-
-			@include respond(400px) {
-				flex-basis: calc(25% - 1rem);
-			}
-		}
-	}
-
-	.group-title {
-		color: $secondary-blue;
-		font-size: 2rem;
-		flex-basis: 100%;
-		margin-bottom: 1.6rem;
-	}
-
-	.option-selector {
-		button {
-			background-color: $primary-gray;
-			color: $primary-white;
-			width: 100%;
-		}
-	}
-
-	input:checked + .option-button {
-		background-color: $primary-blue;
-	}
-}
-
-.start-game-button {
-	padding: 1.6rem;
 }

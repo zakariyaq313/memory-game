@@ -1,13 +1,13 @@
 import { PlayerDataCollectionType, TileType, TimerType } from "../types/types";
 
 // Random shuffle via Fisher Yates Algorithm
-export function shuffle (array: TileType[]) {
-    for (let i = (array.length - 1); i >= 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
+export function randomShuffle (tiles: TileType[]) {
+	for (let i = (tiles.length - 1); i >= 0; i--) {
+		let j = Math.floor(Math.random() * (i + 1));
+		[tiles[i], tiles[j]] = [tiles[j], tiles[i]];
+	}
 
-    return array;
+	return tiles;
 }
 
 // Timer update function
@@ -91,13 +91,13 @@ export function initializePlayerStats(numberOfPlayers: number): PlayerDataCollec
 		playerDataCollection.push(playerFour);
 	}
 
-    return playerDataCollection;
+	return playerDataCollection;
 }
 
 // Create number tiles
 export function createNumberTiles (value: number) {
 	const numberTiles: TileType[] = [];
-	for (let i = 0; i < value; i++) {
+	for (let i = 1; i <= value; i++) {
 		const tileData = {
 			id: "number-tile-" + i,
 			tile: <span>{i}</span>

@@ -1,8 +1,12 @@
 import React, { useRef } from "react";
-import { GameModeOptionProps } from '../types/types';
-import "../sass/game-mode-option/game-mode-option.scss";
+import { GameModeOptionType } from "../types/types";
+import "../sass/mode-select-button/mode-select-button.scss";
 
-function GameModeOption(props: GameModeOptionProps): JSX.Element {
+type Props = GameModeOptionType & {
+	onUpdateGameMode: (group: string, value: string) => void
+};
+
+function ModeSelectButton(props: Props): JSX.Element {
 	const {value, label, groupName, isChecked, onUpdateGameMode} = props;
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -10,7 +14,7 @@ function GameModeOption(props: GameModeOptionProps): JSX.Element {
 		onUpdateGameMode(groupName, value);
 	}
 
-	const triggerInputCheck = (e: React.MouseEvent) => {
+	const triggerInputChange = (e: React.MouseEvent) => {
 		e.preventDefault();
 		inputRef.current?.click();
 	}
@@ -24,11 +28,11 @@ function GameModeOption(props: GameModeOptionProps): JSX.Element {
 				onChange={updateGameMode}
 			/>
 
-			<button onClick={(e) => triggerInputCheck(e)} className="option-button">
+			<button onClick={(e) => triggerInputChange(e)} className="option-button">
 				{label}
 			</button>
 		</div>
 	);
 }
 
-export default GameModeOption;
+export default ModeSelectButton;

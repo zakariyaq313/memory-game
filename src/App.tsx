@@ -1,6 +1,6 @@
 import { useState } from "react";
-import GameScreen from "./pages/GameScreen";
-import StartScreen from "./pages/StartScreen";
+import GameScreen from "./screens/GameScreen";
+import StartScreen from "./screens/StartScreen";
 import { GameModeType } from "./types/types";
 import "./sass/base/base.scss";
 

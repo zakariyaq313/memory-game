@@ -12,6 +12,7 @@
 		cursor: pointer;
 		color: #FCFCFC;
 		font-weight: 700;
+		padding: 1rem;
 		transition: all 0.3s ease-in-out;
 
 		svg {
@@ -26,12 +27,15 @@
 			background-color: $primary-blue;
 
 			&:focus-visible {
-				border: 2px solid $primary-orange;
+				outline: $primary-orange solid 1.2rem;
+				outline-offset: 4px;
 			}
 		}
+
 		&.orange-tile {
 			background-color: $primary-orange;
 		}
+
 		&.gray-tile {
 			background-color: $primary-gray;
 		}

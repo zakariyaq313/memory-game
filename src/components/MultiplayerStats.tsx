@@ -1,8 +1,15 @@
-import React, { useEffect, useLayoutEffect, useReducer, useState } from "react";
+import { Fragment, useEffect, useLayoutEffect, useReducer, useState } from "react";
 import { initializePlayerStats } from "../helper-functions/helper-functions";
-import { MultiPlayerStatsProps, PlayerStatsReducerAction, PlayerStatsReducerState } from "../types/types";
+import { PlayerDataCollectionType } from "../types/types";
 
-function playerStatsReducer (state: PlayerStatsReducerState, action: PlayerStatsReducerAction) {
+type State = PlayerDataCollectionType;
+type Action = {
+	type: string,
+	successfulPlayer: number,
+	numberOfPlayers: number
+};
+
+function playerStatsReducer (state: State, action: Action) {
 	if (action.type === "initialize") {
 		return initializePlayerStats(action.numberOfPlayers);
 	} else {
@@ -15,7 +22,17 @@ function playerStatsReducer (state: PlayerStatsReducerState, action: PlayerStats
 	}
 }
 
-function MultiPlayerStats(props: MultiPlayerStatsProps): JSX.Element {
+type Props = {
+	numberOfPlayers: number,
+	currentPlayerNumber: number,
+	// Only playerNumber needed here, but time (Date.now) added to trigger a re-render
+	// in case updated value of playerNumber is the same as orignal value
+	successfulPlayer: {player: number, time: number},
+	gameCompleted: boolean,
+	onSubmitPlayerStats: (playerData: PlayerDataCollectionType, highScore: number) => void
+};
+
+function MultiplayerStats(props: Props): JSX.Element {
 	const {
 		numberOfPlayers,
 		currentPlayerNumber,
@@ -62,7 +79,7 @@ function MultiPlayerStats(props: MultiPlayerStatsProps): JSX.Element {
 	}, [gameCompleted, statsSubmitted, playerData, highScore, onSubmitPlayerStats]);
 
 	return (
-		<React.Fragment>
+		<Fragment>
 			{playerData.map((player) => (
 				<div key={player.playerNumber} className={`stat-bar info-bar
 					${player.playerNumber === currentPlayerNumber ? "current-player" : ""}`}>
@@ -74,8 +91,8 @@ function MultiPlayerStats(props: MultiPlayerStatsProps): JSX.Element {
 						)}
 				</div>
 			))}
-		</React.Fragment>
+		</Fragment>
 	);
 }
 
-export default MultiPlayerStats;
+export default MultiplayerStats;

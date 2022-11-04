@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
-import { TimerProps, TimerType } from "../types/types";
+import { TimerType } from "../types/types";
 import { updateTimer } from "../helper-functions/helper-functions";
 
-function Timer(props: TimerProps): JSX.Element {
+type Props = {
+	gameStarted: boolean,
+	gamePaused: boolean,
+	gameCompleted: boolean,
+	onGameTimedOut: () => void,
+	onSubmitTimeNeeded: (timeNeeded: TimerType) => void
+};
+
+function Timer(props: Props): JSX.Element {
 	const {
 		gameStarted,
 		gamePaused,

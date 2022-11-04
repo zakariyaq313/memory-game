@@ -26,9 +26,8 @@
 	}
 
 	button {
-		font-size: 2.4rem;
 		padding: 1.6rem;
-		width: 42rem;
+		width: 44rem;
 
 		@include respond(500px) {
 			width: auto;

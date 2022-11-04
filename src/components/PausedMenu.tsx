@@ -1,7 +1,12 @@
-import { PausedMenuProps } from "../types/types";
-import "../sass/paused-screen/paused-screen.scss";
+import "../sass/paused-menu/paused-menu.scss";
 
-function PausedMenu(props: PausedMenuProps): JSX.Element {
+type Props = {
+	onResumeGame: () => void,
+	onRestartGame: () => void,
+	onStartNewGame: () => void
+};
+
+function PausedMenu(props: Props): JSX.Element {
 	const {onResumeGame, onRestartGame, onStartNewGame} = props;
 
 	const resumeGame = () => {

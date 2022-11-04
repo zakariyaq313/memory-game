@@ -1,0 +1,52 @@
+@import "../variables/variables.scss";
+@import "../mixins/mixins.scss";
+
+.option-group {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+
+    .group-title {
+		color: $secondary-blue;
+		font-size: 2rem;
+		flex-basis: 100%;
+		margin-bottom: 1.6rem;
+	}
+
+	.option-selector {
+		button {
+			background-color: $primary-gray;
+			color: $primary-white;
+			padding: 1rem;
+			width: 100%;
+		}
+	}
+
+	input {
+		display: none;
+	}
+
+	input:checked + .option-button {
+		background-color: $primary-blue;
+	}
+
+	&.two-options {
+		.option-selector {
+			flex-basis: calc(50% - 1.5rem);
+
+			@include respond(400px) {
+				flex-basis: calc(50% - 1rem);
+			}
+		}
+	}
+
+	&.four-options {
+		.option-selector {
+			flex-basis: calc(25% - 1.5rem);
+
+			@include respond(400px) {
+				flex-basis: calc(25% - 1rem);
+			}
+		}
+	}
+}

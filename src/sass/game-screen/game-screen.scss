@@ -1,7 +1,7 @@
 @import "../variables/variables.scss";
 @import "../mixins/mixins.scss";
 
-.in-game-screen {
+.game-screen {
 	background-color: $primary-white;
 	padding: 6.4rem 6.4rem 8rem;
 	position: relative;
@@ -40,7 +40,6 @@
 
 	.control-buttons {
 		button {
-			font-size: 2rem;
 			padding: 1.6rem 2.4rem;
 
 			&:not(:first-of-type) {

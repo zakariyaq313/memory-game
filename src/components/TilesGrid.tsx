@@ -1,10 +1,21 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import { iconTilesCollection, numberTilesCollection } from "../store/game-data";
-import { shuffle } from "../helper-functions/helper-functions";
-import { GridProps, TileType } from "../types/types";
+import { randomShuffle } from "../helper-functions/helper-functions";
+import { TileType } from "../types/types";
 import "../sass/tiles-grid/tiles-grid.scss";
 
-function TilesGrid(props: GridProps): JSX.Element {
+type Props = {
+	gameTheme: string,
+	numberOfPlayers: number,
+	gridSize: number,
+	onGameStarted: () => void,
+	onUpdateMovesNeeded: () => void,
+	onUpdateCurrentPlayer: (playerNumber: number) => void,
+	onSuccessfulGuess: (playerNumber: number) => void,
+	onGameCompleted: () => void
+};
+
+function TilesGrid(props: Props): JSX.Element {
 	const {
 		gameTheme,
 		numberOfPlayers,
@@ -41,7 +52,7 @@ function TilesGrid(props: GridProps): JSX.Element {
 		}
 
 		(gridSize === 4) && (tiles.splice(16));
-		setGridTiles(shuffle(tiles));
+		setGridTiles(randomShuffle(tiles));
 	}, [gameTheme, gridSize]);
 
 	// Compare the two temporary tiles
@@ -60,7 +71,6 @@ function TilesGrid(props: GridProps): JSX.Element {
 						});
 					}
 				}
-
 				setVisibleTileOne({tile: "", index: -1});
 				setVisibleTileTwo({tile: "", index: -1});
 			}, 600);

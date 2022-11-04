@@ -1,8 +1,15 @@
-import React, { useLayoutEffect, useState } from "react";
-import { GameResultProps } from "../types/types";
+import { Fragment, useLayoutEffect, useState } from "react";
+import { GameResultType } from "../types/types";
 import "../sass/game-results/game-results.scss";
 
-function GameResults(props: GameResultProps): JSX.Element {
+type Props = GameResultType & {
+	gameTimedOut: boolean,
+	numberOfPlayers: number,
+	onStartNewGame: () => void,
+	onRestartGame: () => void
+};
+
+function GameResults(props: Props): JSX.Element {
 	const {
 		gameTimedOut,
 		numberOfPlayers,
@@ -43,19 +50,19 @@ function GameResults(props: GameResultProps): JSX.Element {
 			<div className="popup-card">
 				{/* Single player end results */}
 				{numberOfPlayers === 1 && (
-					<React.Fragment>
+					<Fragment>
 						{gameTimedOut && (
-							<React.Fragment>
+							<Fragment>
 								<h1 className="card-heading">Time is up!</h1>
 								<p className="card-description">Were you really even playing? :)</p>
-							</React.Fragment>
+							</Fragment>
 						)}
 
 						{!gameTimedOut && (
-							<React.Fragment>
+							<Fragment>
 								<h1 className="card-heading">You did it!</h1>
 								<p className="card-description">Game over! Here's how you got on...</p>
-							</React.Fragment>
+							</Fragment>
 						)}
 
 						<div className="result-bars">
@@ -69,12 +76,12 @@ function GameResults(props: GameResultProps): JSX.Element {
 								<h2 className="bar-value">{movesNeeded} Moves</h2>
 							</div>
 						</div>
-					</React.Fragment>
+					</Fragment>
 				)}
 
 				{/* Multiplayer end results */}
 				{numberOfPlayers > 1 && (
-					<React.Fragment>
+					<Fragment>
 						<h1 className="card-heading">{resultHeading}</h1>
 						<p className="card-description">Game over! Here are the results...</p>
 
@@ -93,7 +100,7 @@ function GameResults(props: GameResultProps): JSX.Element {
 								</div>
 							))}
 						</div>
-					</React.Fragment>
+					</Fragment>
 				)}
 
 				<div className="control-buttons">

@@ -1,11 +1,24 @@
 import React, { useReducer } from "react";
 import { gameConfig } from "../store/game-data";
-import { GameModeReducerAction, GameModeReducerState, StartScreenProps } from "../types/types";
-import SelectOption from "../components/GameModeOption";
+import { GameModeType } from "../types/types";
+import SelectOption from "../components/ModeSelectButton";
 import "../sass/start-screen/start-screen.scss";
 import "../sass/components/components.scss";
 
-function gameModeReducer(state: GameModeReducerState, action: GameModeReducerAction) {
+type State = {
+	gameTheme: string,
+	numberOfPlayers: number,
+	gridSize: number
+};
+
+type Action = {
+	type: string,
+	gameTheme?: string,
+	numberOfPlayers?: string,
+	gridSize?: string
+};
+
+function gameModeReducer(state: State, action: Action) {
 	if (action.type === "gameTheme" && action.gameTheme) {
 		return {...state,
 			gameTheme: action.gameTheme
@@ -23,7 +36,11 @@ function gameModeReducer(state: GameModeReducerState, action: GameModeReducerAct
 	}
 }
 
-function StartScreen(props: StartScreenProps): JSX.Element {
+type Props = {
+	onEnterGameScreen: (gameMode: GameModeType) => void
+};
+
+function StartScreen(props: Props): JSX.Element {
 	const [currentGameMode, setCurrentGameMode] = useReducer(gameModeReducer, {
 		gameTheme: "icons",
 		numberOfPlayers: 1,
@@ -33,27 +50,27 @@ function StartScreen(props: StartScreenProps): JSX.Element {
 	const updateGameMode = (groupName: string, value: string) => {
 		setCurrentGameMode({
 			type: groupName,
-			[groupName as keyof GameModeReducerAction]: value
+			[groupName as keyof Action]: value
 		});
 	}
 
 	const optionSelected = (groupName: string, value: string) => {
 		if (groupName === "numberOfPlayers") {
-			return currentGameMode[groupName as keyof GameModeReducerState] === Number(value);
+			return currentGameMode[groupName as keyof State] === Number(value);
 		} else if (groupName === "gridSize") {
-			return currentGameMode[groupName as keyof GameModeReducerState] === ((value === "four") ? 4 : 6);
+			return currentGameMode[groupName as keyof State] === ((value === "four") ? 4 : 6);
 		} else {
-			return currentGameMode[groupName as keyof GameModeReducerState] === value;
+			return currentGameMode[groupName as keyof State] === value;
 		}
 	}
 
-	const startGame = (e: React.MouseEvent) => {
+	const enterGameScreen = (e: React.MouseEvent) => {
 		e.preventDefault();
 		props.onEnterGameScreen(currentGameMode);
 	}
 
 	return (
-		<main className="startup-screen">
+		<main className="start-screen">
 			<form className="game-config-tab">
 				<h1 className="app-title">Memory</h1>
 
@@ -74,7 +91,7 @@ function StartScreen(props: StartScreenProps): JSX.Element {
 					</div>
 				))}
 
-				<button onClick={(e) => startGame(e)} className="start-game-button orange-button">
+				<button onClick={(e) => enterGameScreen(e)} className="start-game-button orange-button">
 					Start Game
 				</button>
 			</form>

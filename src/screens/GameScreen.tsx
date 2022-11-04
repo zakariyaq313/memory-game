@@ -3,14 +3,24 @@ import Timer from "../components/Timer";
 import GameResults from "../components/GameResults";
 import TilesGrid from "../components/TilesGrid";
 import PausedMenu from "../components/PausedMenu";
-import MultiPlayerStats from "../components/MultiPlayerStats";
+import MultiPlayerStats from "../components/MultiplayerStats";
 import { initializePlayerStats } from "../helper-functions/helper-functions";
-import { GameScreenProps, PlayerDataCollectionType, TimerType, GameResultReducerAction, GameResultReducerState } from "../types/types";
+import { PlayerDataCollectionType, TimerType, GameResultType, GameModeType } from "../types/types";
 import "../sass/game-screen/game-screen.scss";
-import "../sass/game-stats/game-stats.scss";
+import "../sass/multiplayer-stats/multiplayer-stats.scss";
 import "../sass/components/components.scss";
 
-function gameResultReducer(state: GameResultReducerState, action: GameResultReducerAction) {
+type State = GameResultType;
+type Action = {
+	type: String,
+	movesNeeded?: number,
+	timeNeeded?: TimerType,
+	playerStats?: PlayerDataCollectionType,
+	highScore?: number,
+	numberOfPlayers?: number
+};
+
+function gameResultReducer(state: State, action: Action) {
 	if (action.type === "movesNeeded" && action.movesNeeded) {
 		return {...state,
 			movesNeeded: action.movesNeeded
@@ -33,7 +43,11 @@ function gameResultReducer(state: GameResultReducerState, action: GameResultRedu
 	}
 };
 
-function GameScreen(props: GameScreenProps): JSX.Element {
+type Props = GameModeType & {
+	onStartNewGame: () => void,
+};
+
+function GameScreen(props: Props): JSX.Element {
 	const {gameTheme, numberOfPlayers, gridSize, onStartNewGame} = props;
 
 	const [gridKey, setGridKey] = useState<string>(`grid-key-${Date.now()}`);
@@ -66,23 +80,32 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 	}, [numberOfPlayers]);
 
 	useEffect(() => {
-		if (gameCompleted) {
+		if (gameCompleted && (numberOfPlayers === 1)) {
 			setGameResult({
 				type: "movesNeeded",
 				movesNeeded: movesNeeded
 			})
 		}
-	}, [gameCompleted, movesNeeded]);
+	}, [gameCompleted, numberOfPlayers, movesNeeded]);
 
 	const startGame = () => {
 		setGameStarted(true);
 	}
 
-	const startNewGame = () => {
+	const pauseGame = () => {
+		setGamePaused(true);
+	}
+
+	const resumeGame = () => {
+		setGamePaused(false);
+	}
+
+	const newGame = () => {
 		onStartNewGame();
 	}
 
 	const restartGame = () => {
+		// Reset state values to initial
 		setGameStarted(false);
 		setGamePaused(false);
 		setGameCompleted(false);
@@ -97,16 +120,12 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 		setResultsKey(`results-key-${Date.now()}`);
 	}
 
-	const pauseGame = () => {
-		setGamePaused(true);
-	}
-
-	const resumeGame = () => {
-		setGamePaused(false);
-	}
-
 	const updateCurrentPlayer = (playerNumber: number) => {
 		setCurrentPlayer(playerNumber);
+	}
+
+	const updateMovesNeeded = () => {
+		setMovesNeeded((moves) => moves + 1);
 	}
 
 	const successfulGuess = (playerNumber: number) => {
@@ -143,18 +162,14 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 		});
 	}
 
-	const updateMovesNeeded = () => {
-		setMovesNeeded((moves) => moves + 1);
-	}
-
 	return (
-		<main className="in-game-screen">
+		<main className="game-screen">
 			<header className="header-section">
 				<h1 className="app-title">Memory</h1>
 
 				<div className="control-buttons">
 					<button onClick={pauseGame} className="orange-button" disabled={gameCompleted}>Pause</button>
-					<button onClick={startNewGame} className="gray-button">New Game</button>
+					<button onClick={newGame} className="gray-button">New Game</button>
 				</div>
 			</header>
 
@@ -202,7 +217,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 				{gamePaused && !gameCompleted && (
 					<PausedMenu onResumeGame={resumeGame}
 						onRestartGame={restartGame}
-						onStartNewGame={startNewGame}
+						onStartNewGame={newGame}
 					/>
 				)}
 
@@ -215,7 +230,7 @@ function GameScreen(props: GameScreenProps): JSX.Element {
 						playerStats={gameResult.playerStats}
 						highScore={gameResult.highScore}
 						onRestartGame={restartGame}
-						onStartNewGame={startNewGame}
+						onStartNewGame={newGame}
 					/>
 				)}
 			</section>

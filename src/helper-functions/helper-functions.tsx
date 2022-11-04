@@ -50,45 +50,12 @@ export function updateTimer(timer: TimerType, startTime: number) {
 // Initial player stats depending on the number of players
 export function initializePlayerStats(numberOfPlayers: number): PlayerDataCollectionType {
 	const playerDataCollection: PlayerDataCollectionType = [];
-
-	const playerOne = {
-		playerNumber: 1,
-		label: "Player 1",
-		score: 0
-	};
-
-	const playerTwo = {
-		playerNumber: 2,
-		label: "Player 2",
-		score: 0
-	};
-
-	const playerThree = {
-		playerNumber: 3,
-		label: "Player 3",
-		score: 0
-	};
-
-	const playerFour = {
-		playerNumber: 4,
-		label: "Player 4",
-		score: 0
-	};
-
-	if (numberOfPlayers >= 1) {
-		playerDataCollection.push(playerOne); 
-	}
-
-	if (numberOfPlayers >= 2) {
-		playerDataCollection.push(playerTwo);
-	}
-
-	if (numberOfPlayers >= 3) {
-		playerDataCollection.push(playerThree);
-	}
-
-	if (numberOfPlayers === 4) {
-		playerDataCollection.push(playerFour);
+	for (let i = 1; i <= numberOfPlayers; i++) {
+		playerDataCollection.push({
+			playerNumber: i,
+			label: ("Player " + i),
+			score: 0
+		});
 	}
 
 	return playerDataCollection;

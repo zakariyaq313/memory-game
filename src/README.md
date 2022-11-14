@@ -77,3 +77,4 @@ Cat, Cake, Cone, Dice, Dragon, Flask, Fork, Fox, Gamepad, Ghost, Infinity, Leaf,
 
 - [ ] Can have an indication for when the game begins
 - [x] Should end the game if the player takes too long (longer than 10 minutes)
+- [x] Can have sound feedback on successful tile match

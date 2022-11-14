@@ -2,14 +2,14 @@
 
 **Screenshot -**
 
-![PC Screenshot](./src/assets/laptop.png)
+![PC Screenshot](./src/assets/images/laptop.png)
 
 **Mobile screenshots -**
 
 <p float="left">
-	<img src="./src/assets/mobile-1.jpg" width="32%" />
-	<img src="./src/assets/mobile-2.jpg" width="32%" /> 
-	<img src="./src/assets/mobile-3.jpg" width="32%" />
+	<img src="./src/assets/images/mobile-1.jpg" width="32%" />
+	<img src="./src/assets/images/mobile-2.jpg" width="32%" /> 
+	<img src="./src/assets/images/mobile-3.jpg" width="32%" />
 </p>
 
 **Made using -**

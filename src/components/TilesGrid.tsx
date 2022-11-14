@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import { iconTilesCollection, numberTilesCollection } from "../store/game-data";
 import { randomShuffle } from "../helper-functions/helper-functions";
+import SuccessSound from "../assets/music/success.ogg";
 import { TileType } from "../types/types";
 import "../sass/tiles-grid/tiles-grid.scss";
 
@@ -58,8 +59,10 @@ function TilesGrid(props: Props): JSX.Element {
 	// Compare the two temporary tiles
 	useEffect(() => {
 		if (visibleTileOne.tile && visibleTileTwo.tile) {
+			const successSound = new Audio(SuccessSound);
 			setTimeout(() => {
 				if (visibleTileOne.tile === visibleTileTwo.tile) {
+					successSound.play();
 					setFoundTiles((foundTiles) => foundTiles.add(visibleTileOne.tile));
 					if (numberOfPlayers > 1) {
 						onSuccessfulGuess(currentPlayerNumber);
@@ -79,7 +82,7 @@ function TilesGrid(props: Props): JSX.Element {
 		visibleTileTwo.tile,
 		currentPlayerNumber,
 		numberOfPlayers,
-		onSuccessfulGuess,
+		onSuccessfulGuess
 	]);
 
 	useEffect(() => {

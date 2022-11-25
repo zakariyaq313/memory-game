@@ -1,9 +1,9 @@
 import { useEffect, useLayoutEffect, useState } from "react";
-import { iconTilesCollection, numberTilesCollection } from "../store/game-data";
-import { randomShuffle } from "../helper-functions/helper-functions";
-import SuccessSound from "../assets/music/success.ogg";
-import { TileType } from "../types/types";
-import "../sass/tiles-grid/tiles-grid.scss";
+import { iconTilesCollection, numberTilesCollection } from "../../store/game-data";
+import { randomShuffle } from "../../helper-functions/helper-functions";
+import SuccessSound from "../../assets/music/sweet.ogg";
+import { TileType } from "../../types/types";
+import "./TilesGrid.scss";
 
 type Props = {
 	gameTheme: string,
@@ -38,7 +38,7 @@ function TilesGrid(props: Props): JSX.Element {
 	const [gameStarted, setGameStart] = useState(false);
 	const [currentPlayerNumber, setCurrentPlayer] = useState(1);
 
-	// Create grid tiles
+	// Create the grid of tiles
 	useLayoutEffect(() => {
 		const tiles: TileType[] = [];
 
@@ -52,11 +52,14 @@ function TilesGrid(props: Props): JSX.Element {
 			}
 		}
 
-		(gridSize === 4) && (tiles.splice(16));
+		if (gridSize === 4) {
+			tiles.splice(16);
+		}
+
 		setGridTiles(randomShuffle(tiles));
 	}, [gameTheme, gridSize]);
 
-	// Compare the two temporary tiles
+	// Compare the currently visible tiles
 	useEffect(() => {
 		if (visibleTileOne.tile && visibleTileTwo.tile) {
 			const successSound = new Audio(SuccessSound);

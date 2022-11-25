@@ -1,4 +1,4 @@
-import "../sass/paused-menu/paused-menu.scss";
+import "./PausedMenu.scss";
 
 type Props = {
 	onResumeGame: () => void,
@@ -23,7 +23,7 @@ function PausedMenu(props: Props): JSX.Element {
 	return (
 		<div className="overlay">
 			<div className="paused-menu-card">
-				<h1>Game paused</h1>
+				<h1 className="card-heading">Game paused</h1>
 				<button onClick={resumeGame} className="orange-button">Resume</button>
 				<button onClick={restartGame} className="gray-button">Restart</button>
 				<button onClick={startNewGame} className="gray-button">New Game</button>

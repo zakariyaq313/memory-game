@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { TimerType } from "../types/types";
-import { updateTimer } from "../helper-functions/helper-functions";
+import { TimerType } from "../../types/types";
+import { updateTimer } from "../../helper-functions/helper-functions";
 
 type Props = {
 	gameStarted: boolean,
@@ -22,7 +22,7 @@ function Timer(props: Props): JSX.Element {
 	const [timer, setTimer] = useState<TimerType>({minutes: "0", seconds: "00"});
 	const [timerId, setTimerId] = useState<NodeJS.Timer>();
 
-	// Set timer
+	// Set and update timer
 	useEffect(() => {
 		let startTime = Date.now();
 		if (gameStarted && !gameCompleted && !gamePaused) {

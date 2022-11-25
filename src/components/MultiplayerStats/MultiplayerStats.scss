@@ -1,33 +1,9 @@
-@import "../variables/variables.scss";
-@import "../mixins/mixins.scss";
+@import "../../sass/variables/variables.scss";
+@import "../../sass/mixins/mixins.scss";
 
 .game-stats {
-	display: flex;
-	column-gap: 3rem;
-	margin-top: 8rem;
-
 	&.multiplayer-stats {
 		padding-bottom: 2rem;
-	}
-
-	&:not(.total-players-3),
-	&:not(.total-players-4) {
-		@include respond(500px) {
-			margin-top: 10rem;
-			width: calc(100vw - 8rem);
-		}
-	
-		@include respond(400px) {
-			column-gap: 2rem;
-			width: calc(100vw - 5.6rem);
-		}
-
-		.stat-bar {
-			@include respond(500px) {
-				flex-basis: 50%;
-				width: auto;
-			}
-		}
 	}
 
 	&.total-players-3 {

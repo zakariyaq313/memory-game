@@ -1,14 +1,13 @@
 import { useEffect, useReducer, useState } from "react";
-import Timer from "../components/Timer";
-import GameResults from "../components/GameResults";
-import TilesGrid from "../components/TilesGrid";
-import PausedMenu from "../components/PausedMenu";
-import MultiPlayerStats from "../components/MultiplayerStats";
-import { initializePlayerStats } from "../helper-functions/helper-functions";
-import { PlayerDataCollectionType, TimerType, GameResultType, GameModeType } from "../types/types";
-import "../sass/game-screen/game-screen.scss";
-import "../sass/multiplayer-stats/multiplayer-stats.scss";
-import "../sass/components/components.scss";
+import Timer from "../../components/Timer/Timer";
+import GameResults from "../../components/GameResults/GameResults";
+import TilesGrid from "../../components/TilesGrid/TilesGrid";
+import PausedMenu from "../../components/PausedMenu/PausedMenu";
+import MultiPlayerStats from "../../components/MultiplayerStats/MultiplayerStats";
+import { initializePlayerStats } from "../../helper-functions/helper-functions";
+import { PlayerDataCollectionType, TimerType, GameResultType, GameModeType } from "../../types/types";
+import "./GameScreen.scss";
+import "../../sass/components/components.scss";
 
 type State = GameResultType;
 type Action = {

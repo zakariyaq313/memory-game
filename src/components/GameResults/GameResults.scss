@@ -1,0 +1,81 @@
+@import "../../sass/variables/variables.scss";
+@import "../../sass/mixins/mixins.scss";
+
+.game-result-card {
+	background-color: $primary-white;
+	border-radius: 2rem;
+	padding: 5rem 5.6rem 6rem;
+	text-align: center;
+	animation: brighten-up 0.3s ease-in-out;
+
+	@include respond(500px) {
+		width: 90vw;
+		padding: 5rem 4rem 6rem;
+	}
+
+	@include respond(400px) {
+		padding: 5rem 3rem;
+	}
+
+	.card-heading {
+		color: $dark-blue;
+		font-size: 4.8rem;
+	}
+
+	.card-description {
+		color: $secondary-blue;
+		font-size: 1.8rem;
+		margin-top: 1.6rem;
+	}
+
+	.control-buttons {
+		display: flex;
+		column-gap: 1.4rem;
+		justify-content: space-between;
+		margin-top: 4rem;
+	
+		button {
+			flex-basis: 50%;
+			padding: 1.6rem;
+		}
+	}
+
+	.result-bars {
+		margin-top: 4rem;
+
+		.result-bar {
+			padding: 1.5rem 3rem;
+			width: 54rem;
+
+			@include respond(1000px) {
+				width: 48rem;
+			}
+
+			@include respond(500px) {
+				width: auto;
+			}
+
+			&:not(:first-of-type) {
+				margin-top: 1.6rem;
+			}
+
+			&.winner {
+				background-color: $dark-blue;
+				color: $primary-white;
+
+				.bar-label, .bar-value {
+					color: inherit;
+				}
+			}
+		}
+	}
+}
+
+@keyframes brighten-up {
+	from {
+		opacity: 10%;
+	}
+	to {
+		opacity: 100%;
+	}
+}

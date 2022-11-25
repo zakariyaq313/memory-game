@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
-import { GameModeOptionType } from "../types/types";
-import "../sass/mode-select-button/mode-select-button.scss";
+import { GameModeOptionType } from "../../types/types";
+import "./ModeSelectButton.scss";
 
 type Props = GameModeOptionType & {
 	onUpdateGameMode: (group: string, value: string) => void

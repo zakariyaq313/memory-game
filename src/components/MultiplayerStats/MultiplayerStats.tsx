@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useLayoutEffect, useReducer, useState } from "react";
-import { initializePlayerStats } from "../helper-functions/helper-functions";
-import { PlayerDataCollectionType } from "../types/types";
+import { initializePlayerStats } from "../../helper-functions/helper-functions";
+import { PlayerDataCollectionType } from "../../types/types";
+import "./MultiplayerStats.scss";
 
 type State = PlayerDataCollectionType;
 type Action = {

@@ -1,6 +1,6 @@
 import { Fragment, useLayoutEffect, useState } from "react";
-import { GameResultType } from "../types/types";
-import "../sass/game-results/game-results.scss";
+import { GameResultType } from "../../types/types";
+import "./GameResults.scss";
 
 type Props = GameResultType & {
 	gameTimedOut: boolean,
@@ -47,7 +47,7 @@ function GameResults(props: Props): JSX.Element {
 	}
 	return (
 		<div className="overlay">
-			<div className="popup-card">
+			<div className="game-result-card">
 				{/* Single player end results */}
 				{numberOfPlayers === 1 && (
 					<Fragment>

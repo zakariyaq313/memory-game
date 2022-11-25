@@ -1,9 +1,9 @@
 import React, { useReducer } from "react";
-import { gameConfig } from "../store/game-data";
-import { GameModeType } from "../types/types";
-import SelectOption from "../components/ModeSelectButton";
-import "../sass/start-screen/start-screen.scss";
-import "../sass/components/components.scss";
+import { gameConfig } from "../../store/game-data";
+import { GameModeType } from "../../types/types";
+import SelectOption from "../../components/ModeSelectButton/ModeSelectButton";
+import "../../sass/components/components.scss";
+import "./StartScreen.scss";
 
 type State = {
 	gameTheme: string,

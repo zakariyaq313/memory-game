@@ -1,6 +1,6 @@
 import { useState } from "react";
-import GameScreen from "./screens/GameScreen";
-import StartScreen from "./screens/StartScreen";
+import GameScreen from "./screens/GameScreen/GameScreen";
+import StartScreen from "./screens/StartScreen/StartScreen";
 import { GameModeType } from "./types/types";
 import "./sass/base/base.scss";
 
@@ -8,7 +8,7 @@ function App(): JSX.Element {
 	// Can be "start-screen" or "game-screen"
 	const [currentScreen, setCurrentScreen] = useState("start-screen");
 	const [gameMode, setGameMode] = useState<GameModeType>({
-		gameTheme: "",
+		gameTheme: "icons",
 		numberOfPlayers: 1,
 		gridSize: 4
 	})

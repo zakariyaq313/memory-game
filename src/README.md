@@ -8,7 +8,7 @@
 
 **Start screen -**
 - [x] Has a card 
-- [x] Card has a heading with app logo and title
+- [x] Card has a heading with app title
 - [x] Card has a `Select theme` option
 - [x] Card has a `Number of players` option
 - [x] Card has a `Grid size` option

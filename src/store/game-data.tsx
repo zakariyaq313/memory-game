@@ -1,4 +1,4 @@
-import { GameConfigType, TileType } from '../types/types';
+import type { GameConfigType, TileType } from '../types/types';
 import Cake from '../icons/Cake';
 import Cat from "../icons/Cat";
 import Cone from '../icons/Cone';
@@ -71,13 +71,13 @@ export const gameConfig: GameConfigType[] = [
 		options: [
 			{
 				value: "four",
-				label: "4 x 4",
+				label: "4 × 4",
 				groupName: "gridSize",
 				isChecked: true
 			},
 			{
 				value: "six",
-				label: "6 x 6",
+				label: "6 × 6",
 				groupName: "gridSize",
 				isChecked: false
 			}

@@ -1,17 +1,17 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState, type JSX } from "react";
 import Timer from "../../components/Timer/Timer";
 import GameResults from "../../components/GameResults/GameResults";
 import TilesGrid from "../../components/TilesGrid/TilesGrid";
 import PausedMenu from "../../components/PausedMenu/PausedMenu";
 import MultiPlayerStats from "../../components/MultiplayerStats/MultiplayerStats";
 import { initializePlayerStats } from "../../helper-functions/helper-functions";
-import { PlayerDataCollectionType, TimerType, GameResultType, GameModeType } from "../../types/types";
+import type { PlayerDataCollectionType, TimerType, GameResultType, GameModeType } from "../../types/types";
 import "./GameScreen.scss";
 import "../../sass/components/components.scss";
 
 type State = GameResultType;
 type Action = {
-	type: String,
+	type: string,
 	movesNeeded?: number,
 	timeNeeded?: TimerType,
 	playerStats?: PlayerDataCollectionType,
@@ -235,7 +235,7 @@ function GameScreen(props: Props): JSX.Element {
 			</section>
 
 			<p className="credit">Created by
-				<a href="https://zakariyaq313.github.io/my-website/" target="_blank" rel="noreferrer">
+				<a href="https://zakariyaq313.github.io/personal-website/" target="_blank" rel="noreferrer">
 					Muhammad Zakariya
 				</a>
 			</p>

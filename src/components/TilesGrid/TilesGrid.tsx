@@ -1,8 +1,8 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState, type JSX } from "react";
 import { iconTilesCollection, numberTilesCollection } from "../../store/game-data";
 import { randomShuffle } from "../../helper-functions/helper-functions";
 import SuccessSound from "../../assets/music/sweet.ogg";
-import { TileType } from "../../types/types";
+import type { TileType } from "../../types/types";
 import "./TilesGrid.scss";
 
 type Props = {

@@ -1,6 +1,6 @@
-import React, { useReducer } from "react";
+import React, { useReducer, type JSX } from "react";
 import { gameConfig } from "../../store/game-data";
-import { GameModeType } from "../../types/types";
+import type { GameModeType } from "../../types/types";
 import SelectOption from "../../components/ModeSelectButton/ModeSelectButton";
 import "../../sass/components/components.scss";
 import "./StartScreen.scss";
@@ -97,7 +97,7 @@ function StartScreen(props: Props): JSX.Element {
 			</form>
 
 			<p className="credit">Created by
-				<a href="https://zakariyaq313.github.io/my-website/" target="_blank" rel="noreferrer">
+				<a href="https://zakariyaq313.github.io/personal-website/" target="_blank" rel="noreferrer">
 					Muhammad Zakariya
 				</a>
 			</p>

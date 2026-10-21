@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { TimerType } from "../../types/types";
-import { updateTimer } from "../../helper-functions/helper-functions";
+import { useEffect, useRef, useState, type JSX } from "react";
+import type { TimerType } from "../../types/types";
+import { formatTime } from "../../helper-functions/helper-functions";
 
 type Props = {
 	gameStarted: boolean,
@@ -9,6 +9,8 @@ type Props = {
 	onGameTimedOut: () => void,
 	onSubmitTimeNeeded: (timeNeeded: TimerType) => void
 };
+
+const TIME_LIMIT_MS = 10 * 60 * 1000;
 
 function Timer(props: Props): JSX.Element {
 	const {
@@ -19,54 +21,48 @@ function Timer(props: Props): JSX.Element {
 		onSubmitTimeNeeded
 	} = props;
 
-	const [timer, setTimer] = useState<TimerType>({minutes: "0", seconds: "00"});
-	const [timerId, setTimerId] = useState<NodeJS.Timer>();
+	const [elapsedMs, setElapsedMs] = useState(0);
+	const savedMs = useRef(0);
+	const timeSubmitted = useRef(false);
+	const timedOut = useRef(false);
+
+	const isRunning = gameStarted && !gamePaused && !gameCompleted;
 
 	// Set and update timer
 	useEffect(() => {
-		let startTime = Date.now();
-		if (gameStarted && !gameCompleted && !gamePaused) {
-			const timerInterval = setInterval(() => {
-				setTimer((timer) => {
-					const updatedValues = updateTimer(timer, startTime);
-
-					if (updatedValues.startTime) {
-						startTime = updatedValues.startTime;
-					}
-
-					return {
-						minutes: updatedValues.minutes,
-						seconds: updatedValues.seconds
-					};
-				});
-			}, 1000);
-
-			setTimerId(timerInterval);
+		if (!isRunning) {
+			return;
 		}
-	}, [gameStarted, gamePaused, gameCompleted]);
 
-	// When the game is paused
-	useEffect(() => {
-		if (gamePaused) {
-			clearInterval(timerId);
-		}
-	}, [gamePaused, timerId]);
+		const runningSince = Date.now();
+		const timerInterval = setInterval(() => {
+			setElapsedMs(savedMs.current + (Date.now() - runningSince));
+		}, 250);
+
+		return () => {
+			clearInterval(timerInterval);
+			savedMs.current += Date.now() - runningSince;
+			setElapsedMs(savedMs.current);
+		};
+	}, [isRunning]);
 
 	// When the game is completed
 	useEffect(() => {
-		if (gameCompleted && timerId) {
-			clearInterval(timerId);
-			setTimerId(undefined);
-			onSubmitTimeNeeded(timer);
+		if (gameCompleted && !timeSubmitted.current) {
+			timeSubmitted.current = true;
+			onSubmitTimeNeeded(formatTime(savedMs.current));
 		}
-	}, [gameCompleted, timerId, timer, onSubmitTimeNeeded]);
+	}, [gameCompleted, onSubmitTimeNeeded]);
 
 	// When the game has timed out (10 mins)
 	useEffect(() => {
-		if (Number(timer.minutes) === 10) {
+		if (elapsedMs >= TIME_LIMIT_MS && !timedOut.current) {
+			timedOut.current = true;
 			onGameTimedOut();
 		}
-	}, [timer.minutes, onGameTimedOut]);
+	}, [elapsedMs, onGameTimedOut]);
+
+	const timer = formatTime(elapsedMs);
 
 	return (
 		<div className="info-bar stat-bar">

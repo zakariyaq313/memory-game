@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { GameModeOptionType } from "../../types/types";
+import React, { useRef, type JSX } from "react";
+import type { GameModeOptionType } from "../../types/types";
 import "./ModeSelectButton.scss";
 
 type Props = GameModeOptionType & {

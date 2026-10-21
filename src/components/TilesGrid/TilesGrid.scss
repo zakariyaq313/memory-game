@@ -1,5 +1,5 @@
-@import "../../sass/variables/variables.scss";
-@import "../../sass/mixins/mixins.scss";
+@use "../../sass/variables/variables.scss" as *;
+@use "../../sass/mixins/mixins.scss" as *;
 
 .game-grid {
 	display: grid;

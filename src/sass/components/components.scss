@@ -1,8 +1,8 @@
 // CSS Components/code blocks for common structures and
 // elements, not to be mistaken for React components
 
-@import "../variables/variables.scss";
-@import "../mixins/mixins.scss";
+@use "../variables/variables.scss" as *;
+@use "../mixins/mixins.scss" as *;
 
 .app-title {
 	color: $dark-blue;

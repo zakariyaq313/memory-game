@@ -38,4 +38,4 @@ Overall, this project was a great learning experience for me, and I've come away
 
 - `Clone` the respository
 - `npm install` - To install project dependencies
-- `npm start` - To start the development server
+- `npm run dev` - To start the development server

@@ -1,4 +1,4 @@
-import { PlayerDataCollectionType, TileType, TimerType } from "../types/types";
+import type { PlayerDataCollectionType, TileType, TimerType } from "../types/types";
 
 // Random shuffle via Fisher Yates Algorithm
 export function randomShuffle (tiles: TileType[]) {
@@ -10,40 +10,15 @@ export function randomShuffle (tiles: TileType[]) {
 	return tiles;
 }
 
-// Timer update function
-export function updateTimer(timer: TimerType, startTime: number) {
-	let currentMinutes: number = Number(timer.minutes);
-	let currentSeconds: number = Number(timer.seconds);
-	let updatedMinutes: string = timer.minutes;
-	let updatedSeconds: string = timer.seconds;
-	let updatedStartTime: number = 0;
-
-	if (currentSeconds === 59) {
-		updatedStartTime = Date.now();
-		updatedMinutes = (currentMinutes + 1).toString();
-		currentSeconds = 0;
-	} else {
-		const calculatedSeconds = Math.floor((Date.now() - startTime) / 1000);
-		// When the game is resumed from pause, startTime is reset to Date.now() and
-		// calculatedSeconds evaluates to 0, but the timer likely has a higher value
-		// saved for seconds, therefore, updated seconds can simply be saved seconds + 1
-		if (calculatedSeconds < currentSeconds) {
-			currentSeconds = currentSeconds + 1;			
-		} else {
-			currentSeconds = calculatedSeconds;			
-		}
-	}
-
-	if (currentSeconds < 10) {
-		updatedSeconds = "0" + currentSeconds;
-	} else {
-		updatedSeconds = currentSeconds.toString();
-	}
+// Format elapsed time into minutes and seconds
+export function formatTime(elapsedMs: number): TimerType {
+	const totalSeconds = Math.floor(elapsedMs / 1000);
+	const minutes = Math.floor(totalSeconds / 60);
+	const seconds = totalSeconds % 60;
 
 	return {
-		minutes: updatedMinutes,
-		seconds: updatedSeconds,
-		startTime: updatedStartTime
+		minutes: minutes.toString(),
+		seconds: seconds.toString().padStart(2, "0")
 	};
 }
 

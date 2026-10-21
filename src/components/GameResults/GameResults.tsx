@@ -1,5 +1,5 @@
-import { Fragment, useLayoutEffect, useState } from "react";
-import { GameResultType } from "../../types/types";
+import { Fragment, useLayoutEffect, useState, type JSX } from "react";
+import type { GameResultType } from "../../types/types";
 import "./GameResults.scss";
 
 type Props = GameResultType & {

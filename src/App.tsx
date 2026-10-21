@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, type JSX } from "react";
 import GameScreen from "./screens/GameScreen/GameScreen";
 import StartScreen from "./screens/StartScreen/StartScreen";
-import { GameModeType } from "./types/types";
+import type { GameModeType } from "./types/types";
 import "./sass/base/base.scss";
 
 function App(): JSX.Element {

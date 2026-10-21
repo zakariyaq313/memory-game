@@ -1,5 +1,5 @@
-@import "../variables/variables.scss";
-@import "../mixins/mixins.scss";
+@use "../variables/variables.scss" as *;
+@use "../mixins/mixins.scss" as *;
 
 * {
 	padding: 0;
